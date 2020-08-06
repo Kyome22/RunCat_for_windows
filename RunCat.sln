@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunCat", "RunCat\RunCat.csproj", "{148B00E2-DAFD-4AA6-BDBA-3A365047DD9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{148B00E2-DAFD-4AA6-BDBA-3A365047DD9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{148B00E2-DAFD-4AA6-BDBA-3A365047DD9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{148B00E2-DAFD-4AA6-BDBA-3A365047DD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{148B00E2-DAFD-4AA6-BDBA-3A365047DD9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F26512EE-25D3-4A16-96A9-B2F56F5890AC}
+	EndGlobalSection
+EndGlobal
