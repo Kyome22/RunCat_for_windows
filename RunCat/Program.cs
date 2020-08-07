@@ -50,6 +50,7 @@ namespace RunCat
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
 
             cpuUsage = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            _ = cpuUsage.NextValue(); // discards first return value
 
             notifyIcon = new NotifyIcon()
             {
