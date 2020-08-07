@@ -118,19 +118,34 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="cat0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\cat0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="dark_cat0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\dark_cat0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cat1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\cat1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="dark_cat1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\dark_cat1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cat2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\cat2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="dark_cat2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\dark_cat2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cat3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\cat3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="dark_cat3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\dark_cat3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cat4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\cat4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="dark_cat4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\dark_cat4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_cat0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\light_cat0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_cat1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\light_cat1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_cat2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\light_cat2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_cat3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\light_cat3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_cat4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\light_cat4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

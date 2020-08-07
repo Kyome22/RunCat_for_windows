@@ -63,9 +63,9 @@ namespace RunCat.Properties {
         /// <summary>
         ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Icon cat0 {
+        internal static System.Drawing.Icon dark_cat0 {
             get {
-                object obj = ResourceManager.GetObject("cat0", resourceCulture);
+                object obj = ResourceManager.GetObject("dark_cat0", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace RunCat.Properties {
         /// <summary>
         ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Icon cat1 {
+        internal static System.Drawing.Icon dark_cat1 {
             get {
-                object obj = ResourceManager.GetObject("cat1", resourceCulture);
+                object obj = ResourceManager.GetObject("dark_cat1", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace RunCat.Properties {
         /// <summary>
         ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Icon cat2 {
+        internal static System.Drawing.Icon dark_cat2 {
             get {
-                object obj = ResourceManager.GetObject("cat2", resourceCulture);
+                object obj = ResourceManager.GetObject("dark_cat2", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace RunCat.Properties {
         /// <summary>
         ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Icon cat3 {
+        internal static System.Drawing.Icon dark_cat3 {
             get {
-                object obj = ResourceManager.GetObject("cat3", resourceCulture);
+                object obj = ResourceManager.GetObject("dark_cat3", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -103,9 +103,59 @@ namespace RunCat.Properties {
         /// <summary>
         ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Icon cat4 {
+        internal static System.Drawing.Icon dark_cat4 {
             get {
-                object obj = ResourceManager.GetObject("cat4", resourceCulture);
+                object obj = ResourceManager.GetObject("dark_cat4", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_cat0 {
+            get {
+                object obj = ResourceManager.GetObject("light_cat0", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_cat1 {
+            get {
+                object obj = ResourceManager.GetObject("light_cat1", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_cat2 {
+            get {
+                object obj = ResourceManager.GetObject("light_cat2", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_cat3 {
+            get {
+                object obj = ResourceManager.GetObject("light_cat3", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_cat4 {
+            get {
+                object obj = ResourceManager.GetObject("light_cat4", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

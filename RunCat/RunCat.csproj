@@ -76,16 +76,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="appIcon.ico" />
-    <Content Include="resources\cat_0.png" />
-    <Content Include="resources\cat_1.png" />
-    <Content Include="resources\cat_2.png" />
-    <Content Include="resources\cat_3.png" />
-    <Content Include="resources\cat_4.png" />
-    <Content Include="resources\cat0.ico" />
-    <Content Include="resources\cat1.ico" />
-    <Content Include="resources\cat2.ico" />
-    <Content Include="resources\cat3.ico" />
-    <Content Include="resources\cat4.ico" />
+    <Content Include="resources\dark_cat0.ico" />
+    <Content Include="resources\dark_cat1.ico" />
+    <Content Include="resources\dark_cat2.ico" />
+    <Content Include="resources\dark_cat3.ico" />
+    <Content Include="resources\dark_cat4.ico" />
+    <Content Include="resources\light_cat0.ico" />
+    <Content Include="resources\light_cat1.ico" />
+    <Content Include="resources\light_cat2.ico" />
+    <Content Include="resources\light_cat3.ico" />
+    <Content Include="resources\light_cat4.ico" />
     <Content Include="resources\appIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
