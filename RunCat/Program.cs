@@ -50,6 +50,7 @@ namespace RunCat
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
 
             cpuUsage = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            _ = cpuUsage.NextValue(); // discards first return value
 
             notifyIcon = new NotifyIcon()
             {
@@ -133,8 +134,7 @@ namespace RunCat
         private void ObserveCPUTick(object sender, EventArgs e)
         {
             float s = cpuUsage.NextValue();
-            Console.WriteLine(s);
-            notifyIcon.Text = String.Format("{0:#.#}%", s);
+            notifyIcon.Text = $"{s:f1}%";
             s = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, s / 5.0f));
             animateTimer.Stop();
             animateTimer.Interval = (int)s;
