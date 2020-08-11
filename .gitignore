@@ -1,2 +1,6 @@
-Debug/
+.vs/
+bin/
+obj/
+[Ll]og/
+[Ll]ogs/
 
