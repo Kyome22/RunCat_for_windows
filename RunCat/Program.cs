@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Resources;
+using System.Linq;
 
 namespace RunCat
 {
@@ -76,7 +77,7 @@ namespace RunCat
             try
             {
                 RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName);
-                int theme = (int)rKey.GetValue("AppsUseLightTheme");
+                int theme = (int)rKey.GetValue("SystemUsesLightTheme");
                 rKey.Close();
                 return theme == 0 ? "dark" : "light";
             }
