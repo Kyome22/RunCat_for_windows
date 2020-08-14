@@ -20,7 +20,7 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Resources;
-using System.Linq;
+
 
 namespace RunCat
 {
