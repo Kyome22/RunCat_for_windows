@@ -21,7 +21,6 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Resources;
 
-
 namespace RunCat
 {
     static class Program
@@ -66,7 +65,7 @@ namespace RunCat
 
             SetIcons();
             SetAnimation();
-            ObserveCPUTick(null, EventArgs.Empty);
+            CPUTick();
             StartObserveCPU();
             current = 1;
         }
@@ -105,6 +104,11 @@ namespace RunCat
             .ToArray();
         }
 
+        private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            if (e.Category == UserPreferenceCategory.General) SetIcons();
+        }
+
         private void Exit(object sender, EventArgs e)
         {
             animateTimer.Stop();
@@ -113,26 +117,19 @@ namespace RunCat
             Application.Exit();
         }
 
-        private void SetAnimation()
-        {
-            animateTimer.Interval = 200;
-            animateTimer.Tick += new EventHandler(AnimationTick);
-        }
-
         private void AnimationTick(object sender, EventArgs e)
         {
             notifyIcon.Icon = icons[current];
             current = (current + 1) % icons.Length;
         }
 
-        private void StartObserveCPU()
+        private void SetAnimation()
         {
-            cpuTimer.Interval = 3000;
-            cpuTimer.Tick += new EventHandler(ObserveCPUTick);
-            cpuTimer.Start();
+            animateTimer.Interval = 200;
+            animateTimer.Tick += new EventHandler(AnimationTick);
         }
 
-        private void ObserveCPUTick(object sender, EventArgs e)
+        private void CPUTick()
         {
             float s = cpuUsage.NextValue();
             notifyIcon.Text = $"{s:f1}%";
@@ -142,12 +139,16 @@ namespace RunCat
             animateTimer.Start();
         }
 
-        private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        private void ObserveCPUTick(object sender, EventArgs e)
         {
-            if (e.Category == UserPreferenceCategory.General)
-            {
-                SetIcons();
-            }
+            CPUTick();
+        }
+
+        private void StartObserveCPU()
+        {
+            cpuTimer.Interval = 3000;
+            cpuTimer.Tick += new EventHandler(ObserveCPUTick);
+            cpuTimer.Start();
         }
 
     }
