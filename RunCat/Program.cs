@@ -75,10 +75,11 @@ namespace RunCat
             string keyName = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
             try
             {
-                RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName);
-                int theme = (int)rKey.GetValue("SystemUsesLightTheme");
-                rKey.Close();
-                return theme == 0 ? "dark" : "light";
+                using (RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName))
+                {
+                    int theme = (int)rKey.GetValue("SystemUsesLightTheme");
+                    return theme == 0 ? "dark" : "light";
+                }
             }
             catch (NullReferenceException)
             {
