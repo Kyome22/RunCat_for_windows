@@ -73,17 +73,16 @@ namespace RunCat
         private string GetAppsUseTheme()
         {
             string keyName = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
-            try
+            using (RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName))
             {
-                RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName);
-                int theme = (int)rKey.GetValue("SystemUsesLightTheme");
-                rKey.Close();
+                object value;
+                if (rKey == null || (value = rKey.GetValue("SystemUsesLightTheme")) == null)
+                {
+                    Console.WriteLine("Oh No! Couldn't get theme light/dark");
+                    return "light";
+                }
+                int theme = (int)value;
                 return theme == 0 ? "dark" : "light";
-            }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("Oh No! Couldn't get theme light/dark");
-                return "light";
             }
         }
 
