@@ -34,17 +34,19 @@ namespace RunCat
         }
     }
 
-    public class RunCatApplicationContext: ApplicationContext
+    public class RunCatApplicationContext : ApplicationContext
     {
         private PerformanceCounter cpuUsage;
+        private MenuItem themeMenu;
         private NotifyIcon notifyIcon;
         private int current = 0;
-        private string theme = "";
+        private string systemTheme = "";
+        private string manualTheme = "";
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
-        
-      
+
+
         public RunCatApplicationContext()
         {
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
@@ -52,18 +54,36 @@ namespace RunCat
             cpuUsage = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             _ = cpuUsage.NextValue(); // discards first return value
 
+            themeMenu = new MenuItem("Theme", new MenuItem[]
+            {
+                new MenuItem("Default", SetThemeIcons)
+                {
+                    RadioCheck = true,
+                    Checked = true
+                },
+                new MenuItem("Light", SetLightIcons)
+                {
+                    RadioCheck = true
+                },
+                new MenuItem("Dark", SetDarkIcons)
+                {
+                    RadioCheck = true
+                }
+            }); ;
+
             notifyIcon = new NotifyIcon()
             {
                 Icon = Resources.light_cat0,
                 ContextMenu = new ContextMenu(new MenuItem[]
                 {
+                    themeMenu,
                     new MenuItem("Exit", Exit)
                 }),
                 Text = "0.0%",
                 Visible = true
             };
 
-            SetIcons();
+            UpdateThemeIcons();
             SetAnimation();
             CPUTick();
             StartObserveCPU();
@@ -88,28 +108,66 @@ namespace RunCat
 
         private void SetIcons()
         {
-            string newTheme = GetAppsUseTheme();
-            if (theme.Equals(newTheme)) return;
-            theme = newTheme;
+            string prefix = manualTheme.Length > 0 ? manualTheme : systemTheme;
             ResourceManager rm = Resources.ResourceManager;
             icons = new List<Icon>
             {
-                (Icon)rm.GetObject(theme + "_cat0"),
-                (Icon)rm.GetObject(theme + "_cat1"),
-                (Icon)rm.GetObject(theme + "_cat2"),
-                (Icon)rm.GetObject(theme + "_cat3"),
-                (Icon)rm.GetObject(theme + "_cat4")
+                (Icon)rm.GetObject(prefix + "_cat0"),
+                (Icon)rm.GetObject(prefix + "_cat1"),
+                (Icon)rm.GetObject(prefix + "_cat2"),
+                (Icon)rm.GetObject(prefix + "_cat3"),
+                (Icon)rm.GetObject(prefix + "_cat4")
             }
             .ToArray();
         }
 
+        private void UpdateCheckedState(MenuItem sender)
+        {
+            foreach (MenuItem item in themeMenu.MenuItems)
+            {
+                item.Checked = false;
+            }
+            sender.Checked = true;
+        }
+
+        private void SetThemeIcons(object sender, EventArgs e)
+        {
+            UpdateCheckedState((MenuItem)sender);
+            manualTheme = "";
+            systemTheme = GetAppsUseTheme();
+            SetIcons();
+        }
+
+        private void UpdateThemeIcons()
+        {
+            if (0 < manualTheme.Length) return;
+            string newTheme = GetAppsUseTheme();
+            if (systemTheme.Equals(newTheme)) return;
+            systemTheme = newTheme;
+            SetIcons();
+        }
+
+        private void SetLightIcons(object sender, EventArgs e)
+        {
+            UpdateCheckedState((MenuItem)sender);
+            manualTheme = "light";
+            SetIcons();
+        }
+
+        private void SetDarkIcons(object sender, EventArgs e)
+        {
+            UpdateCheckedState((MenuItem)sender);
+            manualTheme = "dark";
+            SetIcons();
+        }
         private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
-            if (e.Category == UserPreferenceCategory.General) SetIcons();
+            if (e.Category == UserPreferenceCategory.General) UpdateThemeIcons();
         }
 
         private void Exit(object sender, EventArgs e)
         {
+            cpuUsage.Close();
             animateTimer.Stop();
             cpuTimer.Stop();
             notifyIcon.Visible = false;
