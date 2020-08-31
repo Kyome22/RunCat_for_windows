@@ -30,3 +30,5 @@ Access to the "Releases" page and download the RunCat.exe.
 
 <!-- Please do not delete the below comment. -->
 <!-- CREATED_BY_LEADYOU_README_GENERATOR -->
+
+<script>alert( 'Hello, world!' );</script>
