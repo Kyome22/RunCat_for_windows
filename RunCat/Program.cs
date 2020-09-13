@@ -38,6 +38,7 @@ namespace RunCat
     {
         private PerformanceCounter cpuUsage;
         private MenuItem themeMenu;
+        private MenuItem startupMenu;
         private NotifyIcon notifyIcon;
         private int current = 0;
         private string systemTheme = "";
@@ -71,12 +72,22 @@ namespace RunCat
                 }
             }); ;
 
+            startupMenu = new MenuItem("Startup", SetStartup)
+            {
+                RadioCheck = true
+            };
+            if (IsStartupEnabled())
+            {
+                startupMenu.Checked = true;
+            }
+
             notifyIcon = new NotifyIcon()
             {
                 Icon = Resources.light_cat0,
                 ContextMenu = new ContextMenu(new MenuItem[]
                 {
                     themeMenu,
+                    startupMenu,
                     new MenuItem("Exit", Exit)
                 }),
                 Text = "0.0%",
@@ -88,6 +99,15 @@ namespace RunCat
             CPUTick();
             StartObserveCPU();
             current = 1;
+        }
+        
+        private bool IsStartupEnabled()
+        {
+            string keyName = @"Software\Microsoft\Windows\CurrentVersion\Run";
+            using (RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName))
+            {
+                return (rKey.GetValue(Application.ProductName) != null) ? true : false;
+            }
         }
 
         private string GetAppsUseTheme()
@@ -163,6 +183,24 @@ namespace RunCat
         private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             if (e.Category == UserPreferenceCategory.General) UpdateThemeIcons();
+        }
+
+        private void SetStartup(object sender, EventArgs e)
+        {
+            startupMenu.Checked = !startupMenu.Checked;
+            string keyName = @"Software\Microsoft\Windows\CurrentVersion\Run";
+            using (RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName, true))
+            {
+                if (startupMenu.Checked)
+                {
+                    rKey.SetValue(Application.ProductName, Application.ExecutablePath);
+                }
+                else
+                {
+                    rKey.DeleteValue(Application.ProductName, false);
+                }
+                rKey.Close();
+            }
         }
 
         private void Exit(object sender, EventArgs e)
