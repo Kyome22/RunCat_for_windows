@@ -70,7 +70,7 @@ namespace RunCat
                 {
                     RadioCheck = true
                 }
-            }); ;
+            });
 
             startupMenu = new MenuItem("Startup", SetStartup)
             {
