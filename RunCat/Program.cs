@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Takuto Nakamura
+// Copyright 2020 Takuto Nakamura
 // 
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Resources;
+using System.ComponentModel;
 
 namespace RunCat
 {
@@ -37,8 +38,8 @@ namespace RunCat
     public class RunCatApplicationContext : ApplicationContext
     {
         private PerformanceCounter cpuUsage;
-        private MenuItem themeMenu;
-        private MenuItem startupMenu;
+        private ToolStripMenuItem themeMenu;
+        private ToolStripMenuItem startupMenu;
         private NotifyIcon notifyIcon;
         private int current = 0;
         private string systemTheme = "";
@@ -55,41 +56,34 @@ namespace RunCat
             cpuUsage = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             _ = cpuUsage.NextValue(); // discards first return value
 
-            themeMenu = new MenuItem("Theme", new MenuItem[]
+            themeMenu = new ToolStripMenuItem("Theme", null, new ToolStripMenuItem[]
             {
-                new MenuItem("Default", SetThemeIcons)
+                new ToolStripMenuItem("Default", null, SetThemeIcons)
                 {
-                    RadioCheck = true,
                     Checked = true
                 },
-                new MenuItem("Light", SetLightIcons)
-                {
-                    RadioCheck = true
-                },
-                new MenuItem("Dark", SetDarkIcons)
-                {
-                    RadioCheck = true
-                }
+                new ToolStripMenuItem("Light", null, SetLightIcons),
+                new ToolStripMenuItem("Dark", null, SetDarkIcons)
             });
 
-            startupMenu = new MenuItem("Startup", SetStartup)
-            {
-                RadioCheck = true
-            };
+            startupMenu = new ToolStripMenuItem("Startup", null, SetStartup);
             if (IsStartupEnabled())
             {
                 startupMenu.Checked = true;
             }
 
+            ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
+            contextMenuStrip.Items.AddRange(new ToolStripItem[]
+            {
+                themeMenu,
+                startupMenu,
+                new ToolStripMenuItem("Exit", null, Exit)
+            });
+
             notifyIcon = new NotifyIcon()
             {
                 Icon = Resources.light_cat0,
-                ContextMenu = new ContextMenu(new MenuItem[]
-                {
-                    themeMenu,
-                    startupMenu,
-                    new MenuItem("Exit", Exit)
-                }),
+                ContextMenuStrip = contextMenuStrip,
                 Text = "0.0%",
                 Visible = true
             };
@@ -100,7 +94,7 @@ namespace RunCat
             StartObserveCPU();
             current = 1;
         }
-        
+
         private bool IsStartupEnabled()
         {
             string keyName = @"Software\Microsoft\Windows\CurrentVersion\Run";
@@ -141,9 +135,9 @@ namespace RunCat
             .ToArray();
         }
 
-        private void UpdateCheckedState(MenuItem sender)
+        private void UpdateCheckedState(ToolStripMenuItem sender)
         {
-            foreach (MenuItem item in themeMenu.MenuItems)
+            foreach (ToolStripMenuItem item in themeMenu.DropDownItems)
             {
                 item.Checked = false;
             }
@@ -152,7 +146,7 @@ namespace RunCat
 
         private void SetThemeIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((MenuItem)sender);
+            UpdateCheckedState((ToolStripMenuItem)sender);
             manualTheme = "";
             systemTheme = GetAppsUseTheme();
             SetIcons();
@@ -169,14 +163,14 @@ namespace RunCat
 
         private void SetLightIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((MenuItem)sender);
+            UpdateCheckedState((ToolStripMenuItem)sender);
             manualTheme = "light";
             SetIcons();
         }
 
         private void SetDarkIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((MenuItem)sender);
+            UpdateCheckedState((ToolStripMenuItem)sender);
             manualTheme = "dark";
             SetIcons();
         }
