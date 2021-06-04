@@ -38,12 +38,14 @@ namespace RunCat
     public class RunCatApplicationContext : ApplicationContext
     {
         private PerformanceCounter cpuUsage;
+        private ToolStripMenuItem runnerMenu;
         private ToolStripMenuItem themeMenu;
         private ToolStripMenuItem startupMenu;
         private NotifyIcon notifyIcon;
+        private string runner = UserSettings.Default.Runner;
         private int current = 0;
         private string systemTheme = "";
-        private string manualTheme = "";
+        private string manualTheme = UserSettings.Default.Theme;
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
@@ -51,19 +53,39 @@ namespace RunCat
 
         public RunCatApplicationContext()
         {
+            Application.ApplicationExit += new EventHandler(OnApplicationExit);
+
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
 
             cpuUsage = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             _ = cpuUsage.NextValue(); // discards first return value
 
+            runnerMenu = new ToolStripMenuItem("Runner", null, new ToolStripMenuItem[]
+            {
+                new ToolStripMenuItem("Cat", null, SetRunner)
+                {
+                    Checked = runner.Equals("cat")
+                },
+                new ToolStripMenuItem("Parrot", null, SetRunner)
+                {
+                    Checked = runner.Equals("parrot")
+                }
+            }); ;
+
             themeMenu = new ToolStripMenuItem("Theme", null, new ToolStripMenuItem[]
             {
                 new ToolStripMenuItem("Default", null, SetThemeIcons)
                 {
-                    Checked = true
+                    Checked = manualTheme.Equals("")
                 },
-                new ToolStripMenuItem("Light", null, SetLightIcons),
+                new ToolStripMenuItem("Light", null, SetLightIcons)
+                {
+                    Checked = manualTheme.Equals("light")
+                },
                 new ToolStripMenuItem("Dark", null, SetDarkIcons)
+                {
+                    Checked = manualTheme.Equals("dark")
+                }
             });
 
             startupMenu = new ToolStripMenuItem("Startup", null, SetStartup);
@@ -75,6 +97,7 @@ namespace RunCat
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
             contextMenuStrip.Items.AddRange(new ToolStripItem[]
             {
+                runnerMenu,
                 themeMenu,
                 startupMenu,
                 new ToolStripMenuItem("Exit", null, Exit)
@@ -93,6 +116,12 @@ namespace RunCat
             CPUTick();
             StartObserveCPU();
             current = 1;
+        }
+        private void OnApplicationExit(object sender, EventArgs e)
+        {
+            UserSettings.Default.Runner = runner;
+            UserSettings.Default.Theme = manualTheme;
+            UserSettings.Default.Save();
         }
 
         private bool IsStartupEnabled()
@@ -122,31 +151,37 @@ namespace RunCat
 
         private void SetIcons()
         {
-            string prefix = manualTheme.Length > 0 ? manualTheme : systemTheme;
+            string prefix = 0 < manualTheme.Length ? manualTheme : systemTheme;
             ResourceManager rm = Resources.ResourceManager;
-            icons = new List<Icon>
+            int capacity = runner.Equals("cat") ? 5 : 10;
+            List<Icon> list = new List<Icon>(capacity);
+            for (int i = 0; i < capacity; i++)
             {
-                (Icon)rm.GetObject(prefix + "_cat0"),
-                (Icon)rm.GetObject(prefix + "_cat1"),
-                (Icon)rm.GetObject(prefix + "_cat2"),
-                (Icon)rm.GetObject(prefix + "_cat3"),
-                (Icon)rm.GetObject(prefix + "_cat4")
+                list.Add((Icon)rm.GetObject($"{prefix}_{runner}{i}"));                
             }
-            .ToArray();
+            icons = list.ToArray();
         }
 
-        private void UpdateCheckedState(ToolStripMenuItem sender)
+        private void UpdateCheckedState(ToolStripMenuItem sender, ToolStripMenuItem menu)
         {
-            foreach (ToolStripMenuItem item in themeMenu.DropDownItems)
+            foreach (ToolStripMenuItem item in menu.DropDownItems)
             {
                 item.Checked = false;
             }
             sender.Checked = true;
         }
 
+        private void SetRunner(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            UpdateCheckedState(item, runnerMenu);
+            runner = item.Text.ToLower();
+            SetIcons();
+        }
+
         private void SetThemeIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((ToolStripMenuItem)sender);
+            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
             manualTheme = "";
             systemTheme = GetAppsUseTheme();
             SetIcons();
@@ -154,7 +189,11 @@ namespace RunCat
 
         private void UpdateThemeIcons()
         {
-            if (0 < manualTheme.Length) return;
+            if (0 < manualTheme.Length)
+            {
+                SetIcons();
+                return;
+            }
             string newTheme = GetAppsUseTheme();
             if (systemTheme.Equals(newTheme)) return;
             systemTheme = newTheme;
@@ -163,14 +202,14 @@ namespace RunCat
 
         private void SetLightIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((ToolStripMenuItem)sender);
+            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
             manualTheme = "light";
             SetIcons();
         }
 
         private void SetDarkIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((ToolStripMenuItem)sender);
+            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
             manualTheme = "dark";
             SetIcons();
         }
@@ -208,6 +247,7 @@ namespace RunCat
 
         private void AnimationTick(object sender, EventArgs e)
         {
+            if (icons.Length <= current) current = 0;
             notifyIcon.Icon = icons[current];
             current = (current + 1) % icons.Length;
         }
