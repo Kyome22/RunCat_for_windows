@@ -23,13 +23,6 @@ You only have to run the RunCat.exe.
 
 Access to the "Releases" page and download the RunCat.exe.
 
-# Publish
-
-```console
-> cd RunCat/
-> dotnet publish -c Release
-```
-
 # Contributors
 
 - [Kyome22](https://github.com/Kyome22)
