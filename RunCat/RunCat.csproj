@@ -10,12 +10,18 @@
     <Version>1.6.0</Version>
     <Authors>Takuto Nakamura</Authors>
     <Description>A cute runnning cat animation on your windows taskbar.</Description>
-    <Copyright>© 2020 Takuto Nakamura</Copyright>
+    <Copyright>© 2021 Takuto Nakamura</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/Kyome22/RunCat_for_windows</PackageProjectUrl>
     <PublishSingleFile>true</PublishSingleFile>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <PublishTrimmed>true</PublishTrimmed>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+	<OutputPath></OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
