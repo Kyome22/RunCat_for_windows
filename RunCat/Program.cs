@@ -226,7 +226,7 @@ namespace RunCat
             {
                 if (startupMenu.Checked)
                 {
-                    rKey.SetValue(Application.ProductName, Application.ExecutablePath);
+                    rKey.SetValue(Application.ProductName, Process.GetCurrentProcess().MainModule.FileName);
                 }
                 else
                 {
