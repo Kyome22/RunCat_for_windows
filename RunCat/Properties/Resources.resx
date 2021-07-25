@@ -163,6 +163,36 @@
   <data name="dark_parrot9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\parrot\dark_parrot9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="dark_parrot_filled0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\dark_parrot_filled0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_parrot_filled1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\dark_parrot_filled1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_parrot_filled2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\dark_parrot_filled2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_parrot_filled3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\dark_parrot_filled3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_parrot_filled4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\dark_parrot_filled4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_parrot_filled5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\dark_parrot_filled5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_parrot_filled6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\dark_parrot_filled6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_parrot_filled7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\dark_parrot_filled7.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_parrot_filled8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\dark_parrot_filled8.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_parrot_filled9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\dark_parrot_filled9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="light_cat0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\cat\light_cat0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -207,5 +237,35 @@
   </data>
   <data name="light_parrot9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\parrot\light_parrot9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_parrot_filled0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\light_parrot_filled0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_parrot_filled1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\light_parrot_filled1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_parrot_filled2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\light_parrot_filled2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_parrot_filled3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\light_parrot_filled3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_parrot_filled4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\light_parrot_filled4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_parrot_filled5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\light_parrot_filled5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_parrot_filled6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\light_parrot_filled6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_parrot_filled7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\light_parrot_filled7.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_parrot_filled8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\light_parrot_filled8.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_parrot_filled9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\parrot_filled\light_parrot_filled9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
