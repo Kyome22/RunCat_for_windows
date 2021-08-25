@@ -32,6 +32,7 @@ Access to the "Releases" page and download the RunCat.exe.
 - [t13801206](https://github.com/t13801206)
 - [MxShun](https://github.com/MxShun)
 - [muko](https://github.com/muko)
+- [Jo-Seungjun](https://github.com/Jo-Seungjun)
 
 <!-- Please do not delete the below comment. -->
 <!-- CREATED_BY_LEADYOU_README_GENERATOR -->
