@@ -69,12 +69,8 @@ namespace RunCat
                 new ToolStripMenuItem("Parrot", null, SetRunner)
                 {
                     Checked = runner.Equals("parrot")
-                },
-                new ToolStripMenuItem("Parrot_Filled", null, SetRunner)
-                {
-                    Checked = runner.Equals("parrot_filled")
                 }
-            }); ;
+            });
 
             themeMenu = new ToolStripMenuItem("Theme", null, new ToolStripMenuItem[]
             {
@@ -109,7 +105,7 @@ namespace RunCat
 
             notifyIcon = new NotifyIcon()
             {
-                Icon = Resources.light_cat0,
+                Icon = Resources.light_cat_0,
                 ContextMenuStrip = contextMenuStrip,
                 Text = "0.0%",
                 Visible = true
@@ -161,7 +157,7 @@ namespace RunCat
             List<Icon> list = new List<Icon>(capacity);
             for (int i = 0; i < capacity; i++)
             {
-                list.Add((Icon)rm.GetObject($"{prefix}_{runner}{i}"));                
+                list.Add((Icon)rm.GetObject($"{prefix}_{runner}_{i}"));
             }
             icons = list.ToArray();
         }
