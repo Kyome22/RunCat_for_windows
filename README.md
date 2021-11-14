@@ -1,6 +1,3 @@
-
-<div align="center">
-  
 # RunCat_for_windows
 
 ### A cute running cat animation on your windows taskbar.
@@ -16,8 +13,7 @@
 
 `C#` `.NET Core 3.1` `Visual Studio` `RunCat`
 
- 
- </div> 
+
   
 # Demo
 
