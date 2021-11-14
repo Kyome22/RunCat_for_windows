@@ -1,3 +1,6 @@
+
+<div align="center">
+  
 # RunCat_for_windows
 
 A cute running cat animation on your windows taskbar.
@@ -13,16 +16,22 @@ A cute running cat animation on your windows taskbar.
 
 `C#` `.NET Core 3.1` `Visual Studio` `RunCat`
 
+ 
+  
 # Demo
 
 ![Demo](RunCat/resources/runcat_demo.gif)
 
 You only have to run the RunCat.exe.
 
+  
+   </div>
+   
 # Installation
 
 Access to the "Releases" page and download the RunCat.exe.
 
+  
 # Contributors
 
 - [Kyome22](https://github.com/Kyome22)
