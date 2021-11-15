@@ -5,7 +5,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>appIcon.ico</ApplicationIcon>
-    <NoWin32Manifest>true</NoWin32Manifest>
     <StartupObject>RunCat.Program</StartupObject>
     <Version>1.9.0</Version>
     <Authors>Takuto Nakamura</Authors>
@@ -16,6 +15,7 @@
     <PublishSingleFile>true</PublishSingleFile>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <Platforms>AnyCPU;x64</Platforms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
