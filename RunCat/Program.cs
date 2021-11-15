@@ -69,6 +69,14 @@ namespace RunCat
                 new ToolStripMenuItem("Parrot", null, SetRunner)
                 {
                     Checked = runner.Equals("parrot")
+                },
+                new ToolStripMenuItem("bbbele", null, SetRunner)
+                {
+                    Checked = runner.Equals("bbbele")
+                },
+                new ToolStripMenuItem("bbbfus", null, SetRunner)
+                {
+                    Checked = runner.Equals("bbbfus")
                 }
             });
 
@@ -153,13 +161,35 @@ namespace RunCat
         {
             string prefix = 0 < manualTheme.Length ? manualTheme : systemTheme;
             ResourceManager rm = Resources.ResourceManager;
-            int capacity = runner.Equals("cat") ? 5 : 10;
-            List<Icon> list = new List<Icon>(capacity);
+            int capacity = 0;
+            switch (runner){
+                case "cat":
+                    {
+                        capacity = 5;
+                        break;
+                    }
+                case "parrot":
+                    {
+                        capacity = 10;
+                        break;
+                    }
+                case "bbbele":
+                    {
+                        capacity = 7;
+                        break;
+                    }
+                case "bbbfus":
+                    {
+                        capacity = 4;
+                        break;
+                    }
+            }
+            Icon[] list = new Icon[capacity];
             for (int i = 0; i < capacity; i++)
             {
-                list.Add((Icon)rm.GetObject($"{prefix}_{runner}_{i}"));
+                list[i] = (Icon)rm.GetObject($"{prefix}_{runner}_{i}");
             }
-            icons = list.ToArray();
+            icons = list;
         }
 
         private void UpdateCheckedState(ToolStripMenuItem sender, ToolStripMenuItem menu)
