@@ -78,16 +78,20 @@ namespace RunCat
                 new ToolStripMenuItem("bbbfus", null, SetRunner)
                 {
                     Checked = runner.Equals("bbbfus")
+                },
+                new ToolStripMenuItem("bbballele", null, SetRunner)
+                {
+                    Checked = runner.Equals("bbballele")
                 }
             });
 
             themeMenu = new ToolStripMenuItem("Theme", null, new ToolStripMenuItem[]
             {
-                // them menu chon theme vao day
+                // add theme menu in here
                 //
-                // new ToolStripMenuItem(ten_theme, null, SetThemeIcons)
+                // new ToolStripMenuItem(theme_name, null, SetThemeIcons)
                 // {
-                //     Checked = manualTheme.Equals(ten_theme)
+                //     Checked = manualTheme.Equals(theme_name)
                 // },
                 //
 
@@ -172,12 +176,12 @@ namespace RunCat
             ResourceManager rm = Resources.ResourceManager;
             int capacity = 0;
             switch (runner){
-                // them cac theme vao day
-                // case ten_theme:{
-                //      capacity: so_hinh_anh_cua_theme;
-                //      scale: toc_do_chay_dang_float;
+                // add theme information:
+                // case theme_name:{
+                //      capacity: number of images in a theme;
+                //      scale (float): transition speed;
                 // }
-                // scale cang to, chay cang cham
+                // large scale -> slower speed
 
                 case "cat":
                     {
@@ -194,19 +198,24 @@ namespace RunCat
                 case "bbbele":
                     {
                         capacity = 7;
-                        scale = 888.8f;
+                        scale = 600f;
                         break;
                     }
                 case "bbbfus":
                     {
                         capacity = 4;
-                        scale = 888.8f;
+                        scale = 600f;
+                        break;
+                    }
+                case "bbballele":
+                    {
+                        capacity = 11;
+                        scale = 600f;
                         break;
                     }
             }
             Icon[] list = new Icon[capacity];
-            for (int i = 0; i < capacity; i++)
-            {
+            for (int i = 0; i < capacity; i++) {
                 list[i] = (Icon)rm.GetObject($"{prefix}_{runner}_{i}");
             }
             icons = list;
