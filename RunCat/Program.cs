@@ -43,6 +43,7 @@ namespace RunCat
         private ToolStripMenuItem startupMenu;
         private NotifyIcon notifyIcon;
         private string runner = UserSettings.Default.Runner;
+        private float scale = 200.0f;
         private int current = 0;
         private string systemTheme = "";
         private string manualTheme = UserSettings.Default.Theme;
@@ -82,6 +83,14 @@ namespace RunCat
 
             themeMenu = new ToolStripMenuItem("Theme", null, new ToolStripMenuItem[]
             {
+                // them menu chon theme vao day
+                //
+                // new ToolStripMenuItem(ten_theme, null, SetThemeIcons)
+                // {
+                //     Checked = manualTheme.Equals(ten_theme)
+                // },
+                //
+
                 new ToolStripMenuItem("Default", null, SetThemeIcons)
                 {
                     Checked = manualTheme.Equals("")
@@ -115,7 +124,7 @@ namespace RunCat
             {
                 Icon = Resources.light_cat_0,
                 ContextMenuStrip = contextMenuStrip,
-                Text = "0.0%",
+                Text = "CPU: 0.0%",
                 Visible = true
             };
 
@@ -163,24 +172,35 @@ namespace RunCat
             ResourceManager rm = Resources.ResourceManager;
             int capacity = 0;
             switch (runner){
+                // them cac theme vao day
+                // case ten_theme:{
+                //      capacity: so_hinh_anh_cua_theme;
+                //      scale: toc_do_chay_dang_float;
+                // }
+                // scale cang to, chay cang cham
+
                 case "cat":
                     {
                         capacity = 5;
+                        scale = 200.0f;
                         break;
                     }
                 case "parrot":
                     {
                         capacity = 10;
+                        scale = 200.0f;
                         break;
                     }
                 case "bbbele":
                     {
                         capacity = 7;
+                        scale = 888.8f;
                         break;
                     }
                 case "bbbfus":
                     {
                         capacity = 4;
+                        scale = 888.8f;
                         break;
                     }
             }
@@ -291,8 +311,8 @@ namespace RunCat
         private void CPUTick()
         {
             float s = cpuUsage.NextValue();
-            notifyIcon.Text = $"{s:f1}%";
-            s = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, s / 5.0f));
+            notifyIcon.Text = $"CPU: {s:f1}%";
+            s = scale / (float)Math.Max(1.0f, Math.Min(20.0f, s / 10.0f));
             animateTimer.Stop();
             animateTimer.Interval = (int)s;
             animateTimer.Start();
