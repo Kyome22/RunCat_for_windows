@@ -63,6 +63,14 @@ namespace RunCat
 
             runnerMenu = new ToolStripMenuItem("Runner", null, new ToolStripMenuItem[]
             {
+                // them menu chon theme vao day
+                //
+                // new ToolStripMenuItem(ten_theme, null, SetRunner)
+                // {
+                //     Checked = manualTheme.Equals(ten_theme)
+                // },
+                //
+
                 new ToolStripMenuItem("Cat", null, SetRunner)
                 {
                     Checked = runner.Equals("cat")
@@ -78,19 +86,15 @@ namespace RunCat
                 new ToolStripMenuItem("bbbfus", null, SetRunner)
                 {
                     Checked = runner.Equals("bbbfus")
+                },
+                new ToolStripMenuItem("bbballele", null, SetRunner)
+                {
+                    Checked = runner.Equals("bbballele")
                 }
             });
 
             themeMenu = new ToolStripMenuItem("Theme", null, new ToolStripMenuItem[]
             {
-                // them menu chon theme vao day
-                //
-                // new ToolStripMenuItem(ten_theme, null, SetThemeIcons)
-                // {
-                //     Checked = manualTheme.Equals(ten_theme)
-                // },
-                //
-
                 new ToolStripMenuItem("Default", null, SetThemeIcons)
                 {
                     Checked = manualTheme.Equals("")
@@ -200,6 +204,12 @@ namespace RunCat
                 case "bbbfus":
                     {
                         capacity = 4;
+                        scale = 888.8f;
+                        break;
+                    }
+                case "bbballele":
+                    {
+                        capacity = 11;
                         scale = 888.8f;
                         break;
                     }
