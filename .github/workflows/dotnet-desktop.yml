@@ -23,5 +23,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
          name:  RunCat
-         path:  RunCat\bin\Release
+         path:  RunCat\bin\Release\netcoreapp3.1\win-x64\publish
         
