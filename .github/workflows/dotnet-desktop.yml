@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore --self-contained false
       - name: Test
         run: dotnet test --no-restore --verbosity normal
       - name: Upload build artifacts
