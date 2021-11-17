@@ -1,0 +1,27 @@
+name: dotnet package
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1
+        with:
+         dotnet-version: '3.1.x'
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+         name:  RunCat
+         path:  bin\Release
+        
