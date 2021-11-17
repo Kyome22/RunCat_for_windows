@@ -23,5 +23,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
          name:  RunCat
-         path:  bin\Release
+         path:  RunCat_for_windows\RunCat\bin\Release
         
