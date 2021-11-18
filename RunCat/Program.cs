@@ -29,6 +29,13 @@ namespace RunCat
         [STAThread]
         static void Main()
         {
+            string strProcessName = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
+            if (System.Diagnostics.Process.GetProcessesByName(strProcessName).Length > 1)
+            {
+                Application.Exit();
+                return;
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new RunCatApplicationContext());
