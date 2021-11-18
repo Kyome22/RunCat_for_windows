@@ -41,11 +41,13 @@ namespace RunCat
         private ToolStripMenuItem runnerMenu;
         private ToolStripMenuItem themeMenu;
         private ToolStripMenuItem startupMenu;
+        private ToolStripMenuItem reverseMenu;
         private NotifyIcon notifyIcon;
         private string runner = UserSettings.Default.Runner;
         private int current = 0;
         private string systemTheme = "";
         private string manualTheme = UserSettings.Default.Theme;
+        private bool reverseState = UserSettings.Default.Reversed;
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
@@ -94,12 +96,18 @@ namespace RunCat
                 startupMenu.Checked = true;
             }
 
+            reverseMenu = new ToolStripMenuItem("Reverse", null, SetReverse) 
+            {
+                Checked = reverseState.Equals(true)
+            };
+
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
             contextMenuStrip.Items.AddRange(new ToolStripItem[]
             {
                 runnerMenu,
                 themeMenu,
                 startupMenu,
+                reverseMenu,
                 new ToolStripMenuItem("Exit", null, Exit)
             });
 
@@ -121,6 +129,7 @@ namespace RunCat
         {
             UserSettings.Default.Runner = runner;
             UserSettings.Default.Theme = manualTheme;
+            UserSettings.Default.Reversed = reverseState;
             UserSettings.Default.Save();
         }
 
@@ -159,6 +168,7 @@ namespace RunCat
             {
                 list.Add((Icon)rm.GetObject($"{prefix}_{runner}_{i}"));
             }
+            if (reverseState) list.Reverse();
             icons = list.ToArray();
         }
 
@@ -234,6 +244,13 @@ namespace RunCat
                 }
                 rKey.Close();
             }
+        }
+
+        private void SetReverse(object sender, EventArgs e) 
+        {
+            reverseMenu.Checked = !reverseMenu.Checked;
+            reverseState = !reverseState;
+            SetIcons();
         }
 
         private void Exit(object sender, EventArgs e)
