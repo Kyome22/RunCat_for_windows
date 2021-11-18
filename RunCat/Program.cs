@@ -261,7 +261,7 @@ namespace RunCat
         private void CPUTick()
         {
             float s = cpuUsage.NextValue();
-            notifyIcon.Text = $"{s:f1}%";
+            notifyIcon.Text = $"CPU: {s:f1}%";
             s = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, s / 5.0f));
             animateTimer.Stop();
             animateTimer.Interval = (int)s;
