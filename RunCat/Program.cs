@@ -177,6 +177,7 @@ namespace RunCat
             UpdateCheckedState(item, runnerMenu);
             runner = item.Text.ToLower();
             SetIcons();
+            UserSettings.Default.Runner = runner;
         }
 
         private void SetThemeIcons(object sender, EventArgs e)
