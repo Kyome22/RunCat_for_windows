@@ -30,7 +30,7 @@ namespace RunCat
         static void Main()
         {
             // terminate runcat if there's any existing instance
-            _ = new System.Threading.Mutex(true, "_RUNCAT_MUTEX", out var result);
+            var procMutex = new System.Threading.Mutex(true, "_RUNCAT_MUTEX", out var result);
             if (!result)
             {
                 return;
@@ -39,6 +39,8 @@ namespace RunCat
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new RunCatApplicationContext());
+
+            procMutex.ReleaseMutex();
         }
     }
 
