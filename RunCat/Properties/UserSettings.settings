@@ -8,5 +8,8 @@
     <Setting Name="Theme" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="Speed" Type="System.String" Scope="User">
+      <Value Profile="(Default)">default</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
