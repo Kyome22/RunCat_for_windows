@@ -143,6 +143,7 @@ namespace RunCat
 
             UpdateThemeIcons();
             SetAnimation();
+            CPUTickText();
             SetSpeed();
             StartObserveCPU();
 
@@ -236,6 +237,14 @@ namespace RunCat
                 minCPU = 33f;    
             else if (speed.Equals("cpu 40%"))
                 minCPU = 25f;
+                SetSpeedTick();
+        }
+        private void SetSpeedTick()
+        {
+            range = SpeedClamp(s, minCPU, float.PositiveInfinity);
+            animateTimer.Stop();
+            animateTimer.Interval = (int)range;
+            animateTimer.Start();
         }
 
         private void SetSpeedLimit(object sender, EventArgs e)
@@ -317,35 +326,29 @@ namespace RunCat
             animateTimer.Tick += new EventHandler(AnimationTick);
         }
 
-        private void CPUTickSpeed()
-        {
-            if (!speed.Equals("default"))
-            {
-                range = SpeedClamp(s, minCPU, float.PositiveInfinity);
-                animateTimer.Stop();
-                animateTimer.Interval = (int)range;
-                animateTimer.Start();
-            }
-            else
-            {
-                animateTimer.Stop();
-                animateTimer.Interval = (int)s;
-                animateTimer.Start();
-            }
+        private void CPUDefaultTick()
+        { 
+            animateTimer.Stop();
+            animateTimer.Interval = (int)s;
+            animateTimer.Start();
         }
 
-        private void CPUTick()
+        private float CPUTickText()
         {
             s = cpuUsage.NextValue();
-            notifyIcon.Text = $"CPU: {s:f1}%";
+            notifyIcon.Text = $"{s:f1}%";
             s = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, s / 5.0f));
             _ = s;
-            CPUTickSpeed();  
+            return s;
         }
 
         private void ObserveCPUTick(object sender, EventArgs e)
         {
-            CPUTick();
+            CPUTickText();
+            if (!speed.Equals("default"))
+                SetSpeedTick();
+            else
+                CPUDefaultTick();
         }
 
         private void StartObserveCPU()
