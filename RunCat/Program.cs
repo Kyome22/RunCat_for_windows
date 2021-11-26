@@ -46,6 +46,8 @@ namespace RunCat
 
     public class RunCatApplicationContext : ApplicationContext
     {
+        private const int CPU_TIMER_DEFAULT_INTERVAL = 3000;
+        private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
         private PerformanceCounter cpuUsage;
         private ToolStripMenuItem runnerMenu;
         private ToolStripMenuItem themeMenu;
@@ -263,7 +265,7 @@ namespace RunCat
 
         private void SetAnimation()
         {
-            animateTimer.Interval = 200;
+            animateTimer.Interval = ANIMATE_TIMER_DEFAULT_INTERVAL;
             animateTimer.Tick += new EventHandler(AnimationTick);
         }
 
@@ -271,7 +273,7 @@ namespace RunCat
         {
             float s = cpuUsage.NextValue();
             notifyIcon.Text = $"CPU: {s:f1}%";
-            s = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, s / 5.0f));
+            s = ANIMATE_TIMER_DEFAULT_INTERVAL / (float)Math.Max(1.0f, Math.Min(20.0f, s / 5.0f));
             animateTimer.Stop();
             animateTimer.Interval = (int)s;
             animateTimer.Start();
@@ -284,7 +286,7 @@ namespace RunCat
 
         private void StartObserveCPU()
         {
-            cpuTimer.Interval = 3000;
+            cpuTimer.Interval = CPU_TIMER_DEFAULT_INTERVAL;
             cpuTimer.Tick += new EventHandler(ObserveCPUTick);
             cpuTimer.Start();
         }
