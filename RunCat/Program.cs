@@ -128,6 +128,12 @@ namespace RunCat
             StartObserveCPU();
             current = 1;
         }
+
+        /// <summary>
+        /// Event that is triggered when the application is closed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnApplicationExit(object sender, EventArgs e)
         {
             UserSettings.Default.Runner = runner;
@@ -135,6 +141,10 @@ namespace RunCat
             UserSettings.Default.Save();
         }
 
+        /// <summary>
+        /// Checks if the startup-option is already enabled.
+        /// </summary>
+        /// <returns></returns>
         private bool IsStartupEnabled()
         {
             string keyName = @"Software\Microsoft\Windows\CurrentVersion\Run";
@@ -144,6 +154,10 @@ namespace RunCat
             }
         }
 
+        /// <summary>
+        /// Checks the globally selected theme.
+        /// </summary>
+        /// <returns></returns>
         private string GetAppsUseTheme()
         {
             string keyName = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
@@ -160,6 +174,9 @@ namespace RunCat
             }
         }
 
+        /// <summary>
+        /// Sets the icon.
+        /// </summary>
         private void SetIcons()
         {
             string prefix = 0 < manualTheme.Length ? manualTheme : systemTheme;
@@ -173,6 +190,11 @@ namespace RunCat
             icons = list.ToArray();
         }
 
+        /// <summary>
+        /// Checks whether the individual elements of the menu are selected or not.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="menu"></param>
         private void UpdateCheckedState(ToolStripMenuItem sender, ToolStripMenuItem menu)
         {
             foreach (ToolStripMenuItem item in menu.DropDownItems)
@@ -182,6 +204,11 @@ namespace RunCat
             sender.Checked = true;
         }
 
+        /// <summary>
+        /// Sets the runner.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetRunner(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
@@ -190,6 +217,11 @@ namespace RunCat
             SetIcons();
         }
 
+        /// <summary>
+        /// Sets theme icons.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetThemeIcons(object sender, EventArgs e)
         {
             UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
@@ -198,6 +230,9 @@ namespace RunCat
             SetIcons();
         }
 
+        /// <summary>
+        /// Updates the theme icons, if necessary.
+        /// </summary>
         private void UpdateThemeIcons()
         {
             if (0 < manualTheme.Length)
@@ -211,6 +246,11 @@ namespace RunCat
             SetIcons();
         }
 
+        /// <summary>
+        /// Sets the icons to light theme.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetLightIcons(object sender, EventArgs e)
         {
             UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
@@ -218,17 +258,33 @@ namespace RunCat
             SetIcons();
         }
 
+        /// <summary>
+        /// Sets the icons to dark theme.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetDarkIcons(object sender, EventArgs e)
         {
             UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
             manualTheme = "dark";
             SetIcons();
         }
+
+        /// <summary>
+        /// Gets called, whenever a user preference has changed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             if (e.Category == UserPreferenceCategory.General) UpdateThemeIcons();
         }
 
+        /// <summary>
+        /// Sets the startup option.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetStartup(object sender, EventArgs e)
         {
             startupMenu.Checked = !startupMenu.Checked;
@@ -247,6 +303,11 @@ namespace RunCat
             }
         }
 
+        /// <summary>
+        /// Exits the application.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Exit(object sender, EventArgs e)
         {
             cpuUsage.Close();
@@ -256,6 +317,11 @@ namespace RunCat
             Application.Exit();
         }
 
+        /// <summary>
+        /// Gets called, whenever the animation timer has elapsed and updates the icon.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AnimationTick(object sender, EventArgs e)
         {
             if (icons.Length <= current) current = 0;
@@ -263,12 +329,18 @@ namespace RunCat
             current = (current + 1) % icons.Length;
         }
 
+        /// <summary>
+        /// Sets the animation properties.
+        /// </summary>
         private void SetAnimation()
         {
             animateTimer.Interval = ANIMATE_TIMER_DEFAULT_INTERVAL;
             animateTimer.Tick += new EventHandler(AnimationTick);
         }
 
+        /// <summary>
+        /// Gets the cpu usage, writes it to the icon and updates the animation timer.
+        /// </summary>
         private void CPUTick()
         {
             float s = cpuUsage.NextValue();
@@ -279,11 +351,19 @@ namespace RunCat
             animateTimer.Start();
         }
 
+        /// <summary>
+        /// Gets called, whenever the cpu timer has elapsed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ObserveCPUTick(object sender, EventArgs e)
         {
             CPUTick();
         }
 
+        /// <summary>
+        /// Sets the cpu timer properties.
+        /// </summary>
         private void StartObserveCPU()
         {
             cpuTimer.Interval = CPU_TIMER_DEFAULT_INTERVAL;
