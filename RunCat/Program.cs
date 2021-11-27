@@ -122,6 +122,8 @@ namespace RunCat
                 Visible = true
             };
 
+            notifyIcon.DoubleClick += new EventHandler(HandleDoubleClick);
+
             UpdateThemeIcons();
             SetAnimation();
             CPUTick();
@@ -289,6 +291,11 @@ namespace RunCat
             cpuTimer.Interval = CPU_TIMER_DEFAULT_INTERVAL;
             cpuTimer.Tick += new EventHandler(ObserveCPUTick);
             cpuTimer.Start();
+        }
+        
+        private void HandleDoubleClick(object Sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("taskmgr.exe");
         }
 
     }
