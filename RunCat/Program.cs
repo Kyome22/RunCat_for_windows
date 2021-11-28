@@ -133,6 +133,8 @@ namespace RunCat
             UserSettings.Default.Runner = runner;
             UserSettings.Default.Theme = manualTheme;
             UserSettings.Default.Save();
+
+            UserSettings.Default.Reload();
         }
 
         private bool IsStartupEnabled()
