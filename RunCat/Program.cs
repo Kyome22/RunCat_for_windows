@@ -53,10 +53,10 @@ namespace RunCat
         private ToolStripMenuItem themeMenu;
         private ToolStripMenuItem startupMenu;
         private NotifyIcon notifyIcon;
-        private string runner = UserSettings.Default.Runner;
+        private string runner = "";
         private int current = 0;
         private string systemTheme = "";
-        private string manualTheme = UserSettings.Default.Theme;
+        private string manualTheme = "";
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
@@ -64,6 +64,10 @@ namespace RunCat
 
         public RunCatApplicationContext()
         {
+            UserSettings.Default.Reload();
+            runner = UserSettings.Default.Runner;
+            manualTheme = UserSettings.Default.Theme;
+
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
