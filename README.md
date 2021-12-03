@@ -1,6 +1,6 @@
 # RunCat_for_windows
 
-A cute running cat animation on your windows taskbar.
+**A cute running cat animation on your windows taskbar.**
 
 [![Github issues](https://img.shields.io/github/issues/Kyome22/RunCat_for_windows)](https://github.com/Kyome22/RunCat_for_windows/issues)
 [![Github forks](https://img.shields.io/github/forks/Kyome22/RunCat_for_windows)](https://github.com/Kyome22/RunCat_for_windows/network/members)
@@ -17,22 +17,18 @@ A cute running cat animation on your windows taskbar.
 
 ![Demo](RunCat/resources/runcat_demo.gif)
 
-You only have to run the RunCat.exe.
+**You only have to run the RunCat.exe.**
 
 # Installation
 
-Access to the "Releases" page and download the RunCat.exe.
+**Access to the "Releases" page and download the RunCat.exe.**
 
 # Contributors
 
-- [Kyome22](https://github.com/Kyome22)
-- [geforce-hisa0904](https://github.com/geforce-hisa0904)
-- [murakamiii](https://github.com/murakamiii)
-- [juner](https://github.com/juner)
-- [t13801206](https://github.com/t13801206)
-- [MxShun](https://github.com/MxShun)
-- [muko](https://github.com/muko)
-- [Jo-Seungjun](https://github.com/Jo-Seungjun)
+<a href="https://github.com/Kyome22/RunCat_for_windows/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Kyome22/RunCat_for_windows" />
+</a>
 
 <!-- Please do not delete the below comment. -->
 <!-- CREATED_BY_LEADYOU_README_GENERATOR -->
+
