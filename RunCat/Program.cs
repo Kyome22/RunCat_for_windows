@@ -48,6 +48,7 @@ namespace RunCat
     {
         private const int CPU_TIMER_DEFAULT_INTERVAL = 3000;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
+        private const float MAX_SPEED = 10.0f;
         private PerformanceCounter cpuUsage;
         private ToolStripMenuItem runnerMenu;
         private ToolStripMenuItem themeMenu;
@@ -279,7 +280,7 @@ namespace RunCat
         {
             float s = cpuUsage.NextValue();
             notifyIcon.Text = $"CPU: {s:f1}%";
-            s = ANIMATE_TIMER_DEFAULT_INTERVAL / (float)Math.Max(1.0f, Math.Min(20.0f, s / 5.0f));
+            s = ANIMATE_TIMER_DEFAULT_INTERVAL / (float)Math.Max(1.0f, Math.Min(MAX_SPEED, s / 5.0f));
             animateTimer.Stop();
             animateTimer.Interval = (int)s;
             animateTimer.Start();
