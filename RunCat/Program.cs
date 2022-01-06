@@ -21,6 +21,10 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Resources;
 using System.ComponentModel;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Collections;
+using System.Globalization;
 
 namespace RunCat
 {
@@ -60,32 +64,21 @@ namespace RunCat
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
-
+        private List<ResourceInfo> resourceInfos;
 
         public RunCatApplicationContext()
         {
             UserSettings.Default.Reload();
             runner = UserSettings.Default.Runner;
             manualTheme = UserSettings.Default.Theme;
-
+            resourceInfos = GetResources();
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
 
             cpuUsage = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             _ = cpuUsage.NextValue(); // discards first return value
-
-            runnerMenu = new ToolStripMenuItem("Runner", null, new ToolStripMenuItem[]
-            {
-                new ToolStripMenuItem("Cat", null, SetRunner)
-                {
-                    Checked = runner.Equals("cat")
-                },
-                new ToolStripMenuItem("Parrot", null, SetRunner)
-                {
-                    Checked = runner.Equals("parrot")
-                }
-            });
+            runnerMenu = new ToolStripMenuItem("Runner", null, GetToolStripMenuItems());
 
             themeMenu = new ToolStripMenuItem("Theme", null, new ToolStripMenuItem[]
             {
@@ -166,17 +159,62 @@ namespace RunCat
             }
         }
 
+        private List<ResourceInfo> GetResources()
+        {
+            var orderedResource = new List<ResourceInfo>();
+            var allResources = Properties.Resources.ResourceManager
+                       .GetResourceSet(CultureInfo.CurrentCulture, true, true)
+                       .Cast<DictionaryEntry>().OrderBy(x => x.Key)
+                       .ToList();
+            allResources.ForEach(it =>
+            {
+                if (Regex.IsMatch(it.Key.ToString(), @"[(dark)|(light)]+_[\w\W]+_\d+"))
+                {
+                    var keys = it.Key.ToString().Split("_");
+                    var pointResource = orderedResource.Find(that => that.Name.Equals(keys[1]) && that.Mode.Equals(keys[0]));
+                    if (pointResource != null)
+                    {
+                        pointResource.Icons.Add((Icon)it.Value);
+                    }
+                    else
+                    {
+                        pointResource = new ResourceInfo();
+                        pointResource.Name = keys[1];
+                        pointResource.Mode = keys[0];
+                        pointResource.Icons.Add((Icon)it.Value);
+                        orderedResource.Add(pointResource);
+                    }
+                }
+            });
+            return orderedResource;
+        }
+
+        private ToolStripMenuItem[] GetToolStripMenuItems()
+        {
+            if (resourceInfos == null) return new ToolStripMenuItem[0];
+            return resourceInfos.Where(it => it.Mode.Equals("light")).Select(it => new ToolStripMenuItem(it.Name, null, SetRunner)
+            {
+                Checked = runner.Equals(it.Name)
+            }).ToArray();
+        }
+        class ResourceInfo
+        {
+            public ResourceInfo()
+            {
+                Icons = new List<Icon>();
+            }
+            public string Name { get; set; }
+            public string Mode { get; set; }
+            public List<Icon> Icons { get; set; }
+        }
         private void SetIcons()
         {
             string prefix = 0 < manualTheme.Length ? manualTheme : systemTheme;
-            ResourceManager rm = Resources.ResourceManager;
-            int capacity = runner.Equals("cat") ? 5 : 10;
-            List<Icon> list = new List<Icon>(capacity);
-            for (int i = 0; i < capacity; i++)
+            var runnerWithMode = resourceInfos.FirstOrDefault(it => it.Mode.Equals(prefix) && it.Name.Equals(runner));
+            if(runnerWithMode != null)
             {
-                list.Add((Icon)rm.GetObject($"{prefix}_{runner}_{i}"));
+                icons = runnerWithMode.Icons.ToArray();
             }
-            icons = list.ToArray();
         }
 
         private void UpdateCheckedState(ToolStripMenuItem sender, ToolStripMenuItem menu)
@@ -296,7 +334,7 @@ namespace RunCat
             cpuTimer.Tick += new EventHandler(ObserveCPUTick);
             cpuTimer.Start();
         }
-        
+
         private void HandleDoubleClick(object Sender, EventArgs e)
         {
             var startInfo = new ProcessStartInfo
