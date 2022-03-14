@@ -163,6 +163,48 @@
   <data name="dark_parrot_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\parrot\dark_parrot_9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="dark_horse_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_7.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_8.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_10.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_11.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_12.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_horse_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\dark_horse_13.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="light_cat_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\cat\light_cat_0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -207,5 +249,47 @@
   </data>
   <data name="light_parrot_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\parrot\light_parrot_9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_7.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_8.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_10.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_11.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_12.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_horse_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\horse\light_horse_13.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

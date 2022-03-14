@@ -359,5 +359,257 @@ namespace RunCat.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_0 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_0", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_1 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_1", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_2 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_2", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_3 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_3", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_4 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_4", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_5 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_5", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_6 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_6", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_7 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_7", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_8 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_8", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_9 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_9", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_10 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_10", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_11 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_11", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_12 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_12", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon dark_horse_13 {
+            get {
+                object obj = ResourceManager.GetObject("dark_horse_13", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_0 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_0", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_1 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_1", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_2 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_2", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_3 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_3", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_4 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_4", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_5 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_5", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_6 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_6", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_7 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_7", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_8 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_8", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_9 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_9", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_10 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_10", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_11 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_11", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_12 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_12", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon light_horse_13 {
+            get {
+                object obj = ResourceManager.GetObject("light_horse_13", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }
