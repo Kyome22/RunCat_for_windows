@@ -72,7 +72,7 @@ namespace RunCat
 
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
 
-            cpuUsage = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            cpuUsage = new PerformanceCounter("Processor Information", "% Processor Utility", "_Total");
             _ = cpuUsage.NextValue(); // discards first return value
 
             runnerMenu = new ToolStripMenuItem("Runner", null, new ToolStripMenuItem[]
