@@ -48,10 +48,12 @@ namespace RunCat
     {
         private const int CPU_TIMER_DEFAULT_INTERVAL = 3000;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
+        private const float MAX_SPEED = 10.0f;
         private PerformanceCounter cpuUsage;
         private ToolStripMenuItem runnerMenu;
         private ToolStripMenuItem themeMenu;
         private ToolStripMenuItem startupMenu;
+        private ToolStripMenuItem reverseMenu;
         private NotifyIcon notifyIcon;
         private string runner = "";
         private int current = 0;
@@ -60,7 +62,6 @@ namespace RunCat
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
-
 
         public RunCatApplicationContext()
         {
@@ -109,12 +110,15 @@ namespace RunCat
                 startupMenu.Checked = true;
             }
 
+            reverseMenu = new ToolStripMenuItem("Reverse CPU Scaling", null, SetCPUTick);
+
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
             contextMenuStrip.Items.AddRange(new ToolStripItem[]
             {
                 runnerMenu,
                 themeMenu,
                 startupMenu,
+                reverseMenu,
                 new ToolStripMenuItem("Exit", null, Exit)
             });
 
@@ -253,6 +257,11 @@ namespace RunCat
             }
         }
 
+        private void SetCPUTick(object sender, EventArgs e)
+        {
+            reverseMenu.Checked = !reverseMenu.Checked;
+        }
+
         private void Exit(object sender, EventArgs e)
         {
             cpuUsage.Close();
@@ -279,7 +288,17 @@ namespace RunCat
         {
             float s = cpuUsage.NextValue();
             notifyIcon.Text = $"CPU: {s:f1}%";
-            s = ANIMATE_TIMER_DEFAULT_INTERVAL / (float)Math.Max(1.0f, Math.Min(20.0f, s / 5.0f));
+
+            if (reverseMenu.Checked == true)
+            {
+                s = (float)Math.Max(35.0f, 2 * s);
+                // My math is terrible, optimize this if you want.
+            }
+            else
+            {
+                s = ANIMATE_TIMER_DEFAULT_INTERVAL / (float)Math.Max(1.0f, Math.Min(MAX_SPEED, s / 5.0f));
+            }
+            
             animateTimer.Stop();
             animateTimer.Interval = (int)s;
             animateTimer.Start();
