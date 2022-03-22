@@ -46,5 +46,17 @@ namespace RunCat.Properties {
                 this["Theme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isCPUScalingReversed {
+            get {
+                return ((bool)(this["isCPUScalingReversed"]));
+            }
+            set {
+                this["isCPUScalingReversed"] = value;
+            }
+        }
     }
 }

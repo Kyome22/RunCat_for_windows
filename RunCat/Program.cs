@@ -111,6 +111,10 @@ namespace RunCat
             }
 
             reverseMenu = new ToolStripMenuItem("Reverse CPU Scaling", null, SetCPUTick);
+            if (UserSettings.Default.isCPUScalingReversed == true)
+            {
+                reverseMenu.Checked = true;
+            }
 
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
             contextMenuStrip.Items.AddRange(new ToolStripItem[]
@@ -260,6 +264,7 @@ namespace RunCat
         private void SetCPUTick(object sender, EventArgs e)
         {
             reverseMenu.Checked = !reverseMenu.Checked;
+            UserSettings.Default.isCPUScalingReversed = reverseMenu.Checked;
         }
 
         private void Exit(object sender, EventArgs e)
@@ -289,7 +294,7 @@ namespace RunCat
             float s = cpuUsage.NextValue();
             notifyIcon.Text = $"CPU: {s:f1}%";
 
-            if (reverseMenu.Checked == true)
+            if (UserSettings.Default.isCPUScalingReversed == true)
             {
                 s = (float)Math.Max(35.0f, 2 * s);
                 // My math is terrible, optimize this if you want.
