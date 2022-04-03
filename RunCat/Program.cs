@@ -332,7 +332,7 @@ namespace RunCat
         {
             if (!speed.Equals("default"))
             {            
-                float manualInterval = (float)Math.max(minCPU, interval);
+                float manualInterval = (float)Math.Max(minCPU, interval);
                 animateTimer.Stop();
                 animateTimer.Interval = (int)manualInterval;
                 animateTimer.Start();
