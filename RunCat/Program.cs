@@ -29,25 +29,35 @@ namespace RunCat
         [STAThread]
         static void Main()
         {
+            // terminate runcat if there's any existing instance
+            var procMutex = new System.Threading.Mutex(true, "_RUNCAT_MUTEX", out var result);
+            if (!result)
+            {
+                return;
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new RunCatApplicationContext());
+
+            procMutex.ReleaseMutex();
         }
     }
 
     public class RunCatApplicationContext : ApplicationContext
     {
+        private const int CPU_TIMER_DEFAULT_INTERVAL = 3000;
+        private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
         private PerformanceCounter cpuUsage;
         private ToolStripMenuItem runnerMenu;
         private ToolStripMenuItem themeMenu;
         private ToolStripMenuItem startupMenu;
         private ToolStripMenuItem runnerSpeedLimit;
         private NotifyIcon notifyIcon;
-        private string runner = UserSettings.Default.Runner;
+        private string runner = "";
         private int current = 0;
         private float minCPU;
-        private float s;
-        private float range;
+        private float interval;
         private string systemTheme = "";
         private string manualTheme = UserSettings.Default.Theme;
         private string speed = UserSettings.Default.Speed;
@@ -58,6 +68,10 @@ namespace RunCat
 
         public RunCatApplicationContext()
         {
+            UserSettings.Default.Reload();
+            runner = UserSettings.Default.Runner;
+            manualTheme = UserSettings.Default.Theme;
+
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
@@ -141,6 +155,8 @@ namespace RunCat
                 Visible = true
             };
 
+            notifyIcon.DoubleClick += new EventHandler(HandleDoubleClick);
+
             UpdateThemeIcons();
             SetAnimation();
             SetSpeed();
@@ -217,11 +233,6 @@ namespace RunCat
             manualTheme = "";
             systemTheme = GetAppsUseTheme();
             SetIcons();
-        }
-
-        private static float SpeedClamp(float value, float min, float max)
-        {
-            return (value < min) ? min : (value > max) ? max : value;
         }
 
         private void SetSpeed()
@@ -313,33 +324,33 @@ namespace RunCat
 
         private void SetAnimation()
         {
-            animateTimer.Interval = 200;
+            animateTimer.Interval = ANIMATE_TIMER_DEFAULT_INTERVAL;
             animateTimer.Tick += new EventHandler(AnimationTick);
         }
 
         private void CPUTickSpeed()
         {
             if (!speed.Equals("default"))
-            {
-                range = SpeedClamp(s, minCPU, float.PositiveInfinity);
+            {            
+                float manualInterval = (float)Math.max(minCPU, interval);
                 animateTimer.Stop();
-                animateTimer.Interval = (int)range;
+                animateTimer.Interval = (int)manualInterval;
                 animateTimer.Start();
             }
             else
             {
                 animateTimer.Stop();
-                animateTimer.Interval = (int)s;
+                animateTimer.Interval = (int)interval;
                 animateTimer.Start();
             }
         }
 
         private void CPUTick()
         {
-            s = cpuUsage.NextValue();
-            notifyIcon.Text = $"CPU: {s:f1}%";
-            s = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, s / 5.0f));
-            _ = s;
+            interval = cpuUsage.NextValue();
+            notifyIcon.Text = $"CPU: {interval:f1}%";
+            interval = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, interval / 5.0f));
+            _ = interval;
             CPUTickSpeed();
         }
         private void ObserveCPUTick(object sender, EventArgs e)
@@ -349,9 +360,21 @@ namespace RunCat
 
         private void StartObserveCPU()
         {
-            cpuTimer.Interval = 3000;
+            cpuTimer.Interval = CPU_TIMER_DEFAULT_INTERVAL;
             cpuTimer.Tick += new EventHandler(ObserveCPUTick);
             cpuTimer.Start();
+        }
+        
+        private void HandleDoubleClick(object Sender, EventArgs e)
+        {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "powershell",
+                UseShellExecute = false,
+                Arguments = " -c Start-Process taskmgr.exe",
+                CreateNoWindow = true,
+            };
+            Process.Start(startInfo);
         }
 
     }
