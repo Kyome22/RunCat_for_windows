@@ -52,11 +52,15 @@ namespace RunCat
         private ToolStripMenuItem runnerMenu;
         private ToolStripMenuItem themeMenu;
         private ToolStripMenuItem startupMenu;
+        private ToolStripMenuItem runnerSpeedLimit;
         private NotifyIcon notifyIcon;
         private string runner = "";
         private int current = 0;
+        private float minCPU;
+        private float interval;
         private string systemTheme = "";
-        private string manualTheme = "";
+        private string manualTheme = UserSettings.Default.Theme;
+        private string speed = UserSettings.Default.Speed;
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
@@ -109,12 +113,37 @@ namespace RunCat
                 startupMenu.Checked = true;
             }
 
+            runnerSpeedLimit = new ToolStripMenuItem("Runner Speed Limit", null, new ToolStripMenuItem[]
+            {
+                new ToolStripMenuItem("Default", null, SetSpeedLimit)
+                {
+                    Checked = speed.Equals("default")
+                },
+                new ToolStripMenuItem("CPU 10%", null, SetSpeedLimit)
+                {
+                    Checked = speed.Equals("cpu 10%")
+                },
+                new ToolStripMenuItem("CPU 20%", null, SetSpeedLimit)
+                {
+                    Checked = speed.Equals("cpu 20%")
+                },
+                new ToolStripMenuItem("CPU 30%", null, SetSpeedLimit)
+                {
+                    Checked = speed.Equals("cpu 30%")
+                },
+                new ToolStripMenuItem("CPU 40%", null, SetSpeedLimit)
+                {
+                    Checked = speed.Equals("cpu 40%")
+                }
+            });
+
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
             contextMenuStrip.Items.AddRange(new ToolStripItem[]
             {
                 runnerMenu,
                 themeMenu,
                 startupMenu,
+                runnerSpeedLimit,
                 new ToolStripMenuItem("Exit", null, Exit)
             });
 
@@ -130,14 +159,16 @@ namespace RunCat
 
             UpdateThemeIcons();
             SetAnimation();
-            CPUTick();
+            SetSpeed();
             StartObserveCPU();
+
             current = 1;
         }
         private void OnApplicationExit(object sender, EventArgs e)
         {
             UserSettings.Default.Runner = runner;
             UserSettings.Default.Theme = manualTheme;
+            UserSettings.Default.Speed = speed;
             UserSettings.Default.Save();
         }
 
@@ -202,6 +233,28 @@ namespace RunCat
             manualTheme = "";
             systemTheme = GetAppsUseTheme();
             SetIcons();
+        }
+
+        private void SetSpeed()
+        {
+            if (speed.Equals("default"))
+                return;
+            else if (speed.Equals("cpu 10%"))
+                minCPU = 100f;
+            else if (speed.Equals("cpu 20%"))
+                minCPU = 50f;
+            else if (speed.Equals("cpu 30%"))
+                minCPU = 33f;    
+            else if (speed.Equals("cpu 40%"))
+                minCPU = 25f;   
+        }
+
+        private void SetSpeedLimit(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            UpdateCheckedState(item, runnerSpeedLimit);
+            speed = item.Text.ToLower();
+            SetSpeed();
         }
 
         private void UpdateThemeIcons()
@@ -275,16 +328,31 @@ namespace RunCat
             animateTimer.Tick += new EventHandler(AnimationTick);
         }
 
-        private void CPUTick()
+        private void CPUTickSpeed()
         {
-            float s = cpuUsage.NextValue();
-            notifyIcon.Text = $"CPU: {s:f1}%";
-            s = ANIMATE_TIMER_DEFAULT_INTERVAL / (float)Math.Max(1.0f, Math.Min(20.0f, s / 5.0f));
-            animateTimer.Stop();
-            animateTimer.Interval = (int)s;
-            animateTimer.Start();
+            if (!speed.Equals("default"))
+            {            
+                float manualInterval = (float)Math.Max(minCPU, interval);
+                animateTimer.Stop();
+                animateTimer.Interval = (int)manualInterval;
+                animateTimer.Start();
+            }
+            else
+            {
+                animateTimer.Stop();
+                animateTimer.Interval = (int)interval;
+                animateTimer.Start();
+            }
         }
 
+        private void CPUTick()
+        {
+            interval = cpuUsage.NextValue();
+            notifyIcon.Text = $"CPU: {interval:f1}%";
+            interval = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, interval / 5.0f));
+            _ = interval;
+            CPUTickSpeed();
+        }
         private void ObserveCPUTick(object sender, EventArgs e)
         {
             CPUTick();
