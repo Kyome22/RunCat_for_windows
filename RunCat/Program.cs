@@ -88,6 +88,10 @@ namespace RunCat
                 new ToolStripMenuItem("Parrot", null, SetRunner)
                 {
                     Checked = runner.Equals("parrot")
+                },
+                new ToolStripMenuItem("Horse", null, SetRunner)
+                {
+                    Checked = runner.Equals("horse")
                 }
             });
 
@@ -201,7 +205,16 @@ namespace RunCat
         {
             string prefix = 0 < manualTheme.Length ? manualTheme : systemTheme;
             ResourceManager rm = Resources.ResourceManager;
-            int capacity = runner.Equals("cat") ? 5 : 10;
+            // default runner is cat
+            int capacity = 5;
+            if (runner.Equals("parrot"))
+            {
+                capacity = 10;
+            } 
+            else if (runner.Equals("horse")) 
+            {
+                capacity = 14;
+            }
             List<Icon> list = new List<Icon>(capacity);
             for (int i = 0; i < capacity; i++)
             {
