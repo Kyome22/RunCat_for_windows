@@ -7,10 +7,10 @@
     <ApplicationIcon>appIcon.ico</ApplicationIcon>
     <NoWin32Manifest>true</NoWin32Manifest>
     <StartupObject>RunCat.Program</StartupObject>
-    <Version>1.10.0</Version>
+    <Version>1.11.0</Version>
     <Authors>Takuto Nakamura</Authors>
     <Description>A cute running cat animation on your windows taskbar.</Description>
-    <Copyright>© 2021 Takuto Nakamura</Copyright>
+    <Copyright>© 2022 Takuto Nakamura</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/Kyome22/RunCat_for_windows</PackageProjectUrl>
     <PublishSingleFile>true</PublishSingleFile>
