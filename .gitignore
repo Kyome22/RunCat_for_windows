@@ -10,3 +10,4 @@ obj/
 *.user
 *.userosscache
 *.sln.docstates
+*.pubxml.user
