@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Resources;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace RunCat
 {
@@ -63,7 +64,6 @@ namespace RunCat
         private string manualTheme = UserSettings.Default.Theme;
         private string speed = UserSettings.Default.Speed;
         private Icon[] icons;
-        private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
 
 
@@ -193,10 +193,10 @@ namespace RunCat
             notifyIcon.DoubleClick += new EventHandler(HandleDoubleClick);
 
             UpdateThemeIcons();
-            SetAnimation();
             SetSpeed();
             RefreshCpuTimerInterval();
             StartObserveCPU();
+            AnimationTick();
 
             current = 1;
         }
@@ -363,40 +363,18 @@ namespace RunCat
         private void Exit(object sender, EventArgs e)
         {
             cpuUsage.Close();
-            animateTimer.Stop();
             cpuTimer.Stop();
             notifyIcon.Visible = false;
             Application.Exit();
         }
 
-        private void AnimationTick(object sender, EventArgs e)
+        private async void AnimationTick()
         {
             if (icons.Length <= current) current = 0;
             notifyIcon.Icon = icons[current];
             current = (current + 1) % icons.Length;
-        }
-
-        private void SetAnimation()
-        {
-            animateTimer.Interval = ANIMATE_TIMER_DEFAULT_INTERVAL;
-            animateTimer.Tick += new EventHandler(AnimationTick);
-        }
-
-        private void CPUTickSpeed()
-        {
-            if (!speed.Equals("default"))
-            {            
-                float manualInterval = (float)Math.Max(minCPU, interval);
-                animateTimer.Stop();
-                animateTimer.Interval = (int)manualInterval;
-                animateTimer.Start();
-            }
-            else
-            {
-                animateTimer.Stop();
-                animateTimer.Interval = (int)interval;
-                animateTimer.Start();
-            }
+            await Task.Delay((int) interval);
+            _ = Task.Run(() => AnimationTick()); // Prevents stack overflow by recursive function call
         }
 
         private void CPUTick()
@@ -404,8 +382,12 @@ namespace RunCat
             var rawInterval = cpuUsage.NextValue();
             notifyIcon.Text = $"CPU: {rawInterval:f1}%";
             rawInterval = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, rawInterval / 5.0f));
-            interval = rawInterval; // Apply interval later to prevent using the raw CPU usage value before processing.
-            CPUTickSpeed();
+
+            // Apply interval later to prevent using the raw CPU usage value before processing.
+            if (!speed.Equals("default"))
+                interval = Math.Max(minCPU, rawInterval);
+            else
+                interval = rawInterval;
         }
         private void ObserveCPUTick(object sender, EventArgs e)
         {
