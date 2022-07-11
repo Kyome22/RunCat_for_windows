@@ -360,7 +360,7 @@ namespace RunCat
 
         private void CPUTick()
         {
-            interval = cpuUsage.NextValue();
+            interval = Math.Min(100, cpuUsage.NextValue()); // Sometimes got over 100% so it should be limited to 100%
             notifyIcon.Text = $"CPU: {interval:f1}%";
             interval = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, interval / 5.0f));
             _ = interval;
