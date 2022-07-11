@@ -23,6 +23,8 @@
 
 **Access to the "Releases" page and download the RunCat.exe.**
 
+- Or install via [Scoop](https://github.com/ScoopInstaller/Scoop):
+`scoop install runcat`
 # Contributors
 
 <a href="https://github.com/Kyome22/RunCat_for_windows/graphs/contributors">
