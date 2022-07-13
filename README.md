@@ -23,8 +23,8 @@
 
 **Access to the "Releases" page and download the RunCat.exe.**
 
-- Or install via [Scoop](https://github.com/ScoopInstaller/Scoop):
-`scoop install runcat`
+- Or install via [Scoop](https://github.com/ScoopInstaller/Scoop) (x64 version):
+`scoop install runcat` 
 
 # Contributors
 
