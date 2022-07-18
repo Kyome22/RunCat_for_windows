@@ -179,6 +179,11 @@ namespace RunCat
                 startupMenu,
                 runnerSpeedLimit,
                 cpuTimerIntervalMenu,
+                new ToolStripSeparator(),
+                new ToolStripMenuItem($"{Application.ProductName} v{Application.ProductVersion}")
+                {
+                    Enabled = false
+                },
                 new ToolStripMenuItem("Exit", null, Exit)
             });
 
