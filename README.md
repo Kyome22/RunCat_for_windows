@@ -11,7 +11,7 @@
 
 # Tags
 
-`C#` `.NET Core 3.1` `Visual Studio` `RunCat`
+`C#` `.NET 6.0` `Visual Studio` `RunCat`
 
 # Demo
 
@@ -22,6 +22,9 @@
 # Installation
 
 **Access to the "Releases" page and download the RunCat.exe.**
+
+- Or install via [Scoop](https://github.com/ScoopInstaller/Scoop) (x64 version):
+`scoop install runcat` 
 
 # Contributors
 
