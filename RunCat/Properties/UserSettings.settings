@@ -11,5 +11,11 @@
     <Setting Name="Speed" Type="System.String" Scope="User">
       <Value Profile="(Default)">default</Value>
     </Setting>
+    <Setting Name="ShowMonitor" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="MonitorPosition" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">1000, 800</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
