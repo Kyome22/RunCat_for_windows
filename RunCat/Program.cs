@@ -50,7 +50,6 @@ namespace RunCat
         private const int CPU_TIMER_DEFAULT_INTERVAL = 3000;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
         private PerformanceCounter cpuUsage;
-        private PerformanceCounter ramUsage;
         private ToolStripMenuItem runnerMenu;
         private ToolStripMenuItem themeMenu;
         private ToolStripMenuItem startupMenu;
@@ -60,14 +59,11 @@ namespace RunCat
         private string runner = "";
         private int current = 0;
         private float minCPU;
-        private double physicalMemory;
         private float interval;
-        private double ramInterval;
         private string systemTheme = "";
         private string manualTheme = UserSettings.Default.Theme;
         private string speed = UserSettings.Default.Speed;
         private bool showMonitor = UserSettings.Default.ShowMonitor;
-        private Point position = UserSettings.Default.MonitorPosition;
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
@@ -79,21 +75,17 @@ namespace RunCat
             runner = UserSettings.Default.Runner;
             manualTheme = UserSettings.Default.Theme;
             showMonitor = UserSettings.Default.ShowMonitor;
-            position = UserSettings.Default.MonitorPosition;
-            monitor.Location = position;
+            monitor.Show();
             if (showMonitor)
-                monitor.Show();
+                monitor.Visible = true;
+            else
+                monitor.Visible = false;
 
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
             cpuUsage = new PerformanceCounter("Processor Information", "% Processor Utility", "_Total");
             _ = cpuUsage.NextValue(); // discards first return value
-            ramUsage = new PerformanceCounter("Memory", "Available MBytes");
-            _= ramUsage.NextValue(); // discards first return value
-            var gcMemoryInfo = GC.GetGCMemoryInfo();
-            var installedMemory = gcMemoryInfo.TotalAvailableMemoryBytes;
-            physicalMemory = (double)installedMemory / 1024.0 / 1024.0 / 1024.0;
             runnerMenu = new ToolStripMenuItem("Runner", null, new ToolStripMenuItem[]
             {
                 new ToolStripMenuItem("Cat", null, SetRunner)
@@ -158,7 +150,7 @@ namespace RunCat
             showMonitorMenu = new ToolStripMenuItem("Show Monitor", null, ToggleMonitor);
             if (IsMonitorEnabled())
             {
-                startupMenu.Checked = true;
+                showMonitorMenu.Checked = true;
             }
 
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
@@ -354,10 +346,11 @@ namespace RunCat
         private void ToggleMonitor(object sender,EventArgs e)
         {
             showMonitor = !showMonitor;
+            showMonitorMenu.Checked = showMonitor;
             if (showMonitor) 
-                monitor.Show();
+                monitor.Visible=true;
             else
-                monitor.Close();
+                monitor.Visible=false;
                 
         }
         private void Exit(object sender, EventArgs e)
@@ -402,9 +395,7 @@ namespace RunCat
         private void CPUTick()
         {
             interval = Math.Min(100, cpuUsage.NextValue()); // Sometimes got over 100% so it should be limited to 100%
-            ramInterval = ramUsage.NextValue()/1024.0; 
-            Console.WriteLine(ramUsage.NextValue());
-            notifyIcon.Text = $"CPU: {interval:f1}% \nMem: {(physicalMemory-ramInterval) / physicalMemory*100:f1}%";
+            notifyIcon.Text = $"CPU: {interval:f1}%";
             interval = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, interval / 5.0f));
             _ = interval;
             CPUTickSpeed();
