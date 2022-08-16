@@ -84,10 +84,10 @@
             this.Name = "InfoForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "Form1";
+            this.Text = "Run Cat Monitor";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.SystemColors.Control;
-            this.Activated +=new System.EventHandler(InfoForm_Activated);
+            this.Activated += new System.EventHandler(this.InfoForm_Activated);
             this.container.ResumeLayout(false);
             this.ResumeLayout(false);
 
