@@ -93,6 +93,10 @@ namespace RunCat
                 new ToolStripMenuItem("Horse", null, SetRunner)
                 {
                     Checked = runner.Equals("horse")
+                },
+                new ToolStripMenuItem("Zhiyin", null, SetRunner)
+                {
+                    Checked = runner.Equals("zhiyin")
                 }
             });
 
@@ -220,6 +224,10 @@ namespace RunCat
             else if (runner.Equals("horse")) 
             {
                 capacity = 14;
+            }
+            else if (runner.Equals("zhiyin"))
+            {
+                capacity = 20;
             }
             List<Icon> list = new List<Icon>(capacity);
             for (int i = 0; i < capacity; i++)

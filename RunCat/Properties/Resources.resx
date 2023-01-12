@@ -292,4 +292,130 @@
   <data name="light_horse_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\horse\light_horse_13.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="dark_zhiyin_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_10.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_11.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_12.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_13.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_14.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_15.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_16.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_17" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_17.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_18" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_18.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_19" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_19.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_20.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_7.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_8.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dark_zhiyin_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\dark_zhiyin_9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_10.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_11.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_12.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_13.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_14.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_15.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_16.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_17" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_17.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_18" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_18.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_19" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_19.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_20.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_7.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_8.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="light_zhiyin_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\zhiyin\light_zhiyin_9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
