@@ -221,7 +221,7 @@ namespace RunCat
 
         private void SetRunner(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            var item = sender as ToolStripMenuItem;
             UpdateCheckedState(item, runnerMenu);
             runner = item.Text.ToLower();
             SetIcons();
@@ -229,8 +229,8 @@ namespace RunCat
 
         private void SetThemeIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
-            manualTheme = "";
+            UpdateCheckedState(sender as ToolStripMenuItem, themeMenu);
+            manualTheme = string.Empty;
             systemTheme = GetAppsUseTheme();
             SetIcons();
         }
@@ -251,7 +251,7 @@ namespace RunCat
 
         private void SetSpeedLimit(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            var item = sender as ToolStripMenuItem;
             UpdateCheckedState(item, runnerSpeedLimit);
             speed = item.Text.ToLower();
             SetSpeed();
@@ -272,14 +272,14 @@ namespace RunCat
 
         private void SetLightIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
+            UpdateCheckedState(sender as ToolStripMenuItem, themeMenu);
             manualTheme = "light";
             SetIcons();
         }
 
         private void SetDarkIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
+            UpdateCheckedState(sender as ToolStripMenuItem, themeMenu);
             manualTheme = "dark";
             SetIcons();
         }
