@@ -39,9 +39,15 @@ namespace RunCat
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.Run(new RunCatApplicationContext());
 
-            procMutex.ReleaseMutex();
+            try
+            {
+                Application.Run(new RunCatApplicationContext());
+            }
+            finally
+            {
+                procMutex?.ReleaseMutex();
+            }
         }
     }
 
