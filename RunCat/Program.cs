@@ -61,11 +61,11 @@ namespace RunCat
         private ToolStripMenuItem startupMenu;
         private ToolStripMenuItem runnerSpeedLimit;
         private NotifyIcon notifyIcon;
-        private string runner = "";
+        private string runner = UserSettings.Default.Runner;
         private int current = 0;
         private float minCPU;
         private float interval;
-        private string systemTheme = "";
+        private string systemTheme = string.Empty;
         private string manualTheme = UserSettings.Default.Theme;
         private string speed = UserSettings.Default.Speed;
         private Icon[] icons;
@@ -76,8 +76,6 @@ namespace RunCat
         public RunCatApplicationContext()
         {
             UserSettings.Default.Reload();
-            runner = UserSettings.Default.Runner;
-            manualTheme = UserSettings.Default.Theme;
 
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
