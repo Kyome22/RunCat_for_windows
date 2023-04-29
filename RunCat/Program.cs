@@ -237,16 +237,14 @@ namespace RunCat
 
         private void SetSpeed()
         {
-            if (speed.Equals("default"))
-                return;
-            else if (speed.Equals("cpu 10%"))
-                minCPU = 100f;
-            else if (speed.Equals("cpu 20%"))
-                minCPU = 50f;
-            else if (speed.Equals("cpu 30%"))
-                minCPU = 33f;    
-            else if (speed.Equals("cpu 40%"))
-                minCPU = 25f;   
+            minCPU = speed switch
+            {
+                "cpu 10%" => 100f,
+                "cpu 20%" => 50f,
+                "cpu 30%" => 33f,
+                "cpu 40%" => 25f,
+                _ => minCPU
+            };
         }
 
         private void SetSpeedLimit(object sender, EventArgs e)
