@@ -300,7 +300,6 @@ namespace RunCat
                 {
                     rKey.DeleteValue(Application.ProductName, false);
                 }
-                rKey.Close();
             }
         }
 
