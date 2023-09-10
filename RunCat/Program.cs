@@ -59,7 +59,7 @@ namespace RunCat
         private Icon[] icons;
 
         private string runner = "";
-        private int current = 0;
+        private int currentFrame = 0;
         private float minCPU;
         private float interval;
         private string systemTheme = "";
@@ -174,7 +174,7 @@ namespace RunCat
             SetSpeed();
             StartObserveCPU();
 
-            current = 1;
+            currentFrame = 1;
         }
 
         private void OnApplicationExit(object sender, EventArgs e)
@@ -340,9 +340,9 @@ namespace RunCat
 
         private void AnimationTick(object sender, EventArgs e)
         {
-            if (icons.Length <= current) current = 0;
-            notifyIcon.Icon = icons[current];
-            current = (current + 1) % icons.Length;
+            if (icons.Length <= currentFrame) currentFrame = 0;
+            notifyIcon.Icon = icons[currentFrame];
+            currentFrame = (currentFrame + 1) % icons.Length;
         }
 
         private void SetAnimation()
