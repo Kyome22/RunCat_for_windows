@@ -49,12 +49,15 @@ namespace RunCat
     {
         private const int CPU_TIMER_DEFAULT_INTERVAL = 3000;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
+
         private readonly PerformanceCounter cpuUsage;
         private readonly ToolStripMenuItem runnerMenu;
         private readonly ToolStripMenuItem themeMenu;
         private readonly ToolStripMenuItem startupMenu;
         private readonly ToolStripMenuItem runnerSpeedLimit;
         private readonly NotifyIcon notifyIcon;
+        private Icon[] icons;
+
         private string runner = "";
         private int current = 0;
         private float minCPU;
@@ -62,7 +65,7 @@ namespace RunCat
         private string systemTheme = "";
         private string manualTheme = UserSettings.Default.Theme;
         private string speed = UserSettings.Default.Speed;
-        private Icon[] icons;
+
         private readonly Timer animateTimer = new Timer();
         private readonly Timer cpuTimer = new Timer();
 
