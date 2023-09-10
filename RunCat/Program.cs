@@ -190,7 +190,7 @@ namespace RunCat
             string keyName = @"Software\Microsoft\Windows\CurrentVersion\Run";
             using (RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName))
             {
-                return (rKey.GetValue(Application.ProductName) != null) ? true : false;
+                return rKey.GetValue(Application.ProductName) != null;
             }
         }
 
