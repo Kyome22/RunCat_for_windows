@@ -12,15 +12,15 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-using RunCat.Properties;
 using Microsoft.Win32;
+using RunCat.Properties;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Resources;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Resources;
+using System.Windows.Forms;
 
 namespace RunCat
 {
@@ -65,7 +65,6 @@ namespace RunCat
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
-
 
         public RunCatApplicationContext()
         {
@@ -174,6 +173,7 @@ namespace RunCat
 
             current = 1;
         }
+
         private void OnApplicationExit(object sender, EventArgs e)
         {
             UserSettings.Default.Runner = runner;
@@ -216,8 +216,8 @@ namespace RunCat
             if (runner.Equals("parrot"))
             {
                 capacity = 10;
-            } 
-            else if (runner.Equals("horse")) 
+            }
+            else if (runner.Equals("horse"))
             {
                 capacity = 14;
             }
@@ -263,9 +263,9 @@ namespace RunCat
             else if (speed.Equals("cpu 20%"))
                 minCPU = 50f;
             else if (speed.Equals("cpu 30%"))
-                minCPU = 33f;    
+                minCPU = 33f;
             else if (speed.Equals("cpu 40%"))
-                minCPU = 25f;   
+                minCPU = 25f;
         }
 
         private void SetSpeedLimit(object sender, EventArgs e)
@@ -302,6 +302,7 @@ namespace RunCat
             manualTheme = "dark";
             SetIcons();
         }
+
         private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             if (e.Category == UserPreferenceCategory.General) UpdateThemeIcons();
@@ -350,7 +351,7 @@ namespace RunCat
         private void CPUTickSpeed()
         {
             if (!speed.Equals("default"))
-            {            
+            {
                 float manualInterval = (float)Math.Max(minCPU, interval);
                 animateTimer.Stop();
                 animateTimer.Interval = (int)manualInterval;
@@ -383,7 +384,7 @@ namespace RunCat
             cpuTimer.Tick += new EventHandler(ObserveCPUTick);
             cpuTimer.Start();
         }
-        
+
         private void HandleDoubleClick(object Sender, EventArgs e)
         {
             var startInfo = new ProcessStartInfo
@@ -395,6 +396,5 @@ namespace RunCat
             };
             Process.Start(startInfo);
         }
-
     }
 }
