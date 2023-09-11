@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Resources;
 using System.Windows.Forms;
 
@@ -390,13 +391,12 @@ namespace RunCat
 
         private void HandleDoubleClick(object Sender, EventArgs e)
         {
-            var startInfo = new ProcessStartInfo
+            ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = "powershell",
-                UseShellExecute = false,
-                Arguments = " -c Start-Process taskmgr.exe",
-                CreateNoWindow = true,
+                UseShellExecute = true,
+                FileName = Path.Combine(Environment.SystemDirectory, "taskmgr.exe"),
             };
+
             Process.Start(startInfo);
         }
     }
