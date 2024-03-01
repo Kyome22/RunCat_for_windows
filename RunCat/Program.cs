@@ -12,15 +12,16 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-using RunCat.Properties;
 using Microsoft.Win32;
+using RunCat.Properties;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Resources;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Resources;
+using System.Windows.Forms;
 
 namespace RunCat
 {
@@ -49,23 +50,25 @@ namespace RunCat
     {
         private const int CPU_TIMER_DEFAULT_INTERVAL = 3000;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
-        private PerformanceCounter cpuUsage;
-        private ToolStripMenuItem runnerMenu;
-        private ToolStripMenuItem themeMenu;
-        private ToolStripMenuItem startupMenu;
-        private ToolStripMenuItem runnerSpeedLimit;
-        private NotifyIcon notifyIcon;
+
+        private readonly PerformanceCounter cpuUsage;
+        private readonly ToolStripMenuItem runnerMenu;
+        private readonly ToolStripMenuItem themeMenu;
+        private readonly ToolStripMenuItem startupMenu;
+        private readonly ToolStripMenuItem runnerSpeedLimit;
+        private readonly NotifyIcon notifyIcon;
+        private Icon[] icons;
+
         private string runner = "";
-        private int current = 0;
+        private int currentFrame = 0;
         private float minCPU;
         private float interval;
         private string systemTheme = "";
         private string manualTheme = UserSettings.Default.Theme;
         private string speed = UserSettings.Default.Speed;
-        private Icon[] icons;
-        private Timer animateTimer = new Timer();
-        private Timer cpuTimer = new Timer();
 
+        private readonly Timer animateTimer = new Timer();
+        private readonly Timer cpuTimer = new Timer();
 
         public RunCatApplicationContext()
         {
@@ -172,8 +175,9 @@ namespace RunCat
             SetSpeed();
             StartObserveCPU();
 
-            current = 1;
+            currentFrame = 1;
         }
+
         private void OnApplicationExit(object sender, EventArgs e)
         {
             UserSettings.Default.Runner = runner;
@@ -187,7 +191,7 @@ namespace RunCat
             string keyName = @"Software\Microsoft\Windows\CurrentVersion\Run";
             using (RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName))
             {
-                return (rKey.GetValue(Application.ProductName) != null) ? true : false;
+                return rKey.GetValue(Application.ProductName) != null;
             }
         }
 
@@ -216,8 +220,8 @@ namespace RunCat
             if (runner.Equals("parrot"))
             {
                 capacity = 10;
-            } 
-            else if (runner.Equals("horse")) 
+            }
+            else if (runner.Equals("horse"))
             {
                 capacity = 14;
             }
@@ -263,9 +267,9 @@ namespace RunCat
             else if (speed.Equals("cpu 20%"))
                 minCPU = 50f;
             else if (speed.Equals("cpu 30%"))
-                minCPU = 33f;    
+                minCPU = 33f;
             else if (speed.Equals("cpu 40%"))
-                minCPU = 25f;   
+                minCPU = 25f;
         }
 
         private void SetSpeedLimit(object sender, EventArgs e)
@@ -302,6 +306,7 @@ namespace RunCat
             manualTheme = "dark";
             SetIcons();
         }
+
         private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             if (e.Category == UserPreferenceCategory.General) UpdateThemeIcons();
@@ -315,7 +320,7 @@ namespace RunCat
             {
                 if (startupMenu.Checked)
                 {
-                    rKey.SetValue(Application.ProductName, Process.GetCurrentProcess().MainModule.FileName);
+                    rKey.SetValue(Application.ProductName, Environment.ProcessPath);
                 }
                 else
                 {
@@ -336,9 +341,9 @@ namespace RunCat
 
         private void AnimationTick(object sender, EventArgs e)
         {
-            if (icons.Length <= current) current = 0;
-            notifyIcon.Icon = icons[current];
-            current = (current + 1) % icons.Length;
+            if (icons.Length <= currentFrame) currentFrame = 0;
+            notifyIcon.Icon = icons[currentFrame];
+            currentFrame = (currentFrame + 1) % icons.Length;
         }
 
         private void SetAnimation()
@@ -350,7 +355,7 @@ namespace RunCat
         private void CPUTickSpeed()
         {
             if (!speed.Equals("default"))
-            {            
+            {
                 float manualInterval = (float)Math.Max(minCPU, interval);
                 animateTimer.Stop();
                 animateTimer.Interval = (int)manualInterval;
@@ -383,18 +388,16 @@ namespace RunCat
             cpuTimer.Tick += new EventHandler(ObserveCPUTick);
             cpuTimer.Start();
         }
-        
+
         private void HandleDoubleClick(object Sender, EventArgs e)
         {
-            var startInfo = new ProcessStartInfo
+            ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = "powershell",
-                UseShellExecute = false,
-                Arguments = " -c Start-Process taskmgr.exe",
-                CreateNoWindow = true,
+                UseShellExecute = true,
+                FileName = Path.Combine(Environment.SystemDirectory, "taskmgr.exe"),
             };
+
             Process.Start(startInfo);
         }
-
     }
 }
