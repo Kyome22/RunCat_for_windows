@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Resources;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace RunCat
 {
@@ -47,15 +48,16 @@ namespace RunCat
 
     public class RunCatApplicationContext : ApplicationContext
     {
-        private const int CPU_TIMER_DEFAULT_INTERVAL = 3000;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
         private PerformanceCounter cpuUsage;
         private ToolStripMenuItem runnerMenu;
         private ToolStripMenuItem themeMenu;
         private ToolStripMenuItem startupMenu;
         private ToolStripMenuItem runnerSpeedLimit;
+        private ToolStripMenuItem cpuTimerIntervalMenu;
         private NotifyIcon notifyIcon;
         private string runner = "";
+        private int cpuTimerInterval = UserSettings.Default.CpuTimerInterval;
         private int current = 0;
         private float minCPU;
         private float interval;
@@ -63,7 +65,6 @@ namespace RunCat
         private string manualTheme = UserSettings.Default.Theme;
         private string speed = UserSettings.Default.Speed;
         private Icon[] icons;
-        private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
 
 
@@ -142,6 +143,35 @@ namespace RunCat
                 }
             });
 
+            cpuTimerIntervalMenu = new ToolStripMenuItem("CPU Update Interval", null, new ToolStripMenuItem[]
+            {
+                new ToolStripMenuItem("3 Seconds", null, SetCpuTimerInterval)
+                {
+                    Checked = cpuTimerInterval.Equals(3000),
+                    Tag = 3000
+                },
+                new ToolStripMenuItem("1 Second", null, SetCpuTimerInterval)
+                {
+                    Checked = cpuTimerInterval.Equals(1000),
+                    Tag = 1000
+                },
+                new ToolStripMenuItem("0.5 Second", null, SetCpuTimerInterval)
+                {
+                    Checked = cpuTimerInterval.Equals(500),
+                    Tag = 500
+                },
+                new ToolStripMenuItem("0.25 Second", null, SetCpuTimerInterval)
+                {
+                    Checked = cpuTimerInterval.Equals(250),
+                    Tag = 250
+                },
+                new ToolStripMenuItem("0.05 Second", null, SetCpuTimerInterval)
+                {
+                    Checked = cpuTimerInterval.Equals(50),
+                    Tag = 50
+                },
+            });
+
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
             contextMenuStrip.Items.AddRange(new ToolStripItem[]
             {
@@ -149,6 +179,7 @@ namespace RunCat
                 themeMenu,
                 startupMenu,
                 runnerSpeedLimit,
+                cpuTimerIntervalMenu,
                 new ToolStripSeparator(),
                 new ToolStripMenuItem($"{Application.ProductName} v{Application.ProductVersion}")
                 {
@@ -168,9 +199,10 @@ namespace RunCat
             notifyIcon.DoubleClick += new EventHandler(HandleDoubleClick);
 
             UpdateThemeIcons();
-            SetAnimation();
             SetSpeed();
+            RefreshCpuTimerInterval();
             StartObserveCPU();
+            AnimationTick();
 
             current = 1;
         }
@@ -179,6 +211,7 @@ namespace RunCat
             UserSettings.Default.Runner = runner;
             UserSettings.Default.Theme = manualTheme;
             UserSettings.Default.Speed = speed;
+            UserSettings.Default.CpuTimerInterval = cpuTimerInterval;
             UserSettings.Default.Save();
         }
 
@@ -236,6 +269,14 @@ namespace RunCat
                 item.Checked = false;
             }
             sender.Checked = true;
+        }
+
+        private void SetCpuTimerInterval(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            UpdateCheckedState(item, cpuTimerIntervalMenu);
+            cpuTimerInterval = (int)item.Tag;
+            RefreshCpuTimerInterval();
         }
 
         private void SetRunner(object sender, EventArgs e)
@@ -328,58 +369,41 @@ namespace RunCat
         private void Exit(object sender, EventArgs e)
         {
             cpuUsage.Close();
-            animateTimer.Stop();
             cpuTimer.Stop();
             notifyIcon.Visible = false;
             Application.Exit();
         }
 
-        private void AnimationTick(object sender, EventArgs e)
+        private async void AnimationTick()
         {
             if (icons.Length <= current) current = 0;
             notifyIcon.Icon = icons[current];
             current = (current + 1) % icons.Length;
-        }
-
-        private void SetAnimation()
-        {
-            animateTimer.Interval = ANIMATE_TIMER_DEFAULT_INTERVAL;
-            animateTimer.Tick += new EventHandler(AnimationTick);
-        }
-
-        private void CPUTickSpeed()
-        {
-            if (!speed.Equals("default"))
-            {            
-                float manualInterval = (float)Math.Max(minCPU, interval);
-                animateTimer.Stop();
-                animateTimer.Interval = (int)manualInterval;
-                animateTimer.Start();
-            }
-            else
-            {
-                animateTimer.Stop();
-                animateTimer.Interval = (int)interval;
-                animateTimer.Start();
-            }
+            await Task.Delay((int) interval);
+            _ = Task.Run(() => AnimationTick()); // Prevents stack overflow by recursive function call
         }
 
         private void CPUTick()
         {
-            interval = Math.Min(100, cpuUsage.NextValue()); // Sometimes got over 100% so it should be limited to 100%
-            notifyIcon.Text = $"CPU: {interval:f1}%";
-            interval = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, interval / 5.0f));
-            _ = interval;
-            CPUTickSpeed();
+            var rawInterval = cpuUsage.NextValue();
+            notifyIcon.Text = $"CPU: {rawInterval:f1}%";
+            rawInterval = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, rawInterval / 5.0f));
+
+            // Apply interval later to prevent using the raw CPU usage value before processing.
+            if (!speed.Equals("default"))
+                interval = Math.Max(minCPU, rawInterval);
+            else
+                interval = rawInterval;
         }
         private void ObserveCPUTick(object sender, EventArgs e)
         {
             CPUTick();
         }
 
+        private void RefreshCpuTimerInterval() => cpuTimer.Interval = cpuTimerInterval;
+
         private void StartObserveCPU()
         {
-            cpuTimer.Interval = CPU_TIMER_DEFAULT_INTERVAL;
             cpuTimer.Tick += new EventHandler(ObserveCPUTick);
             cpuTimer.Start();
         }
