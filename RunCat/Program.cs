@@ -39,9 +39,15 @@ namespace RunCat
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.Run(new RunCatApplicationContext());
 
-            procMutex.ReleaseMutex();
+            try
+            {
+                Application.Run(new RunCatApplicationContext());
+            }
+            finally
+            {
+                procMutex?.ReleaseMutex();
+            }
         }
     }
 
@@ -55,11 +61,11 @@ namespace RunCat
         private ToolStripMenuItem startupMenu;
         private ToolStripMenuItem runnerSpeedLimit;
         private NotifyIcon notifyIcon;
-        private string runner = "";
+        private string runner = UserSettings.Default.Runner;
         private int current = 0;
         private float minCPU;
         private float interval;
-        private string systemTheme = "";
+        private string systemTheme = string.Empty;
         private string manualTheme = UserSettings.Default.Theme;
         private string speed = UserSettings.Default.Speed;
         private Icon[] icons;
@@ -70,46 +76,33 @@ namespace RunCat
         public RunCatApplicationContext()
         {
             UserSettings.Default.Reload();
-            runner = UserSettings.Default.Runner;
-            manualTheme = UserSettings.Default.Theme;
 
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
-
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
 
             cpuUsage = new PerformanceCounter("Processor Information", "% Processor Utility", "_Total");
             _ = cpuUsage.NextValue(); // discards first return value
 
-            runnerMenu = new ToolStripMenuItem("Runner", null, new ToolStripMenuItem[]
+            var getRunnerItem = (string s1, string s2) =>
             {
-                new ToolStripMenuItem("Cat", null, SetRunner)
-                {
-                    Checked = runner.Equals("cat")
-                },
-                new ToolStripMenuItem("Parrot", null, SetRunner)
-                {
-                    Checked = runner.Equals("parrot")
-                },
-                new ToolStripMenuItem("Horse", null, SetRunner)
-                {
-                    Checked = runner.Equals("horse")
-                }
+                return new ToolStripMenuItem(s1, null, SetRunner) { Checked = runner.Equals(s2) };
+            };
+            runnerMenu = new("Runner", null, new[]
+            {
+                getRunnerItem("Car", "cat"),
+                getRunnerItem("Parrot", "parrot"),
+                getRunnerItem("Horse", "horse"),
             });
 
-            themeMenu = new ToolStripMenuItem("Theme", null, new ToolStripMenuItem[]
+            var getThemeItem = (string s1, string s2) =>
             {
-                new ToolStripMenuItem("Default", null, SetThemeIcons)
-                {
-                    Checked = manualTheme.Equals("")
-                },
-                new ToolStripMenuItem("Light", null, SetLightIcons)
-                {
-                    Checked = manualTheme.Equals("light")
-                },
-                new ToolStripMenuItem("Dark", null, SetDarkIcons)
-                {
-                    Checked = manualTheme.Equals("dark")
-                }
+                return new ToolStripMenuItem(s1, null, SetThemeIcons) { Checked = manualTheme.Equals(s2) };
+            };
+            themeMenu = new("Theme", null, new[]
+            {
+                getThemeItem("Default", string.Empty),
+                getThemeItem("Light", "light"),
+                getThemeItem("Dark", "dark"),
             });
 
             startupMenu = new ToolStripMenuItem("Startup", null, SetStartup);
@@ -118,31 +111,20 @@ namespace RunCat
                 startupMenu.Checked = true;
             }
 
-            runnerSpeedLimit = new ToolStripMenuItem("Runner Speed Limit", null, new ToolStripMenuItem[]
+            var getSpeedItem = (string s1, string s2) =>
             {
-                new ToolStripMenuItem("Default", null, SetSpeedLimit)
-                {
-                    Checked = speed.Equals("default")
-                },
-                new ToolStripMenuItem("CPU 10%", null, SetSpeedLimit)
-                {
-                    Checked = speed.Equals("cpu 10%")
-                },
-                new ToolStripMenuItem("CPU 20%", null, SetSpeedLimit)
-                {
-                    Checked = speed.Equals("cpu 20%")
-                },
-                new ToolStripMenuItem("CPU 30%", null, SetSpeedLimit)
-                {
-                    Checked = speed.Equals("cpu 30%")
-                },
-                new ToolStripMenuItem("CPU 40%", null, SetSpeedLimit)
-                {
-                    Checked = speed.Equals("cpu 40%")
-                }
+                return new ToolStripMenuItem(s1, null, SetSpeedLimit) { Checked = speed.Equals(s2) };
+            };
+            runnerSpeedLimit = new("Runner Speed Limit", null, new[]
+            {
+                getSpeedItem("Default", "default"),
+                getSpeedItem("CPU 10%", "cpu 10%"),
+                getSpeedItem("CPU 10%", "cpu 20%"),
+                getSpeedItem("CPU 10%", "cpu 30%"),
+                getSpeedItem("CPU 10%", "cpu 40%"),
             });
 
-            ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
+            ContextMenuStrip contextMenuStrip = new(new Container());
             contextMenuStrip.Items.AddRange(new ToolStripItem[]
             {
                 runnerMenu,
@@ -164,7 +146,6 @@ namespace RunCat
                 Text = "0.0%",
                 Visible = true
             };
-
             notifyIcon.DoubleClick += new EventHandler(HandleDoubleClick);
 
             UpdateThemeIcons();
@@ -187,7 +168,7 @@ namespace RunCat
             string keyName = @"Software\Microsoft\Windows\CurrentVersion\Run";
             using (RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName))
             {
-                return (rKey.GetValue(Application.ProductName) != null) ? true : false;
+                return rKey.GetValue(Application.ProductName) != null;
             }
         }
 
@@ -240,7 +221,7 @@ namespace RunCat
 
         private void SetRunner(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            var item = sender as ToolStripMenuItem;
             UpdateCheckedState(item, runnerMenu);
             runner = item.Text.ToLower();
             SetIcons();
@@ -248,29 +229,27 @@ namespace RunCat
 
         private void SetThemeIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
-            manualTheme = "";
+            UpdateCheckedState(sender as ToolStripMenuItem, themeMenu);
+            manualTheme = string.Empty;
             systemTheme = GetAppsUseTheme();
             SetIcons();
         }
 
         private void SetSpeed()
         {
-            if (speed.Equals("default"))
-                return;
-            else if (speed.Equals("cpu 10%"))
-                minCPU = 100f;
-            else if (speed.Equals("cpu 20%"))
-                minCPU = 50f;
-            else if (speed.Equals("cpu 30%"))
-                minCPU = 33f;    
-            else if (speed.Equals("cpu 40%"))
-                minCPU = 25f;   
+            minCPU = speed switch
+            {
+                "cpu 10%" => 100f,
+                "cpu 20%" => 50f,
+                "cpu 30%" => 33f,
+                "cpu 40%" => 25f,
+                _ => minCPU
+            };
         }
 
         private void SetSpeedLimit(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            var item = sender as ToolStripMenuItem;
             UpdateCheckedState(item, runnerSpeedLimit);
             speed = item.Text.ToLower();
             SetSpeed();
@@ -291,14 +270,14 @@ namespace RunCat
 
         private void SetLightIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
+            UpdateCheckedState(sender as ToolStripMenuItem, themeMenu);
             manualTheme = "light";
             SetIcons();
         }
 
         private void SetDarkIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
+            UpdateCheckedState(sender as ToolStripMenuItem, themeMenu);
             manualTheme = "dark";
             SetIcons();
         }
@@ -321,7 +300,6 @@ namespace RunCat
                 {
                     rKey.DeleteValue(Application.ProductName, false);
                 }
-                rKey.Close();
             }
         }
 
@@ -351,7 +329,7 @@ namespace RunCat
         {
             if (!speed.Equals("default"))
             {            
-                float manualInterval = (float)Math.Max(minCPU, interval);
+                float manualInterval = Math.Max(minCPU, interval);
                 animateTimer.Stop();
                 animateTimer.Interval = (int)manualInterval;
                 animateTimer.Start();
