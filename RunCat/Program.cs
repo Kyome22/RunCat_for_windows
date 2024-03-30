@@ -51,6 +51,7 @@ namespace RunCat
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
         private PerformanceCounter cpuUsage;
         private ToolStripMenuItem runnerMenu;
+        private ToolStripMenuItem flipMenu;
         private ToolStripMenuItem themeMenu;
         private ToolStripMenuItem startupMenu;
         private ToolStripMenuItem runnerSpeedLimit;
@@ -95,6 +96,8 @@ namespace RunCat
                     Checked = runner.Equals("horse")
                 }
             });
+
+            flipMenu = new ToolStripMenuItem("Flip Horizontally", null, SetFlip);
 
             themeMenu = new ToolStripMenuItem("Theme", null, new ToolStripMenuItem[]
             {
@@ -146,6 +149,7 @@ namespace RunCat
             contextMenuStrip.Items.AddRange(new ToolStripItem[]
             {
                 runnerMenu,
+                flipMenu,
                 themeMenu,
                 startupMenu,
                 runnerSpeedLimit,
@@ -224,7 +228,12 @@ namespace RunCat
             List<Icon> list = new List<Icon>(capacity);
             for (int i = 0; i < capacity; i++)
             {
-                list.Add((Icon)rm.GetObject($"{prefix}_{runner}_{i}"));
+                Bitmap bm = ((Icon)rm.GetObject($"{prefix}_{runner}_{i}")).ToBitmap();
+                if (flipMenu.Checked)
+                {
+                    bm.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                }
+                list.Add(Icon.FromHandle(bm.GetHicon()));
             }
             icons = list.ToArray();
         }
@@ -305,6 +314,12 @@ namespace RunCat
         private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             if (e.Category == UserPreferenceCategory.General) UpdateThemeIcons();
+        }
+
+        private void SetFlip(object sender, EventArgs e)
+        {
+            flipMenu.Checked = !flipMenu.Checked;
+            SetIcons();
         }
 
         private void SetStartup(object sender, EventArgs e)
