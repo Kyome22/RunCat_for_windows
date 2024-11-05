@@ -38,7 +38,6 @@ namespace RunCat
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.Run(new RunCatApplicationContext());
 
             procMutex.ReleaseMutex();
@@ -67,22 +66,27 @@ namespace RunCat
         private Timer cpuTimer = new Timer();
 
 
+        //Language Model
+        private string Language="English";
+        private string CatName="cat";
+        private ToolStripMenuItem languageMenu;
+        private ToolStripMenuItem exitMenu;
         public RunCatApplicationContext()
         {
             UserSettings.Default.Reload();
             runner = UserSettings.Default.Runner;
             manualTheme = UserSettings.Default.Theme;
-
+            Language = UserSettings.Default.Language;
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
 
-            cpuUsage = new PerformanceCounter("Processor Information", "% Processor Utility", "_Total");
+            cpuUsage = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             _ = cpuUsage.NextValue(); // discards first return value
 
             runnerMenu = new ToolStripMenuItem("Runner", null, new ToolStripMenuItem[]
             {
-                new ToolStripMenuItem("Cat", null, SetRunner)
+                new ToolStripMenuItem("cat", null, SetRunner)
                 {
                     Checked = runner.Equals("cat")
                 },
@@ -141,7 +145,18 @@ namespace RunCat
                     Checked = speed.Equals("cpu 40%")
                 }
             });
-
+            languageMenu = new ToolStripMenuItem("Language", null, new ToolStripMenuItem[]
+            {
+                new ToolStripMenuItem("English", null,SetLangugae)
+                {
+                    Checked=Language.Equals("English")
+                },
+                new ToolStripMenuItem("简体中文", null,SetLangugae)
+                {
+                    Checked=Language.Equals("简体中文")
+                }
+            });
+            exitMenu = new ToolStripMenuItem("Exit", null, Exit);
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
             contextMenuStrip.Items.AddRange(new ToolStripItem[]
             {
@@ -149,12 +164,8 @@ namespace RunCat
                 themeMenu,
                 startupMenu,
                 runnerSpeedLimit,
-                new ToolStripSeparator(),
-                new ToolStripMenuItem($"{Application.ProductName} v{Application.ProductVersion}")
-                {
-                    Enabled = false
-                },
-                new ToolStripMenuItem("Exit", null, Exit)
+                languageMenu,
+                exitMenu  
             });
 
             notifyIcon = new NotifyIcon()
@@ -171,14 +182,60 @@ namespace RunCat
             SetAnimation();
             SetSpeed();
             StartObserveCPU();
-
+            changeLanugae();
             current = 1;
         }
+
+        private void SetLangugae(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            UpdateCheckedState(item, languageMenu);
+            Language=item.Text;
+            changeLanugae();
+           
+        }
+        private void changeLanugae()
+        {
+            if (Language.Equals("简体中文"))
+            {
+                runnerMenu.Text = "图标";
+                runnerMenu.DropDownItems[0].Text = "猫";
+                runnerMenu.DropDownItems[1].Text = "鹦鹉";
+                runnerMenu.DropDownItems[2].Text = "马";
+                themeMenu.Text = "主题";
+                themeMenu.DropDownItems[0].Text = "默认主题";
+                themeMenu.DropDownItems[1].Text = "黑色";
+                themeMenu.DropDownItems[2].Text = "白色";
+                startupMenu.Text = "开机自启动";
+                runnerSpeedLimit.Text = "速度限制";
+                runnerSpeedLimit.DropDownItems[0].Text = "默认速度";
+                exitMenu.Text = "退出程序";
+                languageMenu.Text = "语言";
+            }
+            if (Language.Equals("English"))
+            {
+                runnerMenu.Text = "Runner";
+                runnerMenu.DropDownItems[0].Text = "cat";
+                runnerMenu.DropDownItems[1].Text = "Parrot";
+                runnerMenu.DropDownItems[2].Text = "Horse";
+                themeMenu.Text = "Theme";
+                themeMenu.DropDownItems[0].Text = "Default";
+                themeMenu.DropDownItems[1].Text = "Light";
+                themeMenu.DropDownItems[2].Text = "Dark";
+                startupMenu.Text = "Starup";
+                runnerSpeedLimit.Text = "RunnerSpeedLimit";
+                runnerSpeedLimit.DropDownItems[0].Text = "Default";
+                exitMenu.Text = "Exit";
+                languageMenu.Text = "Language";
+            }
+        }
+
         private void OnApplicationExit(object sender, EventArgs e)
         {
             UserSettings.Default.Runner = runner;
             UserSettings.Default.Theme = manualTheme;
             UserSettings.Default.Speed = speed;
+            UserSettings.Default.Language=Language;
             UserSettings.Default.Save();
         }
 
@@ -366,7 +423,7 @@ namespace RunCat
 
         private void CPUTick()
         {
-            interval = Math.Min(100, cpuUsage.NextValue()); // Sometimes got over 100% so it should be limited to 100%
+            interval = cpuUsage.NextValue();
             notifyIcon.Text = $"CPU: {interval:f1}%";
             interval = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, interval / 5.0f));
             _ = interval;
