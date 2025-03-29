@@ -156,4 +156,10 @@
   <data name="Runcat_Language" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Culture" xml:space="preserve">
+    <value>en</value>
+  </data>
 </root>

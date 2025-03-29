@@ -61,6 +61,15 @@ namespace RunCat.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        internal static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         internal static string Runcat_Exit {
@@ -70,7 +79,7 @@ namespace RunCat.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Language.
+        ///   Looks up a localized string similar to Runcat_Language.
         /// </summary>
         internal static string Runcat_Language {
             get {

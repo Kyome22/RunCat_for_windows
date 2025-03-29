@@ -156,4 +156,10 @@
   <data name="Runcat_Language" xml:space="preserve">
     <value>语言</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="Culture" xml:space="preserve">
+    <value>zh-Hans</value>
+  </data>
 </root>

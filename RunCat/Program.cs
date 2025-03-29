@@ -64,7 +64,7 @@ namespace RunCat
         private string systemTheme = "";
         private string manualTheme = UserSettings.Default.Theme;
         private string speed = UserSettings.Default.Speed;
-        private string user_language = UserSettings.Default.Language;
+        private string userLanguage = UserSettings.Default.Language;
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
@@ -153,21 +153,23 @@ namespace RunCat
                 }
             });
 
-            languageMenu = new ToolStripMenuItem("Language", null, new ToolStripMenuItem[]
+            List<string> supportedLanguagesList = RunCatLanguageHelper.GetSupportedLanguages();
+            int supportedLanguagesCount = supportedLanguagesList.Count;
+            ToolStripMenuItem[] languageMenuContent = new ToolStripMenuItem[supportedLanguagesCount];
+
+            for (int i = 0; i < supportedLanguagesCount; i++)
             {
-                new ToolStripMenuItem("English", null, SetLanguage)
+                RunCatLanguageHelper.ChangeLanguage(supportedLanguagesList[i]);
+                string languageMenuText = RunCatLanguageHelper.GetString("Language");
+                string languageMenuName = RunCatLanguageHelper.GetString("Culture");
+                languageMenuContent[i] = new ToolStripMenuItem(languageMenuText, null, SetLanguage)
                 {
-                    Checked = user_language.Equals("English")
-                },
-                new ToolStripMenuItem("繁體中文", null, SetLanguage)
-                {
-                    Checked = user_language.Equals("繁體中文")
-                },
-                new ToolStripMenuItem("简体中文", null, SetLanguage)
-                {
-                    Checked = user_language.Equals("简体中文")
-                },
-            });
+                    Checked = userLanguage.Equals(languageMenuName),
+                    Name = languageMenuName
+                };
+            }
+
+            languageMenu = new ToolStripMenuItem("Language", null, languageMenuContent);
 
             exitMenu = new ToolStripMenuItem("Exit", null, Exit);
 
@@ -201,7 +203,7 @@ namespace RunCat
             SetAnimation();
             SetSpeed();
             StartObserveCPU();
-            LanguageHelperChangeLanguage(user_language);
+            LanguageHelperChangeLanguage(userLanguage);
 
             current = 1;
         }
@@ -210,7 +212,7 @@ namespace RunCat
             UserSettings.Default.Runner = runner;
             UserSettings.Default.Theme = manualTheme;
             UserSettings.Default.Speed = speed;
-            UserSettings.Default.Language = user_language;
+            UserSettings.Default.Language = userLanguage;
             UserSettings.Default.Save();
         }
 
@@ -312,31 +314,22 @@ namespace RunCat
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             UpdateCheckedState(item, languageMenu);
-            string language_label = item.Text;
-            LanguageHelperChangeLanguage(language_label);
+            string itemName = item.Name;
+            LanguageHelperChangeLanguage(itemName);
         }
 
-        private void LanguageHelperChangeLanguage(string language_label)
+        private void LanguageHelperChangeLanguage(string selected_language)
         {
-            if (language_label.Equals("English"))
+            if (RunCatLanguageHelper.IsInSupportedLanguages(selected_language))
             {
-                RunCatLanguageHelper.ChangeLanguage("en");
-                user_language = "English";
-            }
-            else if (language_label.Equals("繁體中文"))
-            {
-                RunCatLanguageHelper.ChangeLanguage("zh-Hant");
-                user_language = "繁體中文";
-            }
-            else if (language_label.Equals("简体中文"))
-            {
-                RunCatLanguageHelper.ChangeLanguage("zh-Hans");
-                user_language = "简体中文";
+                RunCatLanguageHelper.ChangeLanguage(selected_language);
+                userLanguage = selected_language;
             }
             else
             {
-                RunCatLanguageHelper.ChangeLanguage("en");
-                user_language = "English";
+                string defaultLanguage = "en";
+                RunCatLanguageHelper.ChangeLanguage(defaultLanguage);
+                userLanguage = defaultLanguage;
             }
 
             ApplyLanguageSetting();
@@ -357,7 +350,6 @@ namespace RunCat
             runnerSpeedLimit.DropDownItems[0].Text = RunCatLanguageHelper.GetString("Runcat_Runner_Speed_Limit_Default");
             languageMenu.Text = RunCatLanguageHelper.GetString("Runcat_Language");
             exitMenu.Text = RunCatLanguageHelper.GetString("Runcat_Exit");
-            
         }
 
         private void UpdateThemeIcons()
