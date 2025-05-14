@@ -292,4 +292,34 @@
   <data name="light_horse_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\horse\light_horse_13.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="party_parrot_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\party_parrot\party_parrot_0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_parrot_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\party_parrot\party_parrot_1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_parrot_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\party_parrot\party_parrot_2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_parrot_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\party_parrot\party_parrot_3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_parrot_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\party_parrot\party_parrot_4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_parrot_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\party_parrot\party_parrot_5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_parrot_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\party_parrot\party_parrot_6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_parrot_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\party_parrot\party_parrot_7.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_parrot_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\party_parrot\party_parrot_9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party_parrot_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\party_parrot\party_parrot_8.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
