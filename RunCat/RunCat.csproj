@@ -16,6 +16,7 @@
     <PublishSingleFile>true</PublishSingleFile>
     <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
     <Platforms>AnyCPU;x64;ARM64</Platforms>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

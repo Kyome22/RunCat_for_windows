@@ -3,13 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="Runner" Type="System.String" Scope="User">
-      <Value Profile="(Default)">cat</Value>
+      <Value Profile="(Default)">Cat</Value>
     </Setting>
     <Setting Name="Theme" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Speed" Type="System.String" Scope="User">
-      <Value Profile="(Default)">default</Value>
+    <Setting Name="FPSMaxLimit" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FPS40</Value>
     </Setting>
   </Settings>
 </SettingsFile>
