@@ -7,13 +7,13 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="7d7d7629-62f8-424b-8c17-c8a24b718479"
-    Publisher="CN=kyome22"
-    Version="1.0.0.0" />
+    Name="StudioKyome.RunCat"
+    Publisher="CN=B2C5F2BD-A1AB-42BE-A228-02E6F800BE2A"
+    Version="3.0.0.0" />
 
   <Properties>
-    <DisplayName>WapForStore</DisplayName>
-    <PublisherDisplayName>kyome22</PublisherDisplayName>
+    <DisplayName>#RunCat</DisplayName>
+    <PublisherDisplayName>Studio Kyome</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
@@ -31,8 +31,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="WapForStore"
-        Description="WapForStore"
+        DisplayName="#RunCat"
+        Description="The cat tells you the CPU usage of the device by running speed."
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
@@ -43,7 +43,6 @@
   </Applications>
 
   <Capabilities>
-    <Capability Name="internetClient" />
     <rescap:Capability Name="runFullTrust" />
   </Capabilities>
 </Package>
