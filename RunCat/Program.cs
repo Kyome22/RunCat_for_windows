@@ -55,7 +55,7 @@ namespace RunCat
         private ToolStripMenuItem startupMenu;
         private ToolStripMenuItem runnerSpeedLimit;
         private NotifyIcon notifyIcon;
-        private string runner = "";
+        private Runner runner = Runner.Cat;
         private int current = 0;
         private float minCPU;
         private float interval;
@@ -70,7 +70,7 @@ namespace RunCat
         public RunCatApplicationContext()
         {
             UserSettings.Default.Reload();
-            runner = UserSettings.Default.Runner;
+            Enum.TryParse(UserSettings.Default.Runner, out runner);
             manualTheme = UserSettings.Default.Theme;
 
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
@@ -80,21 +80,16 @@ namespace RunCat
             cpuUsage = new PerformanceCounter("Processor Information", "% Processor Utility", "_Total");
             _ = cpuUsage.NextValue(); // discards first return value
 
-            runnerMenu = new ToolStripMenuItem("Runner", null, new ToolStripMenuItem[]
+            var items = new List<ToolStripMenuItem>();
+            foreach (Runner r in Enum.GetValues(typeof(Runner)))
             {
-                new ToolStripMenuItem("Cat", null, SetRunner)
+                var item = new ToolStripMenuItem(r.GetName(), null, SetRunner)
                 {
-                    Checked = runner.Equals("cat")
-                },
-                new ToolStripMenuItem("Parrot", null, SetRunner)
-                {
-                    Checked = runner.Equals("parrot")
-                },
-                new ToolStripMenuItem("Horse", null, SetRunner)
-                {
-                    Checked = runner.Equals("horse")
-                }
-            });
+                    Checked = runner == r
+                };
+                items.Add(item);
+            }
+            runnerMenu = new ToolStripMenuItem("Runner", null, items.ToArray());
 
             themeMenu = new ToolStripMenuItem("Theme", null, new ToolStripMenuItem[]
             {
@@ -176,7 +171,7 @@ namespace RunCat
         }
         private void OnApplicationExit(object sender, EventArgs e)
         {
-            UserSettings.Default.Runner = runner;
+            UserSettings.Default.Runner = runner.ToString();
             UserSettings.Default.Theme = manualTheme;
             UserSettings.Default.Speed = speed;
             UserSettings.Default.Save();
@@ -211,20 +206,11 @@ namespace RunCat
         {
             string prefix = 0 < manualTheme.Length ? manualTheme : systemTheme;
             ResourceManager rm = Resources.ResourceManager;
-            // default runner is cat
-            int capacity = 5;
-            if (runner.Equals("parrot"))
-            {
-                capacity = 10;
-            } 
-            else if (runner.Equals("horse")) 
-            {
-                capacity = 14;
-            }
+            int capacity = runner.GetFrameNumber();
             List<Icon> list = new List<Icon>(capacity);
             for (int i = 0; i < capacity; i++)
             {
-                list.Add((Icon)rm.GetObject($"{prefix}_{runner}_{i}"));
+                list.Add((Icon)rm.GetObject($"{prefix}_{runner.GetName().ToLower()}_{i}"));
             }
             icons = list.ToArray();
         }
@@ -242,7 +228,7 @@ namespace RunCat
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             UpdateCheckedState(item, runnerMenu);
-            runner = item.Text.ToLower();
+            Enum.TryParse(item.Text.ToLower(), out runner);
             SetIcons();
         }
 
