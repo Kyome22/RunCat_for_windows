@@ -9,7 +9,7 @@
 
     static class RunnerExtensions
     {
-        internal static string GetName(this Runner runner)
+        internal static string GetString(this Runner runner)
         {
             switch (runner)
             {

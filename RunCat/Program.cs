@@ -59,19 +59,17 @@ namespace RunCat
         private int current = 0;
         private float minCPU;
         private float interval;
-        private string systemTheme = "";
-        private string manualTheme = UserSettings.Default.Theme;
+        private Theme manualTheme = Theme.System;
         private string speed = UserSettings.Default.Speed;
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
 
-
         public RunCatApplicationContext()
         {
             UserSettings.Default.Reload();
             Enum.TryParse(UserSettings.Default.Runner, out runner);
-            manualTheme = UserSettings.Default.Theme;
+            Enum.TryParse(UserSettings.Default.Theme, out manualTheme);
 
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
@@ -83,7 +81,7 @@ namespace RunCat
             var items = new List<ToolStripMenuItem>();
             foreach (Runner r in Enum.GetValues(typeof(Runner)))
             {
-                var item = new ToolStripMenuItem(r.GetName(), null, SetRunner)
+                var item = new ToolStripMenuItem(r.GetString(), null, SetRunner)
                 {
                     Checked = runner == r
                 };
@@ -91,21 +89,16 @@ namespace RunCat
             }
             runnerMenu = new ToolStripMenuItem("Runner", null, items.ToArray());
 
-            themeMenu = new ToolStripMenuItem("Theme", null, new ToolStripMenuItem[]
+            items.Clear();
+            foreach (Theme t in Enum.GetValues(typeof(Theme)))
             {
-                new ToolStripMenuItem("Default", null, SetThemeIcons)
+                var item = new ToolStripMenuItem(t.GetString(), null, SetThemeIcons)
                 {
-                    Checked = manualTheme.Equals("")
-                },
-                new ToolStripMenuItem("Light", null, SetLightIcons)
-                {
-                    Checked = manualTheme.Equals("light")
-                },
-                new ToolStripMenuItem("Dark", null, SetDarkIcons)
-                {
-                    Checked = manualTheme.Equals("dark")
-                }
-            });
+                    Checked = manualTheme == t
+                };
+                items.Add(item);
+            }
+            themeMenu = new ToolStripMenuItem("Theme", null, items.ToArray());
 
             startupMenu = new ToolStripMenuItem("Startup", null, SetStartup);
             if (IsStartupEnabled())
@@ -152,9 +145,11 @@ namespace RunCat
                 new ToolStripMenuItem("Exit", null, Exit)
             });
 
+            SetIcons();
+
             notifyIcon = new NotifyIcon()
             {
-                Icon = Resources.light_cat_0,
+                Icon = icons[0],
                 ContextMenuStrip = contextMenuStrip,
                 Text = "0.0%",
                 Visible = true
@@ -162,17 +157,17 @@ namespace RunCat
 
             notifyIcon.DoubleClick += new EventHandler(HandleDoubleClick);
 
-            UpdateThemeIcons();
             SetAnimation();
             SetSpeed();
             StartObserveCPU();
 
             current = 1;
         }
+
         private void OnApplicationExit(object sender, EventArgs e)
         {
             UserSettings.Default.Runner = runner.ToString();
-            UserSettings.Default.Theme = manualTheme;
+            UserSettings.Default.Theme = manualTheme.ToString();
             UserSettings.Default.Speed = speed;
             UserSettings.Default.Save();
         }
@@ -186,31 +181,33 @@ namespace RunCat
             }
         }
 
-        private string GetAppsUseTheme()
+        private Theme GetSystemTheme()
         {
-            string keyName = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+            string keyName = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
             using (RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName))
             {
                 object value;
                 if (rKey == null || (value = rKey.GetValue("SystemUsesLightTheme")) == null)
                 {
                     Console.WriteLine("Oh No! Couldn't get theme light/dark");
-                    return "light";
+                    return Theme.Light;
                 }
-                int theme = (int)value;
-                return theme == 0 ? "dark" : "light";
+                return (int)value == 0 ? Theme.Dark : Theme.Light;
             }
         }
 
         private void SetIcons()
         {
-            string prefix = 0 < manualTheme.Length ? manualTheme : systemTheme;
+            Theme systemTheme = GetSystemTheme();
+            string prefix = (manualTheme == Theme.System ? systemTheme : manualTheme).GetString();
+            string runnerName = runner.GetString();
             ResourceManager rm = Resources.ResourceManager;
             int capacity = runner.GetFrameNumber();
             List<Icon> list = new List<Icon>(capacity);
             for (int i = 0; i < capacity; i++)
             {
-                list.Add((Icon)rm.GetObject($"{prefix}_{runner.GetName().ToLower()}_{i}"));
+                string iconName = $"{prefix}_{runnerName}_{i}".ToLower();
+                list.Add((Icon)rm.GetObject(iconName));
             }
             icons = list.ToArray();
         }
@@ -228,15 +225,15 @@ namespace RunCat
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             UpdateCheckedState(item, runnerMenu);
-            Enum.TryParse(item.Text.ToLower(), out runner);
+            Enum.TryParse(item.Text, out runner);
             SetIcons();
         }
 
         private void SetThemeIcons(object sender, EventArgs e)
         {
-            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
-            manualTheme = "";
-            systemTheme = GetAppsUseTheme();
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            UpdateCheckedState(item, themeMenu);
+            Enum.TryParse(item.Text, out manualTheme);
             SetIcons();
         }
 
@@ -262,35 +259,9 @@ namespace RunCat
             SetSpeed();
         }
 
-        private void UpdateThemeIcons()
-        {
-            if (0 < manualTheme.Length)
-            {
-                SetIcons();
-                return;
-            }
-            string newTheme = GetAppsUseTheme();
-            if (systemTheme.Equals(newTheme)) return;
-            systemTheme = newTheme;
-            SetIcons();
-        }
-
-        private void SetLightIcons(object sender, EventArgs e)
-        {
-            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
-            manualTheme = "light";
-            SetIcons();
-        }
-
-        private void SetDarkIcons(object sender, EventArgs e)
-        {
-            UpdateCheckedState((ToolStripMenuItem)sender, themeMenu);
-            manualTheme = "dark";
-            SetIcons();
-        }
         private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
-            if (e.Category == UserPreferenceCategory.General) UpdateThemeIcons();
+            if (e.Category == UserPreferenceCategory.General) SetIcons();
         }
 
         private void SetStartup(object sender, EventArgs e)
@@ -358,6 +329,7 @@ namespace RunCat
             _ = interval;
             CPUTickSpeed();
         }
+
         private void ObserveCPUTick(object sender, EventArgs e)
         {
             CPUTick();
@@ -381,6 +353,5 @@ namespace RunCat
             };
             Process.Start(startInfo);
         }
-
     }
 }
