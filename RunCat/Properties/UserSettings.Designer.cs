@@ -49,13 +49,13 @@ namespace RunCat.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("default")]
-        public string Speed {
+        [global::System.Configuration.DefaultSettingValueAttribute("FPS40")]
+        public string FPSMaxLimit {
             get {
-                return ((string)(this["Speed"]));
+                return ((string)(this["FPSMaxLimit"]));
             }
             set {
-                this["Speed"] = value;
+                this["FPSMaxLimit"] = value;
             }
         }
     }

@@ -47,20 +47,19 @@ namespace RunCat
 
     public class RunCatApplicationContext : ApplicationContext
     {
-        private const int CPU_TIMER_DEFAULT_INTERVAL = 3000;
+        private const int CPU_TIMER_DEFAULT_INTERVAL = 5000;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
         private PerformanceCounter cpuUsage;
         private ToolStripMenuItem runnerMenu;
         private ToolStripMenuItem themeMenu;
         private ToolStripMenuItem startupMenu;
-        private ToolStripMenuItem runnerSpeedLimit;
+        private ToolStripMenuItem fpsMaxLimitMenu;
         private NotifyIcon notifyIcon;
         private Runner runner = Runner.Cat;
-        private int current = 0;
-        private float minCPU;
-        private float interval;
         private Theme manualTheme = Theme.System;
-        private string speed = UserSettings.Default.Speed;
+        private FPSMaxLimit fpsMaxLimit = FPSMaxLimit.FPS40;
+        private int current = 0;
+        private float interval;
         private Icon[] icons;
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
@@ -70,6 +69,7 @@ namespace RunCat
             UserSettings.Default.Reload();
             Enum.TryParse(UserSettings.Default.Runner, out runner);
             Enum.TryParse(UserSettings.Default.Theme, out manualTheme);
+            Enum.TryParse(UserSettings.Default.FPSMaxLimit, out fpsMaxLimit);
 
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
@@ -100,50 +100,39 @@ namespace RunCat
             }
             themeMenu = new ToolStripMenuItem("Theme", null, items.ToArray());
 
+            items.Clear();
+            foreach (FPSMaxLimit f in Enum.GetValues(typeof(FPSMaxLimit)))
+            {
+                var item = new ToolStripMenuItem(f.GetString(), null, SetFPSMaxLimit)
+                {
+                    Checked = fpsMaxLimit == f
+                };
+                items.Add(item);
+            }
+            fpsMaxLimitMenu = new ToolStripMenuItem("FPS Max Limit", null, items.ToArray());
+
             startupMenu = new ToolStripMenuItem("Startup", null, SetStartup);
             if (IsStartupEnabled())
             {
                 startupMenu.Checked = true;
             }
 
-            runnerSpeedLimit = new ToolStripMenuItem("Runner Speed Limit", null, new ToolStripMenuItem[]
+            string appVersion = $"{Application.ProductName} v{Application.ProductVersion}";
+            ToolStripMenuItem appVersionMenu = new ToolStripMenuItem(appVersion)
             {
-                new ToolStripMenuItem("Default", null, SetSpeedLimit)
-                {
-                    Checked = speed.Equals("default")
-                },
-                new ToolStripMenuItem("CPU 10%", null, SetSpeedLimit)
-                {
-                    Checked = speed.Equals("cpu 10%")
-                },
-                new ToolStripMenuItem("CPU 20%", null, SetSpeedLimit)
-                {
-                    Checked = speed.Equals("cpu 20%")
-                },
-                new ToolStripMenuItem("CPU 30%", null, SetSpeedLimit)
-                {
-                    Checked = speed.Equals("cpu 30%")
-                },
-                new ToolStripMenuItem("CPU 40%", null, SetSpeedLimit)
-                {
-                    Checked = speed.Equals("cpu 40%")
-                }
-            });
+                Enabled = false
+            };
 
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
-            contextMenuStrip.Items.AddRange(new ToolStripItem[]
-            {
+            contextMenuStrip.Items.AddRange(
                 runnerMenu,
                 themeMenu,
+                fpsMaxLimitMenu,
                 startupMenu,
-                runnerSpeedLimit,
                 new ToolStripSeparator(),
-                new ToolStripMenuItem($"{Application.ProductName} v{Application.ProductVersion}")
-                {
-                    Enabled = false
-                },
+                appVersionMenu,
                 new ToolStripMenuItem("Exit", null, Exit)
-            });
+            );
 
             SetIcons();
 
@@ -158,7 +147,6 @@ namespace RunCat
             notifyIcon.DoubleClick += new EventHandler(HandleDoubleClick);
 
             SetAnimation();
-            SetSpeed();
             StartObserveCPU();
 
             current = 1;
@@ -168,7 +156,7 @@ namespace RunCat
         {
             UserSettings.Default.Runner = runner.ToString();
             UserSettings.Default.Theme = manualTheme.ToString();
-            UserSettings.Default.Speed = speed;
+            UserSettings.Default.FPSMaxLimit = fpsMaxLimit.ToString();
             UserSettings.Default.Save();
         }
 
@@ -237,26 +225,11 @@ namespace RunCat
             SetIcons();
         }
 
-        private void SetSpeed()
-        {
-            if (speed.Equals("default"))
-                return;
-            else if (speed.Equals("cpu 10%"))
-                minCPU = 100f;
-            else if (speed.Equals("cpu 20%"))
-                minCPU = 50f;
-            else if (speed.Equals("cpu 30%"))
-                minCPU = 33f;    
-            else if (speed.Equals("cpu 40%"))
-                minCPU = 25f;   
-        }
-
-        private void SetSpeedLimit(object sender, EventArgs e)
+        private void SetFPSMaxLimit(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            UpdateCheckedState(item, runnerSpeedLimit);
-            speed = item.Text.ToLower();
-            SetSpeed();
+            UpdateCheckedState(item, fpsMaxLimitMenu);
+            fpsMaxLimit = _FPSMaxLimit.Parse(item.Text);
         }
 
         private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
@@ -302,32 +275,20 @@ namespace RunCat
         {
             animateTimer.Interval = ANIMATE_TIMER_DEFAULT_INTERVAL;
             animateTimer.Tick += new EventHandler(AnimationTick);
-        }
-
-        private void CPUTickSpeed()
-        {
-            if (!speed.Equals("default"))
-            {            
-                float manualInterval = (float)Math.Max(minCPU, interval);
-                animateTimer.Stop();
-                animateTimer.Interval = (int)manualInterval;
-                animateTimer.Start();
-            }
-            else
-            {
-                animateTimer.Stop();
-                animateTimer.Interval = (int)interval;
-                animateTimer.Start();
-            }
+            animateTimer.Start();
         }
 
         private void CPUTick()
         {
-            interval = Math.Min(100, cpuUsage.NextValue()); // Sometimes got over 100% so it should be limited to 100%
-            notifyIcon.Text = $"CPU: {interval:f1}%";
-            interval = 200.0f / (float)Math.Max(1.0f, Math.Min(20.0f, interval / 5.0f));
-            _ = interval;
-            CPUTickSpeed();
+            // Range of CPU percentage: 0-100 (%)
+            float cpuPercentage = Math.Min(100, cpuUsage.NextValue());
+            notifyIcon.Text = $"CPU: {cpuPercentage:f1}%";
+            // Range of interval: 25-500 (ms) = 2-40 (fps)
+            interval = 500.0f / (float)Math.Max(1.0f, (cpuPercentage / 5.0f) * fpsMaxLimit.GetRate());
+
+            animateTimer.Stop();
+            animateTimer.Interval = (int)interval;
+            animateTimer.Start();
         }
 
         private void ObserveCPUTick(object sender, EventArgs e)
