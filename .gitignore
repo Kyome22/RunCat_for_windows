@@ -4,6 +4,7 @@ obj/
 [Ll]og/
 [Ll]ogs/
 .DS_Store
+TestResults
 
 # User-specific files
 *.suo
