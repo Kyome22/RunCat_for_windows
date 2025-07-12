@@ -15,7 +15,7 @@
 
 # Demo
 
-![Demo](RunCat365/resources/runcat_demo.gif)
+![Demo](pages/images/demo.gif)
 
 # Contributors
 
