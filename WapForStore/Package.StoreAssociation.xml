@@ -361,8 +361,9 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>StudioKyome.RunCat365</MainPackageIdentityName>
+    <MainPackageIdentityName>StudioKyome.RunCat</MainPackageIdentityName>
     <ReservedNames>
+      <ReservedName>#RunCat</ReservedName>
       <ReservedName>RunCat 365</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
