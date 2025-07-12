@@ -1,4 +1,4 @@
-﻿namespace RunCat
+﻿namespace RunCat365
 {
     enum Theme
     {

@@ -1,18 +1,18 @@
 // Copyright 2020 Takuto Nakamura
-// 
+//
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
 //    You may obtain a copy of the License at
-// 
+//
 //        http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 //    Unless required by applicable law or agreed to in writing, software
 //    distributed under the License is distributed on an "AS IS" BASIS,
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-using RunCat.Properties;
+using RunCat365.Properties;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -22,14 +22,14 @@ using System.Windows.Forms;
 using System.Resources;
 using System.ComponentModel;
 
-namespace RunCat
+namespace RunCat365
 {
     static class Program
     {
         [STAThread]
         static void Main()
         {
-            // terminate runcat if there's any existing instance
+            // Terminate RunCat365 if there's any existing instance.
             var procMutex = new System.Threading.Mutex(true, "_RUNCAT_MUTEX", out var result);
             if (!result)
             {
@@ -42,7 +42,7 @@ namespace RunCat
 
             try
             {
-                Application.Run(new RunCatApplicationContext());
+                Application.Run(new RunCat365ApplicationContext());
             }
             finally
             {
@@ -51,7 +51,7 @@ namespace RunCat
         }
     }
 
-    public class RunCatApplicationContext : ApplicationContext
+    public class RunCat365ApplicationContext : ApplicationContext
     {
         private const int CPU_TIMER_DEFAULT_INTERVAL = 5000;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
@@ -70,7 +70,7 @@ namespace RunCat
         private Timer animateTimer = new Timer();
         private Timer cpuTimer = new Timer();
 
-        public RunCatApplicationContext()
+        public RunCat365ApplicationContext()
         {
             UserSettings.Default.Reload();
             Enum.TryParse(UserSettings.Default.Runner, out runner);
@@ -308,7 +308,7 @@ namespace RunCat
             cpuTimer.Tick += new EventHandler(ObserveCPUTick);
             cpuTimer.Start();
         }
-        
+
         private void HandleDoubleClick(object Sender, EventArgs e)
         {
             var startInfo = new ProcessStartInfo

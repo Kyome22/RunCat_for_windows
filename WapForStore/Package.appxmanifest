@@ -12,7 +12,7 @@
     Version="3.0.0.0" />
 
   <Properties>
-    <DisplayName>#RunCat</DisplayName>
+    <DisplayName>RunCat 365</DisplayName>
     <PublisherDisplayName>Studio Kyome</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -31,7 +31,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="#RunCat"
+        DisplayName="RunCat 365"
         Description="The cat tells you the CPU usage of the device by running speed."
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
