@@ -56,7 +56,7 @@
     <DefaultLanguage>ja-JP</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
-    <EntryPointProjectUniqueName>..\RunCat\RunCat.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\RunCat365\RunCat365.csproj</EntryPointProjectUniqueName>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -109,6 +109,6 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RunCat\RunCat.csproj" />
+    <ProjectReference Include="..\RunCat365\RunCat365.csproj" />
   </ItemGroup>
 </Project>

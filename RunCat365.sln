@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunCat", "RunCat\RunCat.csproj", "{10064461-1376-41CF-B6DA-A67B71BB2AC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunCat365", "RunCat365\RunCat365.csproj", "{10064461-1376-41CF-B6DA-A67B71BB2AC9}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "WapForStore", "WapForStore\WapForStore.wapproj", "{52986C4C-A3D1-4430-8395-1D457C258E28}"
 EndProject
