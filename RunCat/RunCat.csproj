@@ -7,7 +7,7 @@
     <ApplicationIcon>appIcon.ico</ApplicationIcon>
     <NoWin32Manifest>true</NoWin32Manifest>
     <StartupObject>RunCat.Program</StartupObject>
-    <Version>2.0.0</Version>
+    <Version>3.0.0</Version>
     <Authors>Takuto Nakamura</Authors>
     <Description>A cute running cat animation on your windows taskbar.</Description>
     <Copyright>© 2022 Takuto Nakamura</Copyright>
@@ -17,6 +17,9 @@
     <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
     <Platforms>AnyCPU;x64;ARM64</Platforms>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/Kyome22/RunCat_for_windows</RepositoryUrl>
+    <AssemblyName>#RunCat</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -55,6 +58,10 @@
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
