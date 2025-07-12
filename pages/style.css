@@ -1,0 +1,97 @@
+body {
+  margin: 0;
+  font-family: "Exo 2", sans-serif;
+  background-color: #f5f5f5;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header div {
+  display: flex;
+  background-color: #606060;
+  padding: 8px 16px;
+  color: #f5f5f5;
+}
+
+header a.title {
+  margin-right: auto;
+  text-decoration: none;
+  font-style: italic;
+  font-size: 24px;
+  line-height: 24px;
+  color: #f5f5f5;
+}
+
+header a.title:hover {
+  color: cadetblue;
+}
+
+header svg.github-icon {
+  width: 24px;
+  height: 24px;
+}
+
+header svg.github-icon path {
+  fill: #f5f5f5;
+}
+
+header svg.github-icon:hover path {
+  fill: cadetblue;
+}
+
+div.main {
+  flex: 1;
+}
+
+div.summary {
+  margin: 40px auto;
+}
+
+p.title {
+  font-style: italic;
+  font-size: 80px;
+  line-height: 80px;
+  margin: 20px auto;
+}
+
+p.catchcopy {
+  font-weight: bold;
+}
+
+footer {
+  padding-top: 1em;
+  color: #606060;
+}
+
+nav a {
+  text-decoration: none;
+  color: #404040;
+}
+
+nav a:hover {
+  color: darkcyan;
+}
+
+div.privacy-policy {
+  flex: 1;
+  font-family: sans-serif;
+}
+
+div.privacy-policy div.block {
+  margin: 0 auto;
+  padding: 5px 20px;
+  max-width: 800px;
+  text-align: left;
+}
+
+div.privacy-policy h1 {
+  text-align: center;
+}
+
+div.privacy-policy p.explain {
+  text-indent: 1em;
+  text-align: justify;
+  hyphens: auto;
+}
