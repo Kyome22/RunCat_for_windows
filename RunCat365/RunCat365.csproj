@@ -3,39 +3,47 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationIcon>appIcon.ico</ApplicationIcon>
-    <NoWin32Manifest>true</NoWin32Manifest>
-    <StartupObject>RunCat365.Program</StartupObject>
-    <Version>3.0.0</Version>
-    <Authors>Takuto Nakamura</Authors>
-    <Description>A cute running cat animation on your windows taskbar.</Description>
-    <Copyright>© 2022 Takuto Nakamura</Copyright>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/Kyome22/RunCat365</PackageProjectUrl>
-    <PublishSingleFile>true</PublishSingleFile>
-    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
-    <Platforms>AnyCPU;x64;ARM64</Platforms>
-    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/Kyome22/RunCat365</RepositoryUrl>
-    <AssemblyName>RunCat 365</AssemblyName>
-    <Company>Studio Kyome</Company>
-    <PackageIcon>app_icon.png</PackageIcon>
+    <ImplicitUsings>enable</ImplicitUsings>
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <AssemblyName>RunCat 365</AssemblyName>
+    <ApplicationIcon>AppIcon.ico</ApplicationIcon>
+    <Authors>Takuto Nakamura</Authors>
+    <Company>Studio Kyome</Company>
+    <Description>A cute running cat animation on your taskbar.</Description>
+    <Copyright>© 2022 Takuto Nakamura</Copyright>
+    <PackageProjectUrl>https://kyome22.github.io/RunCat365/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Kyome22/RunCat365</RepositoryUrl>
+    <PackageTags>cpu;cat;taskbar</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIcon>app_icon.png</PackageIcon>
+    <Version>3.0.0</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <StartupObject>RunCat365.Program</StartupObject>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <ApplicationVisualStyles>true</ApplicationVisualStyles>
+    <ApplicationUseCompatibleTextRendering>false</ApplicationUseCompatibleTextRendering>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-	<OutputPath></OutputPath>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="AppIcon.ico" />
+  </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-	<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-	<OutputPath></OutputPath>
-	<PlatformTarget>ARM64</PlatformTarget>
-  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\docs\images\app_icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -55,21 +63,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\docs\images\app_icon.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
