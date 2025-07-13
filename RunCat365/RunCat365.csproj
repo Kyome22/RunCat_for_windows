@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>appIcon.ico</ApplicationIcon>
     <NoWin32Manifest>true</NoWin32Manifest>
@@ -22,6 +22,7 @@
     <AssemblyName>RunCat 365</AssemblyName>
     <Company>Studio Kyome</Company>
     <PackageIcon>app_icon.png</PackageIcon>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
