@@ -20,6 +20,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/Kyome22/RunCat365</RepositoryUrl>
     <AssemblyName>RunCat 365</AssemblyName>
+    <PackageIcon>app_icon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -55,6 +56,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\docs\images\app_icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
