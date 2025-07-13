@@ -20,6 +20,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/Kyome22/RunCat365</RepositoryUrl>
     <AssemblyName>RunCat 365</AssemblyName>
+    <Company>Studio Kyome</Company>
     <PackageIcon>app_icon.png</PackageIcon>
   </PropertyGroup>
 
