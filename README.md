@@ -15,7 +15,7 @@
 
 # Demo
 
-![Demo](pages/images/demo.gif)
+![Demo](docs/images/demo.gif)
 
 # Contributors
 
