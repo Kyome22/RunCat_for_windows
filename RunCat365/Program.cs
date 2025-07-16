@@ -130,7 +130,8 @@ namespace RunCat365
             };
 
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
-            contextMenuStrip.Items.AddRange(
+            contextMenuStrip.Items.AddRange(new ToolStripItem[]
+            {
                 runnerMenu,
                 themeMenu,
                 fpsMaxLimitMenu,
@@ -138,7 +139,7 @@ namespace RunCat365
                 new ToolStripSeparator(),
                 appVersionMenu,
                 new ToolStripMenuItem("Exit", null, Exit)
-            );
+         });
 
             SetIcons();
 
