@@ -11,3 +11,5 @@ TestResults
 *.user
 *.userosscache
 *.sln.docstates
+
+commands.txt

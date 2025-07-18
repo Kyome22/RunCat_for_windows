@@ -72,4 +72,8 @@
     </None>
   </ItemGroup>
 
+  <Target Name="KillProcess" BeforeTargets="BeforeBuild">
+    <Exec Command="taskkill /f /im &quot;RunCat 365.exe&quot;" IgnoreExitCode="true" />
+  </Target>
+
 </Project>
