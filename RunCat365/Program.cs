@@ -27,12 +27,24 @@ namespace RunCat365
     static class Program
     {
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             // Terminate RunCat365 if there's any existing instance.
             var procMutex = new System.Threading.Mutex(true, "_RUNCAT_MUTEX", out var result);
             if (!result)
             {
+                return;
+            }
+
+            if (args.Length == 0)
+            {
+                var processInfo = new ProcessStartInfo
+                {
+                    FileName = Process.GetCurrentProcess().MainModule.FileName,
+                    Arguments = "/background",
+                    UseShellExecute = true
+                };
+                Process.Start(processInfo);
                 return;
             }
 
@@ -53,8 +65,8 @@ namespace RunCat365
 
     public class RunCat365ApplicationContext : ApplicationContext
     {
-        private const int CPU_TIMER_DEFAULT_INTERVAL = 5000;
-        private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
+        private const int CPU_TIMER_DEFAULT_INTERVAL = 2000;
+        private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 100;
         private PerformanceCounter cpuUsage;
         private ToolStripMenuItem runnerMenu;
         private ToolStripMenuItem themeMenu;
@@ -72,6 +84,9 @@ namespace RunCat365
 
         public RunCat365ApplicationContext()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             UserSettings.Default.Reload();
             Enum.TryParse(UserSettings.Default.Runner, out runner);
             Enum.TryParse(UserSettings.Default.Theme, out manualTheme);
@@ -164,6 +179,8 @@ namespace RunCat365
             UserSettings.Default.Theme = manualTheme.ToString();
             UserSettings.Default.FPSMaxLimit = fpsMaxLimit.ToString();
             UserSettings.Default.Save();
+            // Hide the icon to prevent it from remaining in the tray after closing.
+            notifyIcon.Visible = false;
         }
 
         private bool IsStartupEnabled()
