@@ -84,26 +84,26 @@ namespace RunCat365
             cpuUsage = new PerformanceCounter("Processor Information", "% Processor Utility", "_Total");
             _ = cpuUsage.NextValue(); // discards first return value
 
-            runnerMenu = ChargeToolStripMenu<Runner>(
+            runnerMenu = CreateMenuFromEnum<Runner>(
                 "Runner",
                 r => r.GetString(),
                 SetRunner,
                 r => runner == r
-                );
+            );
 
-            themeMenu = ChargeToolStripMenu<Theme>(
+            themeMenu = CreateMenuFromEnum<Theme>(
                 "Theme",
                 t => t.GetString(),
                 SetThemeIcons,
                 t => manualTheme == t
-                );
+            );
 
-            fpsMaxLimitMenu = ChargeToolStripMenu<FPSMaxLimit>(
+            fpsMaxLimitMenu = CreateMenuFromEnum<FPSMaxLimit>(
                 "FPS Max Limit",
                 fps => fps.GetString(),
                 SetFPSMaxLimit,
                 fps => fpsMaxLimit == fps
-                );
+            );
 
             startupMenu = new ToolStripMenuItem("Startup", null, SetStartup);
             if (IsStartupEnabled())
@@ -146,16 +146,21 @@ namespace RunCat365
             current = 1;
         }
 
-        private ToolStripMenuItem ChargeToolStripMenu<T>(
+        private ToolStripMenuItem CreateMenuFromEnum<T>(
             string title,
-            Func<T, string> obtainText,
+            Func<T, string> getTitle,
             EventHandler onClickEvent,
-            Func<T, bool> isChecked ) where T : Enum
+            Func<T, bool> isChecked
+        ) where T : Enum
         {
             var items = new List<ToolStripMenuItem>();
             foreach (T value in Enum.GetValues(typeof(T)))
             {
-                items.Add(new ToolStripMenuItem(obtainText(value), null, onClickEvent) { Checked = isChecked(value) });
+                var item = new ToolStripMenuItem(getTitle(value), null, onClickEvent)
+                {
+                    Checked = isChecked(value) 
+                };
+                items.Add(item);
             }
             return new ToolStripMenuItem(title, null, items.ToArray());
         }
