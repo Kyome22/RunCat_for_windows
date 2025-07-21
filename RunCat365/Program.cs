@@ -44,9 +44,10 @@ namespace RunCat365
 
     public class RunCat365ApplicationContext : ApplicationContext
     {
-        private const int CPU_TIMER_DEFAULT_INTERVAL = 5000;
+        private const int CPU_TIMER_DEFAULT_INTERVAL = 1000;
+        private const int CPU_VALUES_LIMIT_SIZE = 5;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
-        private readonly PerformanceCounter cpuUsage;
+        private readonly PerformanceCounter cpuCounter;
         private readonly ToolStripMenuItem runnerMenu;
         private readonly ToolStripMenuItem themeMenu;
         private readonly ToolStripMenuItem startupMenu;
@@ -57,9 +58,10 @@ namespace RunCat365
         private Runner runner = Runner.Cat;
         private Theme manualTheme = Theme.System;
         private FPSMaxLimit fpsMaxLimit = FPSMaxLimit.FPS40;
+        private List<float> cpuValues = [];
+        private Icon[] icons = [];
         private int current = 0;
         private float interval;
-        private Icon[] icons = [];
 
         public RunCat365ApplicationContext()
         {
@@ -72,8 +74,8 @@ namespace RunCat365
 
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
 
-            cpuUsage = new PerformanceCounter("Processor Information", "% Processor Utility", "_Total");
-            _ = cpuUsage.NextValue(); // discards first return value
+            cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            _ = cpuCounter.NextValue(); // discards first return value
 
             runnerMenu = CreateMenuFromEnum<Runner>(
                 "Runner",
@@ -277,7 +279,7 @@ namespace RunCat365
 
         private void Exit(object? sender, EventArgs e)
         {
-            cpuUsage.Close();
+            cpuCounter.Close();
             animateTimer.Stop();
             cpuTimer.Stop();
             notifyIcon.Visible = false;
@@ -294,10 +296,15 @@ namespace RunCat365
         private void CPUTick(object? state, EventArgs e)
         {
             // Range of CPU percentage: 0-100 (%)
-            var cpuPercentage = Math.Min(100, cpuUsage.NextValue());
-            notifyIcon.Text = $"CPU: {cpuPercentage:f1}%";
+            var value = Math.Min(100, cpuCounter.NextValue());
+            cpuValues.Add(value);
+            if (cpuValues.Count < CPU_VALUES_LIMIT_SIZE) return;
+
+            var averageValue = cpuValues.Average();
+            cpuValues.Clear();
+            notifyIcon.Text = $"CPU: {averageValue:f1}%";
             // Range of interval: 25-500 (ms) = 2-40 (fps)
-            interval = 500.0f / (float)Math.Max(1.0f, (cpuPercentage / 5.0f) * fpsMaxLimit.GetRate());
+            interval = 500.0f / (float)Math.Max(1.0f, (averageValue / 5.0f) * fpsMaxLimit.GetRate());
 
             animateTimer.Stop();
             animateTimer.Interval = (int)interval;
