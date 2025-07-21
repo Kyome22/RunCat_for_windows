@@ -23,7 +23,7 @@
     <StartupObject>RunCat365.Program</StartupObject>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Platforms>x64;x86;ARM64</Platforms>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationManifest>App.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
