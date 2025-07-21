@@ -32,7 +32,7 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="RunCat 365"
-        Description="WapForStore"
+        Description="A cute running cat animation on your taskbar. The cat tells you the CPU usage by running speed."
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
