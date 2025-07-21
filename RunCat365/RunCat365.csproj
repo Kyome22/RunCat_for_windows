@@ -9,6 +9,9 @@
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <AssemblyName>RunCat 365</AssemblyName>
     <ApplicationIcon>AppIcon.ico</ApplicationIcon>
+    <ApplicationVisualStyles>true</ApplicationVisualStyles>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <ApplicationUseCompatibleTextRendering>false</ApplicationUseCompatibleTextRendering>
     <Authors>Takuto Nakamura</Authors>
     <Company>Studio Kyome</Company>
     <Description>A cute running cat animation on your taskbar.</Description>
@@ -21,9 +24,6 @@
     <Version>3.0.0</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <StartupObject>RunCat365.Program</StartupObject>
-    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
-    <ApplicationVisualStyles>true</ApplicationVisualStyles>
-    <ApplicationUseCompatibleTextRendering>false</ApplicationUseCompatibleTextRendering>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Platforms>x64;x86;ARM64</Platforms>
   </PropertyGroup>
