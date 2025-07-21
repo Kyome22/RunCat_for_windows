@@ -18,7 +18,7 @@
 
 # Demo
 
-![Demo](docs/images/demo.gif)
+<img src="./docs/images/demo.gif" width="400" height="225" alt="demo" />
 
 # Contributors
 
