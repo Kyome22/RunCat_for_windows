@@ -56,7 +56,7 @@ namespace RunCat365
         private readonly FormsTimer animateTimer;
         private readonly FormsTimer cpuTimer;
         private Runner runner = Runner.Cat;
-        private Theme manualTheme = Theme.System;
+        private static Theme manualTheme = Theme.System;
         private FPSMaxLimit fpsMaxLimit = FPSMaxLimit.FPS40;
         private List<float> cpuValues = [];
         private Icon[] icons = [];
@@ -153,16 +153,30 @@ namespace RunCat365
             Func<T, bool> isChecked
         ) where T : Enum
         {
+            Theme systemTheme = GetSystemTheme();
             var items = new List<ToolStripMenuItem>();
             foreach (T value in Enum.GetValues(typeof(T)))
             {
-                var item = new ToolStripMenuItem(getTitle(value), null, onClickEvent)
+                string entityName = getTitle(value);
+                var item = new ToolStripMenuItem(entityName, GetIconImageForMenu(systemTheme, entityName), onClickEvent)
                 {
                     Checked = isChecked(value) 
                 };
                 items.Add(item);
             }
             return new ToolStripMenuItem(title, null, [.. items]);
+        }
+
+        private static Image? GetIconImageForMenu(Theme systemTheme, string title)
+        {
+            string prefix = (manualTheme == Theme.System ? systemTheme : manualTheme).GetString();
+            string iconName = $"{prefix}_{title}_0".ToLower();
+            var obj = Resources.ResourceManager.GetObject(iconName);
+            return obj switch
+            {
+                Icon icon => icon.ToBitmap(),
+                _ => null
+            } ?? null;
         }
 
         private void OnApplicationExit(object? sender, EventArgs e)
