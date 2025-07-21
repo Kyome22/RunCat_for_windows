@@ -165,7 +165,7 @@ namespace RunCat365
             return new ToolStripMenuItem(title, null, [.. items]);
         }
 
-        private void OnApplicationExit(object sender, EventArgs e)
+        private void OnApplicationExit(object? sender, EventArgs e)
         {
             UserSettings.Default.Runner = runner.ToString();
             UserSettings.Default.Theme = manualTheme.ToString();
