@@ -310,12 +310,21 @@ namespace RunCat365
         {
             var startInfo = new ProcessStartInfo
             {
-                FileName = "powershell",
-                UseShellExecute = false,
-                Arguments = " -c Start-Process taskmgr.exe",
-                CreateNoWindow = true,
+                FileName = "taskmgr.exe",
+                UseShellExecute = true
             };
-            Process.Start(startInfo);
+            try
+            {
+                Process.Start(startInfo);
+            }
+            catch (Win32Exception ex)
+            {
+                Console.Error.WriteLine($"Failed to launch Task Manager: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Unexpected error occurred while launching Task Manager: {ex.Message}");
+            }
         }
     }
 }
