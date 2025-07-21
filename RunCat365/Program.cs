@@ -84,38 +84,26 @@ namespace RunCat365
             cpuUsage = new PerformanceCounter("Processor Information", "% Processor Utility", "_Total");
             _ = cpuUsage.NextValue(); // discards first return value
 
-            var items = new List<ToolStripMenuItem>();
-            foreach (Runner r in Enum.GetValues(typeof(Runner)))
-            {
-                var item = new ToolStripMenuItem(r.GetString(), null, SetRunner)
-                {
-                    Checked = runner == r
-                };
-                items.Add(item);
-            }
-            runnerMenu = new ToolStripMenuItem("Runner", null, items.ToArray());
+            runnerMenu = CreateMenuFromEnum<Runner>(
+                "Runner",
+                r => r.GetString(),
+                SetRunner,
+                r => runner == r
+            );
 
-            items.Clear();
-            foreach (Theme t in Enum.GetValues(typeof(Theme)))
-            {
-                var item = new ToolStripMenuItem(t.GetString(), null, SetThemeIcons)
-                {
-                    Checked = manualTheme == t
-                };
-                items.Add(item);
-            }
-            themeMenu = new ToolStripMenuItem("Theme", null, items.ToArray());
+            themeMenu = CreateMenuFromEnum<Theme>(
+                "Theme",
+                t => t.GetString(),
+                SetThemeIcons,
+                t => manualTheme == t
+            );
 
-            items.Clear();
-            foreach (FPSMaxLimit f in Enum.GetValues(typeof(FPSMaxLimit)))
-            {
-                var item = new ToolStripMenuItem(f.GetString(), null, SetFPSMaxLimit)
-                {
-                    Checked = fpsMaxLimit == f
-                };
-                items.Add(item);
-            }
-            fpsMaxLimitMenu = new ToolStripMenuItem("FPS Max Limit", null, items.ToArray());
+            fpsMaxLimitMenu = CreateMenuFromEnum<FPSMaxLimit>(
+                "FPS Max Limit",
+                fps => fps.GetString(),
+                SetFPSMaxLimit,
+                fps => fpsMaxLimit == fps
+            );
 
             startupMenu = new ToolStripMenuItem("Startup", null, SetStartup);
             if (IsStartupEnabled())
@@ -156,6 +144,25 @@ namespace RunCat365
             StartObserveCPU();
 
             current = 1;
+        }
+
+        private ToolStripMenuItem CreateMenuFromEnum<T>(
+            string title,
+            Func<T, string> getTitle,
+            EventHandler onClickEvent,
+            Func<T, bool> isChecked
+        ) where T : Enum
+        {
+            var items = new List<ToolStripMenuItem>();
+            foreach (T value in Enum.GetValues(typeof(T)))
+            {
+                var item = new ToolStripMenuItem(getTitle(value), null, onClickEvent)
+                {
+                    Checked = isChecked(value) 
+                };
+                items.Add(item);
+            }
+            return new ToolStripMenuItem(title, null, items.ToArray());
         }
 
         private void OnApplicationExit(object sender, EventArgs e)
