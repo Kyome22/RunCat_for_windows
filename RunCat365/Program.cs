@@ -146,7 +146,7 @@ namespace RunCat365
             cpuTimer.Start();
         }
 
-        private ToolStripMenuItem CreateMenuFromEnum<T>(
+        private static ToolStripMenuItem CreateMenuFromEnum<T>(
             string title,
             Func<T, string> getTitle,
             EventHandler onClickEvent,
