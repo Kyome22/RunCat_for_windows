@@ -129,8 +129,6 @@ namespace RunCat365
                 Visible = true
             };
 
-            notifyIcon.DoubleClick += new EventHandler(HandleDoubleClick);
-
             animateTimer = new FormsTimer
             {
                 Interval = ANIMATE_TIMER_DEFAULT_INTERVAL
@@ -304,27 +302,6 @@ namespace RunCat365
             animateTimer.Stop();
             animateTimer.Interval = (int)interval;
             animateTimer.Start();
-        }
-
-        private void HandleDoubleClick(object? Sender, EventArgs e)
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = "taskmgr.exe",
-                UseShellExecute = true
-            };
-            try
-            {
-                Process.Start(startInfo);
-            }
-            catch (Win32Exception ex)
-            {
-                Console.Error.WriteLine($"Failed to launch Task Manager: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"Unexpected error occurred while launching Task Manager: {ex.Message}");
-            }
         }
     }
 }
