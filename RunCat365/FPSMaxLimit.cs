@@ -1,4 +1,18 @@
-﻿namespace RunCat365
+﻿// Copyright 2020 Takuto Nakamura
+//
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+//        http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+
+namespace RunCat365
 {
     enum FPSMaxLimit
     {
@@ -12,36 +26,26 @@
     {
         internal static string GetString(this FPSMaxLimit fpsMaxLimit)
         {
-            switch (fpsMaxLimit)
+            return fpsMaxLimit switch
             {
-                case FPSMaxLimit.FPS40:
-                    return "40fps";
-                case FPSMaxLimit.FPS30:
-                    return "30fps";
-                case FPSMaxLimit.FPS20:
-                    return "20fps";
-                case FPSMaxLimit.FPS10:
-                    return "10fps";
-                default:
-                    return "";
-            }
+                FPSMaxLimit.FPS40 => "40fps",
+                FPSMaxLimit.FPS30 => "30fps",
+                FPSMaxLimit.FPS20 => "20fps",
+                FPSMaxLimit.FPS10 => "10fps",
+                _ => "",
+            };
         }
 
         internal static float GetRate(this FPSMaxLimit fPSMaxLimit)
         {
-            switch (fPSMaxLimit)
+            return fPSMaxLimit switch
             {
-                case FPSMaxLimit.FPS40:
-                    return 1f;
-                case FPSMaxLimit.FPS30:
-                    return 0.75f;
-                case FPSMaxLimit.FPS20:
-                    return 0.5f;
-                case FPSMaxLimit.FPS10:
-                    return 0.25f;
-                default:
-                    return 1f;
-            }
+                FPSMaxLimit.FPS40 => 1f,
+                FPSMaxLimit.FPS30 => 0.75f,
+                FPSMaxLimit.FPS20 => 0.5f,
+                FPSMaxLimit.FPS10 => 0.25f,
+                _ => 1f,
+            };
         }
     }
 
@@ -49,19 +53,14 @@
     {
         internal static FPSMaxLimit Parse(string value)
         {
-            switch (value)
+            return value switch
             {
-                case "40fps":
-                    return FPSMaxLimit.FPS40;
-                case "30fps":
-                    return FPSMaxLimit.FPS30;
-                case "20fps":
-                    return FPSMaxLimit.FPS20;
-                case "10fps":
-                    return FPSMaxLimit.FPS10;
-                default:
-                    return FPSMaxLimit.FPS40;
-            }
+                "40fps" => FPSMaxLimit.FPS40,
+                "30fps" => FPSMaxLimit.FPS30,
+                "20fps" => FPSMaxLimit.FPS20,
+                "10fps" => FPSMaxLimit.FPS10,
+                _ => FPSMaxLimit.FPS40,
+            };
         }
     }
 }

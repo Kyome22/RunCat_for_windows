@@ -12,36 +12,27 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-using RunCat365.Properties;
+using FormsTimer = System.Windows.Forms.Timer;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Resources;
+using RunCat365.Properties;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Resources;
 
 namespace RunCat365
 {
-    static class Program
+    internal static class Program
     {
         [STAThread]
         static void Main()
         {
             // Terminate RunCat365 if there's any existing instance.
-            var procMutex = new System.Threading.Mutex(true, "_RUNCAT_MUTEX", out var result);
-            if (!result)
-            {
-                return;
-            }
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            using var procMutex = new Mutex(true, "_RUNCAT_MUTEX", out var result);
+            if (!result) return;
 
             try
             {
+                ApplicationConfiguration.Initialize();
                 Application.Run(new RunCat365ApplicationContext());
             }
             finally
@@ -55,27 +46,27 @@ namespace RunCat365
     {
         private const int CPU_TIMER_DEFAULT_INTERVAL = 5000;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
-        private PerformanceCounter cpuUsage;
-        private ToolStripMenuItem runnerMenu;
-        private ToolStripMenuItem themeMenu;
-        private ToolStripMenuItem startupMenu;
-        private ToolStripMenuItem fpsMaxLimitMenu;
-        private NotifyIcon notifyIcon;
+        private readonly PerformanceCounter cpuUsage;
+        private readonly ToolStripMenuItem runnerMenu;
+        private readonly ToolStripMenuItem themeMenu;
+        private readonly ToolStripMenuItem startupMenu;
+        private readonly ToolStripMenuItem fpsMaxLimitMenu;
+        private readonly NotifyIcon notifyIcon;
+        private readonly FormsTimer animateTimer;
+        private readonly FormsTimer cpuTimer;
         private Runner runner = Runner.Cat;
         private Theme manualTheme = Theme.System;
         private FPSMaxLimit fpsMaxLimit = FPSMaxLimit.FPS40;
         private int current = 0;
         private float interval;
-        private Icon[] icons;
-        private Timer animateTimer = new Timer();
-        private Timer cpuTimer = new Timer();
+        private Icon[] icons = [];
 
         public RunCat365ApplicationContext()
         {
             UserSettings.Default.Reload();
-            Enum.TryParse(UserSettings.Default.Runner, out runner);
-            Enum.TryParse(UserSettings.Default.Theme, out manualTheme);
-            Enum.TryParse(UserSettings.Default.FPSMaxLimit, out fpsMaxLimit);
+            _ = Enum.TryParse(UserSettings.Default.Runner, out runner);
+            _ = Enum.TryParse(UserSettings.Default.Theme, out manualTheme);
+            _ = Enum.TryParse(UserSettings.Default.FPSMaxLimit, out fpsMaxLimit);
 
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
@@ -111,13 +102,13 @@ namespace RunCat365
                 startupMenu.Checked = true;
             }
 
-            string appVersion = $"{Application.ProductName} v{Application.ProductVersion}";
-            ToolStripMenuItem appVersionMenu = new ToolStripMenuItem(appVersion)
+            var appVersion = $"{Application.ProductName} v{Application.ProductVersion}";
+            var appVersionMenu = new ToolStripMenuItem(appVersion)
             {
                 Enabled = false
             };
 
-            ContextMenuStrip contextMenuStrip = new ContextMenuStrip(new Container());
+            var contextMenuStrip = new ContextMenuStrip(new Container());
             contextMenuStrip.Items.AddRange(
                 runnerMenu,
                 themeMenu,
@@ -138,15 +129,22 @@ namespace RunCat365
                 Visible = true
             };
 
-            notifyIcon.DoubleClick += new EventHandler(HandleDoubleClick);
+            animateTimer = new FormsTimer
+            {
+                Interval = ANIMATE_TIMER_DEFAULT_INTERVAL
+            };
+            animateTimer.Tick += new EventHandler(AnimationTick);
+            animateTimer.Start();
 
-            SetAnimation();
-            StartObserveCPU();
-
-            current = 1;
+            cpuTimer = new FormsTimer
+            {
+                Interval = CPU_TIMER_DEFAULT_INTERVAL
+            };
+            cpuTimer.Tick += new EventHandler(CPUTick);
+            cpuTimer.Start();
         }
 
-        private ToolStripMenuItem CreateMenuFromEnum<T>(
+        private static ToolStripMenuItem CreateMenuFromEnum<T>(
             string title,
             Func<T, string> getTitle,
             EventHandler onClickEvent,
@@ -162,10 +160,10 @@ namespace RunCat365
                 };
                 items.Add(item);
             }
-            return new ToolStripMenuItem(title, null, items.ToArray());
+            return new ToolStripMenuItem(title, null, [.. items]);
         }
 
-        private void OnApplicationExit(object sender, EventArgs e)
+        private void OnApplicationExit(object? sender, EventArgs e)
         {
             UserSettings.Default.Runner = runner.ToString();
             UserSettings.Default.Theme = manualTheme.ToString();
@@ -173,47 +171,46 @@ namespace RunCat365
             UserSettings.Default.Save();
         }
 
-        private bool IsStartupEnabled()
+        private static bool IsStartupEnabled()
         {
-            string keyName = @"Software\Microsoft\Windows\CurrentVersion\Run";
-            using (RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName))
-            {
-                return (rKey.GetValue(Application.ProductName) != null) ? true : false;
-            }
+            var keyName = @"Software\Microsoft\Windows\CurrentVersion\Run";
+            using var rKey = Registry.CurrentUser.OpenSubKey(keyName);
+            if (rKey is null) return false;
+            var value = (rKey.GetValue(Application.ProductName) is not null);
+            rKey.Close();
+            return value;
         }
 
-        private Theme GetSystemTheme()
+        private static Theme GetSystemTheme()
         {
-            string keyName = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
-            using (RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName))
-            {
-                object value;
-                if (rKey == null || (value = rKey.GetValue("SystemUsesLightTheme")) == null)
-                {
-                    Console.WriteLine("Oh No! Couldn't get theme light/dark");
-                    return Theme.Light;
-                }
-                return (int)value == 0 ? Theme.Dark : Theme.Light;
-            }
+            var keyName = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+            using var rKey = Registry.CurrentUser.OpenSubKey(keyName);
+            if (rKey is null) return Theme.Light;
+            var value = rKey.GetValue("SystemUsesLightTheme");
+            rKey.Close();
+            if (value is null) return Theme.Light;
+            return (int)value == 0 ? Theme.Dark : Theme.Light;
         }
 
         private void SetIcons()
         {
             Theme systemTheme = GetSystemTheme();
-            string prefix = (manualTheme == Theme.System ? systemTheme : manualTheme).GetString();
-            string runnerName = runner.GetString();
+            var prefix = (manualTheme == Theme.System ? systemTheme : manualTheme).GetString();
+            var runnerName = runner.GetString();
             ResourceManager rm = Resources.ResourceManager;
-            int capacity = runner.GetFrameNumber();
-            List<Icon> list = new List<Icon>(capacity);
+            var capacity = runner.GetFrameNumber();
+            var list = new List<Icon>(capacity);
             for (int i = 0; i < capacity; i++)
             {
-                string iconName = $"{prefix}_{runnerName}_{i}".ToLower();
-                list.Add((Icon)rm.GetObject(iconName));
+                var iconName = $"{prefix}_{runnerName}_{i}".ToLower();
+                var icon = rm.GetObject(iconName);
+                if (icon is null) continue;
+                list.Add((Icon)icon);
             }
-            icons = list.ToArray();
+            icons = [.. list];
         }
 
-        private void UpdateCheckedState(ToolStripMenuItem sender, ToolStripMenuItem menu)
+        private static void UpdateCheckedState(ToolStripMenuItem sender, ToolStripMenuItem menu)
         {
             foreach (ToolStripMenuItem item in menu.DropDownItems)
             {
@@ -222,27 +219,32 @@ namespace RunCat365
             sender.Checked = true;
         }
 
-        private void SetRunner(object sender, EventArgs e)
+        private void SetRunner(object? sender, EventArgs e)
         {
+            if (sender is null) return;
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             UpdateCheckedState(item, runnerMenu);
-            Enum.TryParse(item.Text, out runner);
+            _ = Enum.TryParse(item.Text, out runner);
             SetIcons();
         }
 
-        private void SetThemeIcons(object sender, EventArgs e)
+        private void SetThemeIcons(object? sender, EventArgs e)
         {
+            if (sender is null) return;
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             UpdateCheckedState(item, themeMenu);
-            Enum.TryParse(item.Text, out manualTheme);
+            _ = Enum.TryParse(item.Text, out manualTheme);
             SetIcons();
         }
 
-        private void SetFPSMaxLimit(object sender, EventArgs e)
+        private void SetFPSMaxLimit(object? sender, EventArgs e)
         {
+            if (sender is null) return;
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             UpdateCheckedState(item, fpsMaxLimitMenu);
-            fpsMaxLimit = _FPSMaxLimit.Parse(item.Text);
+            var text = item.Text;
+            if (text is null) return;
+            fpsMaxLimit = _FPSMaxLimit.Parse(text);
         }
 
         private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
@@ -250,25 +252,30 @@ namespace RunCat365
             if (e.Category == UserPreferenceCategory.General) SetIcons();
         }
 
-        private void SetStartup(object sender, EventArgs e)
+        private void SetStartup(object? sender, EventArgs e)
         {
-            startupMenu.Checked = !startupMenu.Checked;
-            string keyName = @"Software\Microsoft\Windows\CurrentVersion\Run";
-            using (RegistryKey rKey = Registry.CurrentUser.OpenSubKey(keyName, true))
+            var productName = Application.ProductName;
+            if (productName is null) return;
+            var keyName = @"Software\Microsoft\Windows\CurrentVersion\Run";
+            using var rKey = Registry.CurrentUser.OpenSubKey(keyName, true);
+            if (rKey is null) return;
+            if (!startupMenu.Checked)
             {
-                if (startupMenu.Checked)
+                var fileName = Environment.ProcessPath;
+                if (fileName != null)
                 {
-                    rKey.SetValue(Application.ProductName, Process.GetCurrentProcess().MainModule.FileName);
+                    rKey.SetValue(productName, fileName);
                 }
-                else
-                {
-                    rKey.DeleteValue(Application.ProductName, false);
-                }
-                rKey.Close();
             }
+            else
+            {
+                rKey.DeleteValue(productName, false);
+            }
+            rKey.Close();
+            startupMenu.Checked = !startupMenu.Checked;
         }
 
-        private void Exit(object sender, EventArgs e)
+        private void Exit(object? sender, EventArgs e)
         {
             cpuUsage.Close();
             animateTimer.Stop();
@@ -277,24 +284,17 @@ namespace RunCat365
             Application.Exit();
         }
 
-        private void AnimationTick(object sender, EventArgs e)
+        private void AnimationTick(object? sender, EventArgs e)
         {
             if (icons.Length <= current) current = 0;
             notifyIcon.Icon = icons[current];
             current = (current + 1) % icons.Length;
         }
 
-        private void SetAnimation()
-        {
-            animateTimer.Interval = ANIMATE_TIMER_DEFAULT_INTERVAL;
-            animateTimer.Tick += new EventHandler(AnimationTick);
-            animateTimer.Start();
-        }
-
-        private void CPUTick()
+        private void CPUTick(object? state, EventArgs e)
         {
             // Range of CPU percentage: 0-100 (%)
-            float cpuPercentage = Math.Min(100, cpuUsage.NextValue());
+            var cpuPercentage = Math.Min(100, cpuUsage.NextValue());
             notifyIcon.Text = $"CPU: {cpuPercentage:f1}%";
             // Range of interval: 25-500 (ms) = 2-40 (fps)
             interval = 500.0f / (float)Math.Max(1.0f, (cpuPercentage / 5.0f) * fpsMaxLimit.GetRate());
@@ -302,30 +302,6 @@ namespace RunCat365
             animateTimer.Stop();
             animateTimer.Interval = (int)interval;
             animateTimer.Start();
-        }
-
-        private void ObserveCPUTick(object sender, EventArgs e)
-        {
-            CPUTick();
-        }
-
-        private void StartObserveCPU()
-        {
-            cpuTimer.Interval = CPU_TIMER_DEFAULT_INTERVAL;
-            cpuTimer.Tick += new EventHandler(ObserveCPUTick);
-            cpuTimer.Start();
-        }
-
-        private void HandleDoubleClick(object Sender, EventArgs e)
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = "powershell",
-                UseShellExecute = false,
-                Arguments = " -c Start-Process taskmgr.exe",
-                CreateNoWindow = true,
-            };
-            Process.Start(startInfo);
         }
     }
 }
