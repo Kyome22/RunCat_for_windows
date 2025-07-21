@@ -1,3 +1,4 @@
+# Visual Studio
 .vs/
 bin/
 obj/
@@ -5,6 +6,9 @@ obj/
 [Ll]ogs/
 .DS_Store
 TestResults
+
+AppPackages/
+BundleArtifacts/
 
 # User-specific files
 *.suo
