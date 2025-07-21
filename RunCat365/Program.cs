@@ -32,7 +32,10 @@ namespace RunCat365
 
             try
             {
-                ApplicationConfiguration.Initialize();
+                //ApplicationConfiguration.Initialize();
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
                 Application.Run(new RunCat365ApplicationContext());
             }
             finally
