@@ -8,7 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <AssemblyName>RunCat 365</AssemblyName>
-    <ApplicationIcon>AppIcon.ico</ApplicationIcon>
+    <ApplicationIcon>resources\app_icon.ico</ApplicationIcon>
     <Authors>Takuto Nakamura</Authors>
     <Company>Studio Kyome</Company>
     <Description>A cute running cat animation on your taskbar.</Description>
@@ -27,7 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="AppIcon.ico" />
+    <Content Include="resources\app_icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
