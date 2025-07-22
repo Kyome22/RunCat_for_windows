@@ -12,6 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace RunCat365
 {
     enum FPSMaxLimit
@@ -51,16 +53,27 @@ namespace RunCat365
 
     static class _FPSMaxLimit
     {
-        internal static FPSMaxLimit Parse(string value)
+        internal static bool TryParse([NotNullWhen(true)] string? value, out FPSMaxLimit result)
         {
-            return value switch
+            FPSMaxLimit? nullableResult = value switch
             {
                 "40fps" => FPSMaxLimit.FPS40,
                 "30fps" => FPSMaxLimit.FPS30,
                 "20fps" => FPSMaxLimit.FPS20,
                 "10fps" => FPSMaxLimit.FPS10,
-                _ => FPSMaxLimit.FPS40,
+                _ => null,
             };
+
+            if (nullableResult is FPSMaxLimit nonNullableResult)
+            {
+                result = nonNullableResult;
+                return true;
+            }
+            else
+            {
+                result = FPSMaxLimit.FPS40;
+                return false;
+            }
         }
     }
 }

@@ -221,32 +221,52 @@ namespace RunCat365
             sender.Checked = true;
         }
 
-        private void SetRunner(object? sender, EventArgs e)
+        private static void HandleMenuItemSelection<T>(
+            object? sender,
+            ToolStripMenuItem parentMenu,
+            CustomTryParseDelegate<T> tryParseMethod,
+            Action<T> assignValueAction
+        )
         {
             if (sender is null) return;
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            UpdateCheckedState(item, runnerMenu);
-            _ = Enum.TryParse(item.Text, out runner);
+            UpdateCheckedState(item, parentMenu);
+            if (tryParseMethod(item.Text, out T parsedValue))
+            {
+                assignValueAction(parsedValue);
+            }
+        }
+
+        private void SetRunner(object? sender, EventArgs e)
+        {
+            HandleMenuItemSelection(
+                sender,
+                runnerMenu,
+                (string? s, out Runner r) => Enum.TryParse(s, out r),
+                value => runner = value
+            );
             SetIcons();
         }
 
         private void SetThemeIcons(object? sender, EventArgs e)
         {
-            if (sender is null) return;
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            UpdateCheckedState(item, themeMenu);
-            _ = Enum.TryParse(item.Text, out manualTheme);
+            HandleMenuItemSelection(
+                sender,
+                themeMenu,
+                (string? s, out Theme t) => Enum.TryParse(s, out t),
+                value => manualTheme = value
+            );
             SetIcons();
         }
 
         private void SetFPSMaxLimit(object? sender, EventArgs e)
         {
-            if (sender is null) return;
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            UpdateCheckedState(item, fpsMaxLimitMenu);
-            var text = item.Text;
-            if (text is null) return;
-            fpsMaxLimit = _FPSMaxLimit.Parse(text);
+            HandleMenuItemSelection(
+                sender,
+                fpsMaxLimitMenu,
+                (string? s, out FPSMaxLimit f) => _FPSMaxLimit.TryParse(s, out f),
+                value => fpsMaxLimit = value
+            );
         }
 
         private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
@@ -311,4 +331,6 @@ namespace RunCat365
             animateTimer.Start();
         }
     }
+
+    public delegate bool CustomTryParseDelegate<T>(string? value, out T result);
 }
