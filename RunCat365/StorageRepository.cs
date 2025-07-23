@@ -1,0 +1,126 @@
+﻿// Copyright 2020 Takuto Nakamura
+//
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+//        http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+
+using RunCat365;
+
+namespace RunCat365
+{
+    enum Drive
+    {
+        C,
+        D
+    }
+
+    internal static class DriveExtension
+    {
+        internal static string GetString(this Drive drive)
+        {
+            return drive switch
+            {
+                Drive.C => "C Drive",
+                Drive.D => "D Drive",
+                _ => "",
+            };
+        }
+
+        internal static Drive? CreateFromString(string? value)
+        {
+            return value switch
+            {
+                "C:\\" => Drive.C,
+                "D:\\" => Drive.D,
+                _ => null,
+            };
+        }
+    }
+
+    struct StorageInfo
+    {
+        internal Drive Drive { get; set; }
+        internal long TotalSize { get; set; }
+        internal long AvailableSpaceSize { get; set; }
+        internal long UsedSpaceSize { get; set; }
+    }
+
+    static class ByteFormatter
+    {
+        internal static string ToByteFormatted(this long bytes)
+        {
+            string[] units = ["B", "KB", "MB", "GB", "TB"];
+            int i = 0;
+            double doubleBytes = bytes;
+            while (1024 <= doubleBytes && i < units.Length - 1)
+            {
+                doubleBytes /= 1024;
+                i++;
+            }
+            return string.Format("{0:0.##} {1}", doubleBytes, units[i]);
+        }
+    }
+
+    static class StorageRepository
+    {
+        internal static List<StorageInfo> Get()
+        {
+            var storageInfoList = new List<StorageInfo>();
+            var allDrives = DriveInfo.GetDrives();
+            foreach (DriveInfo driveInfo in allDrives)
+            {
+                if (driveInfo.IsReady && DriveExtension.CreateFromString(driveInfo.Name) is Drive drive)
+                {
+                    try
+                    {
+                        var storageInfo = new StorageInfo
+                        {
+                            Drive = drive,
+                            TotalSize = driveInfo.TotalSize,
+                            AvailableSpaceSize = driveInfo.AvailableFreeSpace,
+                            UsedSpaceSize = driveInfo.TotalSize - driveInfo.AvailableFreeSpace
+                        };
+                        storageInfoList.Add(storageInfo);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error: {ex.Message}");
+                    }
+                }
+            }
+            return storageInfoList;
+        }
+
+        internal static List<string> GenerateTree(this List<StorageInfo> storageInfoList)
+        {
+            var resultLines = new List<string>
+            {
+                "Storage:"
+            };
+
+            if (storageInfoList.Count == 0) return resultLines;
+
+            for (int i = 0; i < storageInfoList.Count; i++)
+            {
+                var info = storageInfoList[i];
+                var isLastItem = (i == storageInfoList.Count - 1);
+                var parentPrefix = isLastItem ? " └─ " : " ├─ ";
+                var childIndent = isLastItem ? "    " : " │  ";
+                var percentage = ((double)info.UsedSpaceSize / info.TotalSize) * 100.0;
+                resultLines.Add($"{parentPrefix}{info.Drive.GetString()}: {percentage:f1}%");
+                resultLines.Add($"{childIndent} ├─ Used: {info.UsedSpaceSize.ToByteFormatted()}");
+                resultLines.Add($"{childIndent} └─ Available: {info.AvailableSpaceSize.ToByteFormatted()}");
+            }
+
+            return resultLines;
+        }
+    }
+}

@@ -21,7 +21,7 @@ namespace RunCat365
         Dark,
     }
 
-    static class ThemeExtensions
+    internal static class ThemeExtension
     {
         internal static string GetString(this Theme theme)
         {

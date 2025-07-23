@@ -21,7 +21,7 @@ namespace RunCat365
         Horse,
     }
 
-    static class RunnerExtensions
+    internal static class RunnerExtension
     {
         internal static string GetString(this Runner runner)
         {

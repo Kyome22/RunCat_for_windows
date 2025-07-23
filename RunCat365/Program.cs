@@ -48,10 +48,11 @@ namespace RunCat365
         private const int CPU_VALUES_LIMIT_SIZE = 5;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
         private readonly PerformanceCounter cpuCounter;
-        private readonly ToolStripMenuItem runnerMenu;
-        private readonly ToolStripMenuItem themeMenu;
-        private readonly ToolStripMenuItem startupMenu;
-        private readonly ToolStripMenuItem fpsMaxLimitMenu;
+        private readonly CustomToolStripMenuItem systemInfoMenu;
+        private readonly CustomToolStripMenuItem runnerMenu;
+        private readonly CustomToolStripMenuItem themeMenu;
+        private readonly CustomToolStripMenuItem fpsMaxLimitMenu;
+        private readonly CustomToolStripMenuItem startupMenu;
         private readonly NotifyIcon notifyIcon;
         private readonly FormsTimer animateTimer;
         private readonly FormsTimer cpuTimer;
@@ -77,6 +78,11 @@ namespace RunCat365
             cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             _ = cpuCounter.NextValue(); // discards first return value
 
+            systemInfoMenu = new CustomToolStripMenuItem("-\n-\n-\n-\n-")
+            {
+                Enabled = false
+            };
+
             runnerMenu = CreateMenuFromEnum<Runner>(
                 "Runner",
                 r => r.GetString(),
@@ -98,28 +104,31 @@ namespace RunCat365
                 fps => fpsMaxLimit == fps
             );
 
-            startupMenu = new ToolStripMenuItem("Startup", null, SetStartup);
+            startupMenu = new CustomToolStripMenuItem("Startup", null, SetStartup);
             if (IsStartupEnabled())
             {
                 startupMenu.Checked = true;
             }
 
             var appVersion = $"{Application.ProductName} v{Application.ProductVersion}";
-            var appVersionMenu = new ToolStripMenuItem(appVersion)
+            var appVersionMenu = new CustomToolStripMenuItem(appVersion)
             {
                 Enabled = false
             };
 
             var contextMenuStrip = new ContextMenuStrip(new Container());
             contextMenuStrip.Items.AddRange(
+                systemInfoMenu,
+                new ToolStripSeparator(),
                 runnerMenu,
                 themeMenu,
                 fpsMaxLimitMenu,
                 startupMenu,
                 new ToolStripSeparator(),
                 appVersionMenu,
-                new ToolStripMenuItem("Exit", null, Exit)
+                new CustomToolStripMenuItem("Exit", null, Exit)
             );
+            contextMenuStrip.Renderer = new ContextMenuRenderer();
 
             SetIcons();
 
@@ -127,7 +136,7 @@ namespace RunCat365
             {
                 Icon = icons[0],
                 ContextMenuStrip = contextMenuStrip,
-                Text = "0.0%",
+                Text = "-",
                 Visible = true
             };
 
@@ -144,25 +153,27 @@ namespace RunCat365
             };
             cpuTimer.Tick += new EventHandler(CPUTick);
             cpuTimer.Start();
+
+            FetchSystemInfo(0);
         }
 
-        private static ToolStripMenuItem CreateMenuFromEnum<T>(
+        private static CustomToolStripMenuItem CreateMenuFromEnum<T>(
             string title,
             Func<T, string> getTitle,
             EventHandler onClickEvent,
             Func<T, bool> isChecked
         ) where T : Enum
         {
-            var items = new List<ToolStripMenuItem>();
+            var items = new List<CustomToolStripMenuItem>();
             foreach (T value in Enum.GetValues(typeof(T)))
             {
-                var item = new ToolStripMenuItem(getTitle(value), null, onClickEvent)
+                var item = new CustomToolStripMenuItem(getTitle(value), null, onClickEvent)
                 {
                     Checked = isChecked(value) 
                 };
                 items.Add(item);
             }
-            return new ToolStripMenuItem(title, null, [.. items]);
+            return new CustomToolStripMenuItem(title, null, [.. items]);
         }
 
         private void OnApplicationExit(object? sender, EventArgs e)
@@ -264,7 +275,7 @@ namespace RunCat365
             HandleMenuItemSelection(
                 sender,
                 fpsMaxLimitMenu,
-                (string? s, out FPSMaxLimit f) => _FPSMaxLimit.TryParse(s, out f),
+                (string? s, out FPSMaxLimit f) => FPSMaxLimitExtension.TryParse(s, out f),
                 value => fpsMaxLimit = value
             );
         }
@@ -322,13 +333,25 @@ namespace RunCat365
 
             var averageValue = cpuValues.Average();
             cpuValues.Clear();
-            notifyIcon.Text = $"CPU: {averageValue:f1}%";
+            FetchSystemInfo(averageValue);
+
             // Range of interval: 25-500 (ms) = 2-40 (fps)
             interval = 500.0f / (float)Math.Max(1.0f, (averageValue / 5.0f) * fpsMaxLimit.GetRate());
-
             animateTimer.Stop();
             animateTimer.Interval = (int)interval;
             animateTimer.Start();
+        }
+
+        private void FetchSystemInfo(float cpuValue)
+        {
+            notifyIcon.Text = $"CPU: {cpuValue:f1}%";
+
+            var systemInfoValues = new List<string>
+            {
+                $"CPU: {cpuValue:f1}%"
+            };
+            systemInfoValues.AddRange(StorageRepository.Get().GenerateTree());
+            systemInfoMenu.Text = string.Join("\n", [.. systemInfoValues]);
         }
     }
 

@@ -24,7 +24,7 @@ namespace RunCat365
         FPS10,
     }
 
-    static class FPSMaxLimitExtensions
+    internal static class FPSMaxLimitExtension
     {
         internal static string GetString(this FPSMaxLimit fpsMaxLimit)
         {
@@ -49,10 +49,7 @@ namespace RunCat365
                 _ => 1f,
             };
         }
-    }
 
-    static class _FPSMaxLimit
-    {
         internal static bool TryParse([NotNullWhen(true)] string? value, out FPSMaxLimit result)
         {
             FPSMaxLimit? nullableResult = value switch
