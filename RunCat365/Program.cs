@@ -48,6 +48,7 @@ namespace RunCat365
         private const int CPU_VALUES_LIMIT_SIZE = 5;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
         private readonly PerformanceCounter cpuCounter;
+        private readonly ToolStripMenuItem storageInfoMenu;
         private readonly ToolStripMenuItem runnerMenu;
         private readonly ToolStripMenuItem themeMenu;
         private readonly ToolStripMenuItem startupMenu;
@@ -76,6 +77,11 @@ namespace RunCat365
 
             cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             _ = cpuCounter.NextValue(); // discards first return value
+
+            storageInfoMenu = new ToolStripMenuItem("Storage: -")
+            {
+                Enabled = false
+            };
 
             runnerMenu = CreateMenuFromEnum<Runner>(
                 "Runner",
@@ -112,6 +118,7 @@ namespace RunCat365
 
             var contextMenuStrip = new ContextMenuStrip(new Container());
             contextMenuStrip.Items.AddRange(
+                storageInfoMenu,
                 runnerMenu,
                 themeMenu,
                 fpsMaxLimitMenu,
@@ -325,6 +332,10 @@ namespace RunCat365
             notifyIcon.Text = $"CPU: {averageValue:f1}%";
             // Range of interval: 25-500 (ms) = 2-40 (fps)
             interval = 500.0f / (float)Math.Max(1.0f, (averageValue / 5.0f) * fpsMaxLimit.GetRate());
+
+            var storageInfoList = StorageRepository.Get();
+            var storageInfo = storageInfoList[0];
+            storageInfoMenu.Text = $"{storageInfo.DriveName}: {storageInfo.UsedSpaceSize.ToByteFormatted()}";
 
             animateTimer.Stop();
             animateTimer.Interval = (int)interval;
