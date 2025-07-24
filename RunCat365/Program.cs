@@ -157,6 +157,13 @@ namespace RunCat365
             FetchSystemInfo(0);
         }
 
+        private static Bitmap? GetRunnerThumbnailBitmap(Runner runner)
+        {
+            var iconName = $"{Theme.Light.GetString()}_{runner.GetString()}_0".ToLower();
+            var obj = Resources.ResourceManager.GetObject(iconName);
+            return obj is Icon icon ? icon.ToBitmap() : null;
+        }
+
         private static CustomToolStripMenuItem CreateMenuFromEnum<T>(
             string title,
             Func<T, string> getTitle,
@@ -167,7 +174,9 @@ namespace RunCat365
             var items = new List<CustomToolStripMenuItem>();
             foreach (T value in Enum.GetValues(typeof(T)))
             {
-                var item = new CustomToolStripMenuItem(getTitle(value), null, onClickEvent)
+                string entityName = getTitle(value);
+                Image? iconImage = value is Runner runner ? GetRunnerThumbnailBitmap(runner) : null;
+                var item = new CustomToolStripMenuItem(entityName, iconImage, onClickEvent)
                 {
                     Checked = isChecked(value) 
                 };
