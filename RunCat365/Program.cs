@@ -56,11 +56,11 @@ namespace RunCat365
         private readonly NotifyIcon notifyIcon;
         private readonly FormsTimer animateTimer;
         private readonly FormsTimer cpuTimer;
+        private readonly List<float> cpuValues = [];
+        private readonly List<Icon> icons = [];
         private Runner runner = Runner.Cat;
         private Theme manualTheme = Theme.System;
         private FPSMaxLimit fpsMaxLimit = FPSMaxLimit.FPS40;
-        private List<float> cpuValues = [];
-        private Icon[] icons = [];
         private int current = 0;
         private float interval;
 
@@ -175,8 +175,8 @@ namespace RunCat365
             var items = new List<CustomToolStripMenuItem>();
             foreach (T value in Enum.GetValues(typeof(T)))
             {
-                string entityName = getTitle(value);
-                Image? iconImage = value is Runner runner ? GetRunnerThumbnailBitmap(runner) : null;
+                var entityName = getTitle(value);
+                var iconImage = value is Runner runner ? GetRunnerThumbnailBitmap(runner) : null;
                 var item = new CustomToolStripMenuItem(entityName, iconImage, onClickEvent)
                 {
                     Checked = isChecked(value) 
@@ -217,10 +217,10 @@ namespace RunCat365
 
         private void SetIcons()
         {
-            Theme systemTheme = GetSystemTheme();
+            var systemTheme = GetSystemTheme();
             var prefix = (manualTheme == Theme.System ? systemTheme : manualTheme).GetString();
             var runnerName = runner.GetString();
-            ResourceManager rm = Resources.ResourceManager;
+            var rm = Resources.ResourceManager;
             var capacity = runner.GetFrameNumber();
             var list = new List<Icon>(capacity);
             for (int i = 0; i < capacity; i++)
@@ -230,7 +230,8 @@ namespace RunCat365
                 if (icon is null) continue;
                 list.Add((Icon)icon);
             }
-            icons = [.. list];
+            icons.Clear();
+            icons.AddRange(list);
         }
 
         private static void UpdateCheckedState(ToolStripMenuItem sender, ToolStripMenuItem menu)
@@ -250,7 +251,7 @@ namespace RunCat365
         )
         {
             if (sender is null) return;
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            var item = (ToolStripMenuItem)sender;
             UpdateCheckedState(item, parentMenu);
             if (tryParseMethod(item.Text, out T parsedValue))
             {
@@ -329,9 +330,9 @@ namespace RunCat365
 
         private void AnimationTick(object? sender, EventArgs e)
         {
-            if (icons.Length <= current) current = 0;
+            if (icons.Count <= current) current = 0;
             notifyIcon.Icon = icons[current];
-            current = (current + 1) % icons.Length;
+            current = (current + 1) % icons.Count;
         }
 
         private void CPUTick(object? state, EventArgs e)
