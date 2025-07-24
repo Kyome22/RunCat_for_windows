@@ -12,8 +12,8 @@
                     e.Graphics,
                     e.Text, 
                     e.TextFont, 
-                    textRectangle, 
-                    e.TextColor, 
+                    textRectangle,
+                    e.Item.ForeColor, 
                     item.Flags()
                 );
             }

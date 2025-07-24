@@ -25,7 +25,6 @@
             if (string.IsNullOrEmpty(Text) || !Text.Contains('\n'))
             {
                 return new Size(baseSize.Width, 22);
-                // return baseSize;
             }
             var textRenderWidth = Math.Max(constrainingSize.Width - 20, 1);
 

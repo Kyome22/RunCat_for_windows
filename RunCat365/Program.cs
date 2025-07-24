@@ -126,6 +126,7 @@ namespace RunCat365
                 startupMenu,
                 new ToolStripSeparator(),
                 appVersionMenu,
+                new ToolStripSeparator(),
                 new CustomToolStripMenuItem("Exit", null, Exit)
             );
             contextMenuStrip.Renderer = new ContextMenuRenderer();
