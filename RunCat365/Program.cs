@@ -17,7 +17,6 @@ using Microsoft.Win32;
 using RunCat365.Properties;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Resources;
 
 namespace RunCat365
 {
