@@ -175,8 +175,8 @@ namespace RunCat365
             var items = new List<CustomToolStripMenuItem>();
             foreach (T value in Enum.GetValues(typeof(T)))
             {
-                string entityName = getTitle(value);
-                Image? iconImage = value is Runner runner ? GetRunnerThumbnailBitmap(runner) : null;
+                var entityName = getTitle(value);
+                var iconImage = value is Runner runner ? GetRunnerThumbnailBitmap(runner) : null;
                 var item = new CustomToolStripMenuItem(entityName, iconImage, onClickEvent)
                 {
                     Checked = isChecked(value) 
@@ -217,10 +217,10 @@ namespace RunCat365
 
         private void SetIcons()
         {
-            Theme systemTheme = GetSystemTheme();
+            var systemTheme = GetSystemTheme();
             var prefix = (manualTheme == Theme.System ? systemTheme : manualTheme).GetString();
             var runnerName = runner.GetString();
-            ResourceManager rm = Resources.ResourceManager;
+            var rm = Resources.ResourceManager;
             var capacity = runner.GetFrameNumber();
             var list = new List<Icon>(capacity);
             for (int i = 0; i < capacity; i++)
@@ -250,7 +250,7 @@ namespace RunCat365
         )
         {
             if (sender is null) return;
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            var item = (ToolStripMenuItem)sender;
             UpdateCheckedState(item, parentMenu);
             if (tryParseMethod(item.Text, out T parsedValue))
             {
