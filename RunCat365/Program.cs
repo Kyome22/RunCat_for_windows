@@ -57,10 +57,10 @@ namespace RunCat365
         private readonly FormsTimer animateTimer;
         private readonly FormsTimer cpuTimer;
         private readonly List<float> cpuValues = [];
+        private readonly List<Icon> icons = [];
         private Runner runner = Runner.Cat;
         private Theme manualTheme = Theme.System;
         private FPSMaxLimit fpsMaxLimit = FPSMaxLimit.FPS40;
-        private Icon[] icons = [];
         private int current = 0;
         private float interval;
 
@@ -230,7 +230,8 @@ namespace RunCat365
                 if (icon is null) continue;
                 list.Add((Icon)icon);
             }
-            icons = [.. list];
+            icons.Clear();
+            icons.AddRange(list);
         }
 
         private static void UpdateCheckedState(ToolStripMenuItem sender, ToolStripMenuItem menu)
@@ -329,9 +330,9 @@ namespace RunCat365
 
         private void AnimationTick(object? sender, EventArgs e)
         {
-            if (icons.Length <= current) current = 0;
+            if (icons.Count <= current) current = 0;
             notifyIcon.Icon = icons[current];
-            current = (current + 1) % icons.Length;
+            current = (current + 1) % icons.Count;
         }
 
         private void CPUTick(object? state, EventArgs e)
