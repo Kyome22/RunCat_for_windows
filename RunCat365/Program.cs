@@ -56,10 +56,10 @@ namespace RunCat365
         private readonly NotifyIcon notifyIcon;
         private readonly FormsTimer animateTimer;
         private readonly FormsTimer cpuTimer;
+        private readonly List<float> cpuValues = [];
         private Runner runner = Runner.Cat;
         private Theme manualTheme = Theme.System;
         private FPSMaxLimit fpsMaxLimit = FPSMaxLimit.FPS40;
-        private List<float> cpuValues = [];
         private Icon[] icons = [];
         private int current = 0;
         private float interval;
