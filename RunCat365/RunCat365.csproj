@@ -24,6 +24,7 @@
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Platforms>x64;x86;ARM64</Platforms>
     <ApplicationManifest>App.manifest</ApplicationManifest>
+    <NoWarn>$(NoWarn);WFO5001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

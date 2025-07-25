@@ -32,6 +32,7 @@ namespace RunCat365
             try
             {
                 ApplicationConfiguration.Initialize();
+                Application.SetColorMode(SystemColorMode.System);
                 Application.Run(new RunCat365ApplicationContext());
             }
             finally
@@ -159,7 +160,8 @@ namespace RunCat365
 
         private static Bitmap? GetRunnerThumbnailBitmap(Runner runner)
         {
-            var iconName = $"{Theme.Light.GetString()}_{runner.GetString()}_0".ToLower();
+            var systemTheme = GetSystemTheme();
+            var iconName = $"{systemTheme.GetString()}_{runner.GetString()}_0".ToLower();
             var obj = Resources.ResourceManager.GetObject(iconName);
             return obj is Icon icon ? icon.ToBitmap() : null;
         }
