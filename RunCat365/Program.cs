@@ -47,6 +47,7 @@ namespace RunCat365
         private const int FETCH_COUNTER_SIZE = 5;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
         private readonly CPURepository cpuRepository;
+        private readonly MemoryRepository memoryRepository;
         private readonly StorageRepository storageRepository;
         private readonly CustomToolStripMenuItem systemInfoMenu;
         private readonly CustomToolStripMenuItem runnerMenu;
@@ -75,6 +76,7 @@ namespace RunCat365
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
 
             cpuRepository = new CPURepository();
+            memoryRepository = new MemoryRepository();
             storageRepository = new StorageRepository();
 
             systemInfoMenu = new CustomToolStripMenuItem("-\n-\n-\n-\n-")
@@ -333,7 +335,11 @@ namespace RunCat365
             current = (current + 1) % icons.Count;
         }
 
-        private void FetchSystemInfo(CPUInfo cpuInfo, List<StorageInfo> storageValue)
+        private void FetchSystemInfo(
+            CPUInfo cpuInfo,
+            MemoryInfo memoryInfo,
+            List<StorageInfo> storageValue
+        )
         {
             var cpuIndicator = cpuInfo.GenerateIndicator();
             notifyIcon.Text = cpuIndicator;
@@ -342,6 +348,7 @@ namespace RunCat365
             {
                 cpuIndicator
             };
+            systemInfoValues.AddRange(memoryInfo.GenerateIndicator());
             systemInfoValues.AddRange(storageValue.GenerateIndicator());
             systemInfoMenu.Text = string.Join("\n", [.. systemInfoValues]);
         }
@@ -361,8 +368,9 @@ namespace RunCat365
             fetchCounter = 0;
 
             var cpuInfo = cpuRepository.Get();
+            var memoryInfo = memoryRepository.Get();
             var storageInfo = storageRepository.Get();
-            FetchSystemInfo(cpuInfo, storageInfo);
+            FetchSystemInfo(cpuInfo, memoryInfo, storageInfo);
 
             animateTimer.Stop();
             animateTimer.Interval = CalculateInterval(cpuInfo);
