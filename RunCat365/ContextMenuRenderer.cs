@@ -21,13 +21,13 @@ namespace RunCat365
             if (!string.IsNullOrEmpty(e.Text) && e.Item is CustomToolStripMenuItem item)
             {
                 var textRectangle = e.TextRectangle;
-                textRectangle.Height = e.Item.Bounds.Height;
+                textRectangle.Height = item.Bounds.Height;
                 TextRenderer.DrawText(
                     e.Graphics,
                     e.Text, 
                     e.TextFont, 
                     textRectangle,
-                    e.Item.ForeColor, 
+                    item.ForeColor, 
                     item.Flags()
                 );
             }

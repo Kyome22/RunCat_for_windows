@@ -36,7 +36,7 @@ namespace RunCat365
         public override Size GetPreferredSize(Size constrainingSize)
         {
             Size baseSize = base.GetPreferredSize(constrainingSize);
-            if (string.IsNullOrEmpty(Text) || !Text.Contains('\n'))
+            if (string.IsNullOrEmpty(Text))
             {
                 return new Size(baseSize.Width, 22);
             }
@@ -46,17 +46,21 @@ namespace RunCat365
                 Text,
                 Font,
                 new Size(textRenderWidth, int.MaxValue),
-                multiLineTextFlags
+                Flags()
             );
-            var calculatedHeight = (int)Math.Ceiling(measuredSize.Height);
-            var height = Math.Max(baseSize.Height, calculatedHeight + 4);
+            var calculatedHeight = (int)Math.Ceiling(measuredSize.Height) + 4;
+            var height = IsSingleLine() ? calculatedHeight : Math.Max(baseSize.Height, calculatedHeight);
             return new Size(baseSize.Width, height);
+        }
+
+        internal bool IsSingleLine()
+        {
+            return string.IsNullOrEmpty(Text) || !Text.Contains('\n');
         }
 
         internal TextFormatFlags Flags()
         {
-            if (string.IsNullOrEmpty(Text) || !Text.Contains('\n')) return singleLineTextFlags;
-            return multiLineTextFlags;
+            return IsSingleLine() ? singleLineTextFlags : multiLineTextFlags;
         }
     }
 }
