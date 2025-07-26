@@ -12,8 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-using RunCat365;
-
 namespace RunCat365
 {
     enum Drive
@@ -53,6 +51,33 @@ namespace RunCat365
         internal long UsedSpaceSize { get; set; }
     }
 
+    internal static class StorageInfoExtension
+    {
+        internal static List<string> GenerateIndicator(this List<StorageInfo> storageInfoList)
+        {
+            var resultLines = new List<string>
+            {
+                "Storage:"
+            };
+
+            if (storageInfoList.Count == 0) return resultLines;
+
+            for (int i = 0; i < storageInfoList.Count; i++)
+            {
+                var info = storageInfoList[i];
+                var isLastItem = (i == storageInfoList.Count - 1);
+                var parentPrefix = isLastItem ? " └─ " : " ├─ ";
+                var childIndent = isLastItem ? "    " : " │  ";
+                var percentage = ((double)info.UsedSpaceSize / info.TotalSize) * 100.0;
+                resultLines.Add($"{parentPrefix}{info.Drive.GetString()}: {percentage:f1}%");
+                resultLines.Add($"{childIndent} ├─ Used: {info.UsedSpaceSize.ToByteFormatted()}");
+                resultLines.Add($"{childIndent} └─ Available: {info.AvailableSpaceSize.ToByteFormatted()}");
+            }
+
+            return resultLines;
+        }
+    }
+
     static class ByteFormatter
     {
         internal static string ToByteFormatted(this long bytes)
@@ -69,11 +94,15 @@ namespace RunCat365
         }
     }
 
-    static class StorageRepository
+    internal class StorageRepository
     {
-        internal static List<StorageInfo> Get()
+        private readonly List<StorageInfo> storageInfoList = [];
+
+        internal StorageRepository() { }
+
+        internal void Update()
         {
-            var storageInfoList = new List<StorageInfo>();
+            storageInfoList.Clear();
             var allDrives = DriveInfo.GetDrives();
             foreach (DriveInfo driveInfo in allDrives)
             {
@@ -96,31 +125,12 @@ namespace RunCat365
                     }
                 }
             }
-            return storageInfoList;
         }
 
-        internal static List<string> GenerateTree(this List<StorageInfo> storageInfoList)
+        internal List<StorageInfo> Get()
         {
-            var resultLines = new List<string>
-            {
-                "Storage:"
-            };
-
-            if (storageInfoList.Count == 0) return resultLines;
-
-            for (int i = 0; i < storageInfoList.Count; i++)
-            {
-                var info = storageInfoList[i];
-                var isLastItem = (i == storageInfoList.Count - 1);
-                var parentPrefix = isLastItem ? " └─ " : " ├─ ";
-                var childIndent = isLastItem ? "    " : " │  ";
-                var percentage = ((double)info.UsedSpaceSize / info.TotalSize) * 100.0;
-                resultLines.Add($"{parentPrefix}{info.Drive.GetString()}: {percentage:f1}%");
-                resultLines.Add($"{childIndent} ├─ Used: {info.UsedSpaceSize.ToByteFormatted()}");
-                resultLines.Add($"{childIndent} └─ Available: {info.AvailableSpaceSize.ToByteFormatted()}");
-            }
-
-            return resultLines;
+            Update();
+            return storageInfoList;
         }
     }
 }
