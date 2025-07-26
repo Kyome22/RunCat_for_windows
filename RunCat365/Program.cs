@@ -16,7 +16,6 @@ using FormsTimer = System.Windows.Forms.Timer;
 using Microsoft.Win32;
 using RunCat365.Properties;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace RunCat365
 {
@@ -44,25 +43,25 @@ namespace RunCat365
 
     public class RunCat365ApplicationContext : ApplicationContext
     {
-        private const int CPU_TIMER_DEFAULT_INTERVAL = 1000;
-        private const int CPU_VALUES_LIMIT_SIZE = 5;
+        private const int FETCH_TIMER_DEFAULT_INTERVAL = 1000;
+        private const int FETCH_COUNTER_SIZE = 5;
         private const int ANIMATE_TIMER_DEFAULT_INTERVAL = 200;
-        private readonly PerformanceCounter cpuCounter;
+        private readonly CPURepository cpuRepository;
+        private readonly StorageRepository storageRepository;
         private readonly CustomToolStripMenuItem systemInfoMenu;
         private readonly CustomToolStripMenuItem runnerMenu;
         private readonly CustomToolStripMenuItem themeMenu;
         private readonly CustomToolStripMenuItem fpsMaxLimitMenu;
         private readonly CustomToolStripMenuItem startupMenu;
         private readonly NotifyIcon notifyIcon;
+        private readonly FormsTimer fetchTimer;
         private readonly FormsTimer animateTimer;
-        private readonly FormsTimer cpuTimer;
-        private readonly List<float> cpuValues = [];
         private readonly List<Icon> icons = [];
         private Runner runner = Runner.Cat;
         private Theme manualTheme = Theme.System;
         private FPSMaxLimit fpsMaxLimit = FPSMaxLimit.FPS40;
+        private int fetchCounter = 5;
         private int current = 0;
-        private float interval;
 
         public RunCat365ApplicationContext()
         {
@@ -75,8 +74,8 @@ namespace RunCat365
 
             SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(UserPreferenceChanged);
 
-            cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-            _ = cpuCounter.NextValue(); // discards first return value
+            cpuRepository = new CPURepository();
+            storageRepository = new StorageRepository();
 
             systemInfoMenu = new CustomToolStripMenuItem("-\n-\n-\n-\n-")
             {
@@ -148,14 +147,12 @@ namespace RunCat365
             animateTimer.Tick += new EventHandler(AnimationTick);
             animateTimer.Start();
 
-            cpuTimer = new FormsTimer
+            fetchTimer = new FormsTimer
             {
-                Interval = CPU_TIMER_DEFAULT_INTERVAL
+                Interval = FETCH_TIMER_DEFAULT_INTERVAL
             };
-            cpuTimer.Tick += new EventHandler(CPUTick);
-            cpuTimer.Start();
-
-            FetchSystemInfo(0);
+            fetchTimer.Tick += new EventHandler(FetchTick);
+            fetchTimer.Start();
         }
 
         private static Bitmap? GetRunnerThumbnailBitmap(Runner runner)
@@ -322,9 +319,9 @@ namespace RunCat365
 
         private void Exit(object? sender, EventArgs e)
         {
-            cpuCounter.Close();
+            cpuRepository.Close();
             animateTimer.Stop();
-            cpuTimer.Stop();
+            fetchTimer.Stop();
             notifyIcon.Visible = false;
             Application.Exit();
         }
@@ -336,34 +333,40 @@ namespace RunCat365
             current = (current + 1) % icons.Count;
         }
 
-        private void CPUTick(object? state, EventArgs e)
+        private void FetchSystemInfo(CPUInfo cpuInfo, List<StorageInfo> storageValue)
         {
-            // Range of CPU percentage: 0-100 (%)
-            var value = Math.Min(100, cpuCounter.NextValue());
-            cpuValues.Add(value);
-            if (cpuValues.Count < CPU_VALUES_LIMIT_SIZE) return;
-
-            var averageValue = cpuValues.Average();
-            cpuValues.Clear();
-            FetchSystemInfo(averageValue);
-
-            // Range of interval: 25-500 (ms) = 2-40 (fps)
-            interval = 500.0f / (float)Math.Max(1.0f, (averageValue / 5.0f) * fpsMaxLimit.GetRate());
-            animateTimer.Stop();
-            animateTimer.Interval = (int)interval;
-            animateTimer.Start();
-        }
-
-        private void FetchSystemInfo(float cpuValue)
-        {
-            notifyIcon.Text = $"CPU: {cpuValue:f1}%";
+            var cpuIndicator = cpuInfo.GenerateIndicator();
+            notifyIcon.Text = cpuIndicator;
 
             var systemInfoValues = new List<string>
             {
-                $"CPU: {cpuValue:f1}%"
+                cpuIndicator
             };
-            systemInfoValues.AddRange(StorageRepository.Get().GenerateTree());
+            systemInfoValues.AddRange(storageValue.GenerateIndicator());
             systemInfoMenu.Text = string.Join("\n", [.. systemInfoValues]);
+        }
+
+        private int CalculateInterval(CPUInfo cpuInfo)
+        {
+            // Range of interval: 25-500 (ms) = 2-40 (fps)
+            var speed = (float)Math.Max(1.0f, (cpuInfo / 5.0f) * fpsMaxLimit.GetRate());
+            return (int)(500.0f / speed);
+        }
+
+        private void FetchTick(object? state, EventArgs e)
+        {
+            cpuRepository.Update();
+            fetchCounter += 1;
+            if (fetchCounter < FETCH_COUNTER_SIZE) return;
+            fetchCounter = 0;
+
+            var cpuInfo = cpuRepository.Get();
+            var storageInfo = storageRepository.Get();
+            FetchSystemInfo(cpuInfo, storageInfo);
+
+            animateTimer.Stop();
+            animateTimer.Interval = CalculateInterval(cpuInfo);
+            animateTimer.Start();
         }
     }
 
