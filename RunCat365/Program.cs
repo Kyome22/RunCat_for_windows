@@ -61,6 +61,7 @@ namespace RunCat365
         private Runner runner = Runner.Cat;
         private Theme manualTheme = Theme.System;
         private FPSMaxLimit fpsMaxLimit = FPSMaxLimit.FPS40;
+        private bool firstLaunch;
         private int fetchCounter = 5;
         private int current = 0;
 
@@ -70,6 +71,7 @@ namespace RunCat365
             _ = Enum.TryParse(UserSettings.Default.Runner, out runner);
             _ = Enum.TryParse(UserSettings.Default.Theme, out manualTheme);
             _ = Enum.TryParse(UserSettings.Default.FPSMaxLimit, out fpsMaxLimit);
+            firstLaunch = UserSettings.Default.FirstLaunch;
 
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
@@ -141,6 +143,7 @@ namespace RunCat365
                 Text = "-",
                 Visible = true
             };
+            ShowBalloonTip();
 
             animateTimer = new FormsTimer
             {
@@ -184,6 +187,19 @@ namespace RunCat365
                 items.Add(item);
             }
             return new CustomToolStripMenuItem(title, null, [.. items]);
+        }
+
+        private void ShowBalloonTip()
+        {
+            if (firstLaunch)
+            {
+                var message = "App has launched. " +
+                    "If the icon is not on the taskbar, it has been omitted, " +
+                    "so please move it manually and pin it.";
+                notifyIcon.ShowBalloonTip(5000, "RunCat 365", message, ToolTipIcon.Info);
+                UserSettings.Default.FirstLaunch = false;
+                UserSettings.Default.Save();
+            }
         }
 
         private void OnApplicationExit(object? sender, EventArgs e)

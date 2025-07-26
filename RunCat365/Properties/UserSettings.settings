@@ -11,5 +11,8 @@
     <Setting Name="FPSMaxLimit" Type="System.String" Scope="User">
       <Value Profile="(Default)">FPS40</Value>
     </Setting>
+    <Setting Name="FirstLaunch" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
