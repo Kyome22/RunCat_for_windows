@@ -17,9 +17,9 @@ namespace RunCat365
             var resultLines = new List<string>
             {
                 $"Memory: {memoryInfo.MemoryLoad}%",
-                $" ├─ Total: {memoryInfo.TotalMemory.ToByteFormatted()}",
-                $" ├─ Used: {memoryInfo.UsedMemory.ToByteFormatted()}",
-                $" └─ Available: {memoryInfo.AvailableMemory.ToByteFormatted()}"
+                $"   ├─ Total: {memoryInfo.TotalMemory.ToByteFormatted()}",
+                $"   ├─ Used: {memoryInfo.UsedMemory.ToByteFormatted()}",
+                $"   └─ Available: {memoryInfo.AvailableMemory.ToByteFormatted()}"
             };
             return resultLines;
         }
@@ -31,13 +31,7 @@ namespace RunCat365
 
         internal MemoryRepository()
         {
-            memoryInfo = new MemoryInfo
-            {
-                MemoryLoad = 0,
-                TotalMemory = 0,
-                AvailableMemory = 0,
-                UsedMemory = 0,
-            };
+            memoryInfo = new MemoryInfo();
         }
 
         internal void Update()

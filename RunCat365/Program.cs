@@ -341,22 +341,19 @@ namespace RunCat365
             List<StorageInfo> storageValue
         )
         {
-            var cpuIndicator = cpuInfo.GenerateIndicator();
-            notifyIcon.Text = cpuIndicator;
+            notifyIcon.Text = cpuInfo.GetDescription();
 
-            var systemInfoValues = new List<string>
-            {
-                cpuIndicator
-            };
+            var systemInfoValues = new List<string>();
+            systemInfoValues.AddRange(cpuInfo.GenerateIndicator());
             systemInfoValues.AddRange(memoryInfo.GenerateIndicator());
             systemInfoValues.AddRange(storageValue.GenerateIndicator());
             systemInfoMenu.Text = string.Join("\n", [.. systemInfoValues]);
         }
 
-        private int CalculateInterval(CPUInfo cpuInfo)
+        private int CalculateInterval(float cpuTotalValue)
         {
             // Range of interval: 25-500 (ms) = 2-40 (fps)
-            var speed = (float)Math.Max(1.0f, (cpuInfo / 5.0f) * fpsMaxLimit.GetRate());
+            var speed = (float)Math.Max(1.0f, (cpuTotalValue / 5.0f) * fpsMaxLimit.GetRate());
             return (int)(500.0f / speed);
         }
 
@@ -373,7 +370,7 @@ namespace RunCat365
             FetchSystemInfo(cpuInfo, memoryInfo, storageInfo);
 
             animateTimer.Stop();
-            animateTimer.Interval = CalculateInterval(cpuInfo);
+            animateTimer.Interval = CalculateInterval(cpuInfo.Total);
             animateTimer.Start();
         }
     }
