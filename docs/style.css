@@ -1,9 +1,10 @@
 body {
-  margin: 0;
+  margin: 0 auto;
   font-family: "Exo 2", sans-serif;
   background-color: #f5f5f5;
   text-align: center;
   min-height: 100vh;
+  min-width: 640px;
   display: flex;
   flex-direction: column;
 }
@@ -49,6 +50,11 @@ div.summary {
   margin: 40px auto;
 }
 
+div.detail {
+  margin: 40px auto;
+  max-width: 500px;
+}
+
 p.title {
   font-style: italic;
   font-size: 80px;
@@ -58,6 +64,20 @@ p.title {
 
 p.catchcopy {
   font-weight: bold;
+}
+
+p.feature {
+  font-size: 1em;
+}
+
+img.demo {
+  width: 600px;
+  height: 200px;
+}
+
+img.overview {
+  width: 475px;
+  height: 400px;
 }
 
 footer {
