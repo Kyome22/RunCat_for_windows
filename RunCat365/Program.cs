@@ -53,6 +53,7 @@ namespace RunCat365
         private readonly CustomToolStripMenuItem runnerMenu;
         private readonly CustomToolStripMenuItem themeMenu;
         private readonly CustomToolStripMenuItem fpsMaxLimitMenu;
+        private readonly CustomToolStripMenuItem cpuRefreshRateMenu;
         private readonly CustomToolStripMenuItem startupMenu;
         private readonly NotifyIcon notifyIcon;
         private readonly FormsTimer fetchTimer;
@@ -61,8 +62,8 @@ namespace RunCat365
         private Runner runner = Runner.Cat;
         private Theme manualTheme = Theme.System;
         private FPSMaxLimit fpsMaxLimit = FPSMaxLimit.FPS40;
+        private CPURefreshRate cpuRefreshRate = CPURefreshRate.REFRESH5;
         private bool firstLaunch;
-        private int fetchCounter = 5;
         private int current = 0;
 
         public RunCat365ApplicationContext()
@@ -107,6 +108,13 @@ namespace RunCat365
                 fps => fpsMaxLimit == fps
             );
 
+            cpuRefreshRateMenu = CreateMenuFromEnum<CPURefreshRate>(
+                "CPU Refresh Rate",
+                r => r.GetString(),
+                SetCPURefreshRate,
+                r => cpuRefreshRate == r
+            );
+
             startupMenu = new CustomToolStripMenuItem("Startup", null, SetStartup);
             if (IsStartupEnabled())
             {
@@ -126,6 +134,7 @@ namespace RunCat365
                 runnerMenu,
                 themeMenu,
                 fpsMaxLimitMenu,
+                cpuRefreshRateMenu,
                 startupMenu,
                 new ToolStripSeparator(),
                 appVersionMenu,
@@ -154,7 +163,7 @@ namespace RunCat365
 
             fetchTimer = new FormsTimer
             {
-                Interval = FETCH_TIMER_DEFAULT_INTERVAL
+                Interval = cpuRefreshRate.GetRate() * FETCH_TIMER_DEFAULT_INTERVAL
             };
             fetchTimer.Tick += new EventHandler(FetchTick);
             fetchTimer.Start();
@@ -307,6 +316,20 @@ namespace RunCat365
             );
         }
 
+        private void SetCPURefreshRate(object? sender, EventArgs e)
+        {
+            HandleMenuItemSelection(
+                sender,
+                cpuRefreshRateMenu,
+                (string? s, out CPURefreshRate f) => CPURefreshRateExtension.TryParse(s, out f),
+                value => cpuRefreshRate = value
+            );
+
+            fetchTimer.Stop();
+            fetchTimer.Interval = cpuRefreshRate.GetRate() * 1000;
+            fetchTimer.Start();
+        }
+
         private void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             if (e.Category == UserPreferenceCategory.General) SetIcons();
@@ -376,9 +399,6 @@ namespace RunCat365
         private void FetchTick(object? state, EventArgs e)
         {
             cpuRepository.Update();
-            fetchCounter += 1;
-            if (fetchCounter < FETCH_COUNTER_SIZE) return;
-            fetchCounter = 0;
 
             var cpuInfo = cpuRepository.Get();
             var memoryInfo = memoryRepository.Get();
